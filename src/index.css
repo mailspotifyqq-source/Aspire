@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: "Playfair Display", Georgia, serif;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-display: "Hanken Grotesk", "Inter", sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #f5f5dc;
+    color: #2d2d2d;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-serif-luxury {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5dc;
+}
+::-webkit-scrollbar-thumb {
+  background: #d2b48c;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8860b;
+}
+
+/* Subtle Banner/Flag Wave Keyframes */
+@keyframes flagWave {
+  0%, 100% {
+    transform: rotate(0deg) skewY(0deg);
+  }
+  25% {
+    transform: rotate(-1.5deg) skewY(-1deg);
+  }
+  50% {
+    transform: rotate(1deg) skewY(1.2deg);
+  }
+  75% {
+    transform: rotate(-0.8deg) skewY(-0.6deg);
+  }
+}
+
+.animate-flag-wave {
+  animation: flagWave 1.8s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+/* World Map Flight Route Pulse */
+@keyframes dashTravel {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-dash-travel {
+  animation: dashTravel 2.4s linear infinite;
+}
+
+@keyframes cloudDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.58;
+  }
+  50% {
+    transform: translate3d(-14px, -4px, 0) scale(1.06);
+    opacity: 0.82;
+  }
+}
+
+@keyframes cloudDriftSlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.98);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate3d(-20px, 5px, 0) scale(1.08);
+    opacity: 0.72;
+  }
+}
+
+.animate-cloud-drift {
+  animation: cloudDrift 3.8s ease-in-out infinite;
+}
+
+.animate-cloud-drift-slow {
+  animation: cloudDriftSlow 5.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flag-wave,
+  .animate-dash-travel,
+  .animate-cloud-drift,
+  .animate-cloud-drift-slow {
+    animation: none !important;
+  }
+}

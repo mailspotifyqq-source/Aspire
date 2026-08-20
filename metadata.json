@@ -1,0 +1,6 @@
+{
+  "name": "Aspire Travels",
+  "description": "Luxury visa consultancy platform featuring interactive 3D destination globe, visa pathway assessment, and expert consultations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
