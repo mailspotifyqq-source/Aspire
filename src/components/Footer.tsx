@@ -62,15 +62,15 @@ export function Footer({ onNavigate, onOpenConsultation, onOpenAssessment }: Foo
             <ul className="flex flex-col gap-3 font-light text-xs sm:text-sm">
               <li>
                 <button
-                  onClick={() => onOpenAssessment('Tourist & Visitor Visas')}
+                  onClick={() => onOpenAssessment('Tourist & Business Visas')}
                   className="text-[#2d2d2d]/70 hover:text-[#b8860b] transition-colors text-left"
                 >
-                  Tourist Visa
+                  Tourist & Business Visas
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onOpenAssessment('Student Visas & Higher Education')}
+                  onClick={() => onOpenAssessment('Student Visa & Higher Education')}
                   className="text-[#2d2d2d]/70 hover:text-[#b8860b] transition-colors text-left"
                 >
                   Student Visa
@@ -78,26 +78,10 @@ export function Footer({ onNavigate, onOpenConsultation, onOpenAssessment }: Foo
               </li>
               <li>
                 <button
-                  onClick={() => onOpenAssessment('Work Visas & Intra-Company Transfers')}
+                  onClick={() => onOpenAssessment('Work Visa & Intra-Company Transfers')}
                   className="text-[#2d2d2d]/70 hover:text-[#b8860b] transition-colors text-left"
                 >
                   Work Visa
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onOpenAssessment('Business & Investor Visas')}
-                  className="text-[#2d2d2d]/70 hover:text-[#b8860b] transition-colors text-left"
-                >
-                  Business Visa
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('destinations')}
-                  className="text-[#2d2d2d]/70 hover:text-[#b8860b] transition-colors text-left"
-                >
-                  Permanent Residency
                 </button>
               </li>
             </ul>

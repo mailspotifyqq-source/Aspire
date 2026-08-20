@@ -44,14 +44,6 @@ const GLOBAL_HUBS: HubMarker[] = [
     countryIds: ['United States of America', 'USA', '840']
   },
   {
-    id: 'california',
-    label: 'California',
-    subLabel: 'Silicon Valley & West Coast Hub',
-    coordinates: [-119.6, 36.7783],
-    flag: '🇺🇸',
-    labelAnchor: 'left',
-  },
-  {
     id: 'canada',
     label: 'Canada',
     subLabel: 'Express Entry & Study Permits',
@@ -113,14 +105,13 @@ const GLOBAL_HUBS: HubMarker[] = [
 
 // Great-circle flight routes connecting major hubs
 const FLIGHT_CORRIDORS: Array<{ from: [number, number]; to: [number, number] }> = [
-  { from: [-119.6, 36.7783], to: [-98.5795, 39.8283] }, // California -> USA
   { from: [-98.5795, 39.8283], to: [-106.3468, 56.1304] }, // USA -> Canada
   { from: [-98.5795, 39.8283], to: [-2.0, 54.0] }, // USA -> UK (Transatlantic)
   { from: [-2.0, 54.0], to: [10.4515, 51.1657] }, // UK -> Europe
   { from: [10.4515, 51.1657], to: [103.8198, 1.3521] }, // Europe -> Singapore
   { from: [103.8198, 1.3521], to: [133.7751, -25.2744] }, // Singapore -> Australia
   { from: [103.8198, 1.3521], to: [138.2529, 36.2048] }, // Singapore -> Asia (Japan)
-  { from: [138.2529, 36.2048], to: [-119.6, 36.7783] }, // Asia -> California (Transpacific)
+  { from: [138.2529, 36.2048], to: [-98.5795, 39.8283] }, // Asia -> USA (Transpacific)
 ];
 
 export function DestinationsSection({
@@ -354,8 +345,7 @@ export function DestinationsSection({
                 {countriesPaths.map((country: any) => {
                   const isDestinationCountry =
                     country.matchedDestinationId &&
-                    (country.matchedDestinationId === selectedId ||
-                      (selectedId === 'california' && country.matchedDestinationId === 'usa'));
+                    (country.matchedDestinationId === selectedId);
                   const isHovered =
                     hoveredId &&
                     country.matchedDestinationId &&
@@ -715,3 +705,4 @@ export function DestinationsSection({
     </section>
   );
 }
+

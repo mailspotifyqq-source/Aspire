@@ -1,5 +1,14 @@
 import { Destination, VisaService, FAQItem, Consultant, CustomerReview } from '../types';
 
+const PRIMARY_DOCUMENTS = [
+  'DS-160 confirmation',
+  'Invitation letter',
+  'Passport-size photo',
+  'Valid international passport (6+ months validity)',
+  'Leave approval',
+  'NOC',
+  'Employment letter'
+];
 export const DESTINATIONS: Destination[] = [
   {
     id: 'usa',
@@ -22,28 +31,6 @@ export const DESTINATIONS: Destination[] = [
       'Ties to home country and genuine temporary intent documentation'
     ],
     highlights: ['Top 50 Global Universities', 'Silicon Valley Tech Careers', 'Multinational Corporate Headquarters']
-  },
-  {
-    id: 'california',
-    name: 'California',
-    flag: '🇺🇸',
-    code: 'US-CA',
-    category: 'Tech & Enterprise',
-    tagline: 'Silicon Valley Innovation Hub, Stanford & West Coast Pathways',
-    description: 'Specialized visa guidance for tech founders, software engineers, biotechnology researchers, and students targeting California’s Silicon Valley, San Francisco Bay Area, Los Angeles, and prestigious West Coast universities.',
-    lat: 36.7783,
-    lon: -119.4179,
-    popularVisas: ['O-1 Extraordinary Ability', 'H-1B Silicon Valley Tech', 'L-1 Intracompany Transfer', 'F-1 (Stanford/UC Berkeley/UCLA)', 'E-2 Treaty Investor'],
-    averageProcessingTime: '3 – 6 Weeks (Premium Processing available)',
-    successRate: '99.2%',
-    financialProof: '$8,000 – $30,000 / Salary Sponsorship Offer',
-    keyRequirements: [
-      'Valid Passport with minimum 6 months validity',
-      'Silicon Valley employer petition (I-129 / I-797) or University I-20',
-      'Demonstrated portfolio of technical achievements (for O-1/EB-1)',
-      'Proof of financial solvency and West Coast residence plans'
-    ],
-    highlights: ['Silicon Valley Startup Ecosystem', 'Top UC & Stanford Campuses', 'Direct Tech Sponsor Network']
   },
   {
     id: 'canada',
@@ -183,20 +170,13 @@ export const VISA_SERVICES: VisaService[] = [
   {
     id: 'tourist',
     category: 'Leisure',
-    title: 'Tourist & Visitor Visas',
-    shortDesc: 'Smooth leisure travel, family visits, and cultural holidays across 50+ countries.',
-    fullDesc: 'Whether you are planning a European holiday, a US family reunion, or a luxury getaway to Japan, we prepare flawless itinerary documentation, sponsorship letters, and financial proof to ensure maximum approval odds.',
+    title: 'Tourist & Business Visas',
+    shortDesc: 'Smooth leisure, family, and business travel support across key destinations.',
+    fullDesc: 'Whether you are planning a European holiday, a US family reunion, or an international business visit, we prepare the required documentation for your visa journey.',
     processingTime: '5 to 20 Business Days',
     validity: 'Up to 10 Years (Country dependent)',
-    estimatedFee: 'From $180 + Embassy Fee',
-    requiredDocuments: [
-      'Valid International Passport (6+ months validity)',
-      'Bank Statements (Last 6 months with authorized bank stamp)',
-      'Employment Letter / Leave Approval NOC',
-      'Confirmed Flight & Hotel Reservation Itinerary',
-      'Tax Returns / Form 16 / Proof of Income',
-      'Cover Letter detailing purpose of visit'
-    ],
+    estimatedFee: '$185',
+    requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Sufficient verifiable funds for duration of travel',
       'Strong socio-economic ties to home country',
@@ -208,20 +188,13 @@ export const VISA_SERVICES: VisaService[] = [
   {
     id: 'work',
     category: 'Corporate',
-    title: 'Work Visas & Intra-Company Transfers',
+    title: 'Work Visa & Intra-Company Transfers',
     shortDesc: 'Work authorizations, skilled migration, and talent mobility for top professionals.',
     fullDesc: 'We assist tech professionals, executives, healthcare specialists, and corporate employers navigate sponsorship petitions, Labor Condition Applications, skills assessments, and consular interviews.',
     processingTime: '3 to 12 Weeks',
     validity: '1 to 5 Years (Renewable)',
-    estimatedFee: 'From $650 + Government Fees',
-    requiredDocuments: [
-      'Official Job Offer / Employment Contract',
-      'Employer Sponsorship & Labor Market Assessment (if required)',
-      'Educational Credentials & Degree Transcripts',
-      'Prior Experience Letters & Detailed Resume/CV',
-      'Government Police Clearance Certificates',
-      'Medical & Health Examination Reports'
-    ],
+    estimatedFee: '',
+    requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Recognized qualification matching the occupation code',
       'Salary meeting statutory minimum prevailing wage',
@@ -231,56 +204,23 @@ export const VISA_SERVICES: VisaService[] = [
     popularDestinations: ['US H-1B / L-1', 'Australia TSS 482', 'Singapore Employment Pass', 'Germany EU Blue Card', 'UK Skilled Worker']
   },
   {
-    id: 'business',
-    category: 'Corporate',
-    title: 'Business & Investor Visas',
-    shortDesc: 'Corporate delegate travel, board meetings, investor golden visas, and company setup.',
-    fullDesc: 'Accelerate international deal-making, attend conferences, establish overseas subsidiaries, or secure golden residency through verified capital investment pathways.',
-    processingTime: '7 to 30 Business Days',
-    validity: '6 Months to 10 Years (Multiple Entry)',
-    estimatedFee: 'From $450 + Embassy Fees',
-    requiredDocuments: [
-      'Formal Invitation Letter from Overseas Host Company',
-      'Company Incorporation Certificate & Commercial Registration',
-      'Corporate Bank Statements & Audit Reports',
-      'Conference / Exhibition Registration Badges (if applicable)',
-      'Letter of Guarantee & Financial Undertaking from Employer',
-      'Detailed Schedule of Commercial Meetings'
-    ],
-    eligibilityPoints: [
-      'Legitimate commercial business objective',
-      'Proof of existing business operations or executive appointment',
-      'Clear separation of business visit vs localized direct employment'
-    ],
-    popularDestinations: ['US B-1 Business', 'Schengen Business', 'Singapore EntrePass / ONE Pass', 'UAE Investor Green Visa', 'Canada Business Visitor']
-  },
-  {
     id: 'student',
     category: 'Education',
-    title: 'Student Visas & Higher Education',
+    title: 'Student Visa & Higher Education',
     shortDesc: 'Guiding aspiring scholars to world-renowned universities and colleges.',
-    fullDesc: 'Comprehensive end-to-end guidance from university offer acceptance, scholarship verification, financial sponsorship documentation (I-20, CAS, CoE), to mock visa interview drills.',
+    fullDesc: 'Comprehensive end-to-end guidance from university offer acceptance, scholarship verification, financial sponsorship documentation, to mock visa interview drills.',
     processingTime: '2 to 8 Weeks',
     validity: 'Duration of Academic Course + Post-Study Work Period',
-    estimatedFee: 'From $350 + Government Visa Fees',
-    requiredDocuments: [
-      'Official Confirmation of Acceptance / Enrollment (I-20 / CAS / CoE)',
-      'Academic Transcripts, Certificates & Standardized Test Scores',
-      'Language Proficiency Score Card (IELTS / TOEFL / PTE / Duolingo)',
-      'Affidavit of Financial Support & Liquid Funds Proof',
-      'Statement of Purpose (SOP) explaining academic progression',
-      'Scholarship or Grant Award Letters (if applicable)'
-    ],
+    estimatedFee: '',
+    requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Unconditional admission into registered institution',
-      'Liquid financial capability to cover 1st year tuition + living costs',
+      'Liquid financial capability to cover tuition and living costs',
       'Genuine intent to pursue education and maintain student status'
     ],
     popularDestinations: ['USA (F-1)', 'UK Student Visa', 'Australia (Subclass 500)', 'Canada Study Permit', 'Germany Student National Visa']
   }
 ];
-
-
 export const CUSTOMER_REVIEWS: CustomerReview[] = [
   {
     id: 'kunal-kalyanpur',
@@ -424,3 +364,5 @@ export const FAQ_ITEMS: FAQItem[] = [
     category: 'Fees'
   }
 ];
+
+

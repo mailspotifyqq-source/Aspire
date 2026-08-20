@@ -44,7 +44,7 @@ export function ServiceDetailModal({ service, onClose, onApply }: ServiceDetailM
           </div>
 
           {/* Quick Metrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-[#f5f5dc] p-4 rounded-sm border border-[#2d2d2d]/10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-[#f5f5dc] p-4 rounded-sm border border-[#2d2d2d]/10">
             <div>
               <span className="text-[11px] text-[#2d2d2d]/60 flex items-center gap-1">
                 <Clock className="w-3 h-3 text-[#b8860b]" /> Typical Duration
@@ -53,15 +53,17 @@ export function ServiceDetailModal({ service, onClose, onApply }: ServiceDetailM
                 {service.processingTime}
               </span>
             </div>
+            {service.estimatedFee && (
+              <div>
+                <span className="text-[11px] text-[#2d2d2d]/60 flex items-center gap-1">
+                  <DollarSign className="w-3 h-3 text-[#b8860b]" /> Price
+                </span>
+                <span className="font-serif text-base font-bold text-[#2d2d2d] block mt-0.5">
+                  {service.estimatedFee}
+                </span>
+              </div>
+            )}
             <div>
-              <span className="text-[11px] text-[#2d2d2d]/60 flex items-center gap-1">
-                <DollarSign className="w-3 h-3 text-[#b8860b]" /> Govt & Filing Fee
-              </span>
-              <span className="font-serif text-base font-bold text-[#2d2d2d] block mt-0.5">
-                {service.estimatedFee}
-              </span>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
               <span className="text-[11px] text-[#2d2d2d]/60 flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3 text-[#b8860b]" /> Validity Window
               </span>

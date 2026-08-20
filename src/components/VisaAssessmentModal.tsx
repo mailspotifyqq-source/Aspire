@@ -22,7 +22,7 @@ export function VisaAssessmentModal({
   const [step, setStep] = useState<number>(1);
   const [form, setForm] = useState<AssessmentFormState>({
     destinationId: initialDestinationId || 'usa',
-    visaCategory: initialCategory || 'Tourist & Visitor Visas',
+    visaCategory: initialCategory || 'Tourist & Business Visas',
     nationality: 'United States',
     passportValidityMonths: 18,
     purpose: 'Leisure & Tourism',

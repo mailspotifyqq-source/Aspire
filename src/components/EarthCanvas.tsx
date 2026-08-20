@@ -22,6 +22,9 @@ export function EarthCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isRotating, setIsRotating] = useState(true);
   const [currentFocusedId, setCurrentFocusedId] = useState<string>(selectedDestinationId || 'usa');
+  const isRotatingRef = useRef(true);
+  const currentFocusedIdRef = useRef(selectedDestinationId || 'usa');
+  const isVisibleRef = useRef(true);
 
   // Three.js References
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -64,6 +67,14 @@ export function EarthCanvas({
     }
   }, [selectedDestinationId]);
 
+  useEffect(() => {
+    isRotatingRef.current = isRotating;
+  }, [isRotating]);
+
+  useEffect(() => {
+    currentFocusedIdRef.current = currentFocusedId;
+  }, [currentFocusedId]);
+
   // Main Three.js Scene Setup & LifeCycle
   useEffect(() => {
     const container = containerRef.current;
@@ -72,10 +83,12 @@ export function EarthCanvas({
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
       setIsRotating(false);
+      isRotatingRef.current = false;
     }
 
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || window.innerHeight;
+    const isLowPowerViewport = width < 768;
 
     // 1. SCENE & CAMERA
     const scene = new THREE.Scene();
@@ -87,11 +100,11 @@ export function EarthCanvas({
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
+      antialias: !isLowPowerViewport,
       powerPreference: 'high-performance',
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isLowPowerViewport ? 1 : 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
     container.innerHTML = '';
@@ -114,7 +127,7 @@ export function EarthCanvas({
 
     // 3. BACKGROUND: Deep Starlight Field
     const starGeometry = new THREE.BufferGeometry();
-    const starCount = 750;
+    const starCount = isLowPowerViewport ? 320 : 520;
     const starPositions = new Float32Array(starCount * 3);
     const starColors = new Float32Array(starCount * 3);
 
@@ -167,8 +180,8 @@ export function EarthCanvas({
     }
 
     // 5. PHOTOREALISTIC PROCEDURAL BASE MAP & SPECULAR TEXTURE
-    const texWidth = 2048;
-    const texHeight = 1024;
+    const texWidth = isLowPowerViewport ? 1024 : 1536;
+    const texHeight = isLowPowerViewport ? 512 : 768;
     const canvas = document.createElement('canvas');
     canvas.width = texWidth;
     canvas.height = texHeight;
@@ -387,7 +400,7 @@ export function EarthCanvas({
     const specularTexture = new THREE.CanvasTexture(specCanvas);
 
     // 6. MAIN EARTH SPHERE
-    const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const earthGeometry = new THREE.SphereGeometry(1, isLowPowerViewport ? 36 : 48, isLowPowerViewport ? 36 : 48);
     const earthMaterial = new THREE.MeshPhongMaterial({
       map: earthTexture,
       specularMap: specularTexture,
@@ -427,7 +440,7 @@ export function EarthCanvas({
 
     if (cloudCtx) {
       cloudCtx.clearRect(0, 0, 1024, 512);
-      for (let i = 0; i < 480; i++) {
+      for (let i = 0; i < (isLowPowerViewport ? 180 : 280); i++) {
         const x = Math.random() * 1024;
         const y = Math.random() * 512;
         const radius = 12 + Math.random() * 45;
@@ -446,7 +459,7 @@ export function EarthCanvas({
     }
 
     const cloudTexture = new THREE.CanvasTexture(cloudCanvas);
-    const cloudGeometry = new THREE.SphereGeometry(1.015, 64, 64);
+    const cloudGeometry = new THREE.SphereGeometry(1.015, isLowPowerViewport ? 32 : 40, isLowPowerViewport ? 32 : 40);
     const cloudMaterial = new THREE.MeshStandardMaterial({
       map: cloudTexture,
       transparent: true,
@@ -470,7 +483,7 @@ export function EarthCanvas({
     );
 
     // 8. PHYSICAL RAYLEIGH ATMOSPHERE SCATTERING SHADER
-    const atmosphereGeometry = new THREE.SphereGeometry(1.18, 64, 64);
+    const atmosphereGeometry = new THREE.SphereGeometry(1.18, isLowPowerViewport ? 36 : 48, isLowPowerViewport ? 36 : 48);
     const atmosphereMaterial = new THREE.ShaderMaterial({
       uniforms: {
         c: { value: 0.28 },
@@ -623,7 +636,7 @@ export function EarthCanvas({
     path1Line.computeLineDistances();
     scene.add(path1Line);
 
-    // Route 2: Transpacific East -> West (Asia/Japan to California/USA)
+    // Route 2: Transpacific East -> West (Asia/Japan to USA)
     const r2 = 1.33;
     const path2Points = [
       new THREE.Vector3(r2 * 1.05, -0.16, 0.15),
@@ -829,9 +842,19 @@ export function EarthCanvas({
 
     // 13. ANIMATION LOOP
     let animationFrameId: number;
+    let lastRenderTime = 0;
 
-    const animate = () => {
+    const animate = (timestamp = 0) => {
       animationFrameId = requestAnimationFrame(animate);
+      if (!isVisibleRef.current || document.hidden) {
+        return;
+      }
+
+      const targetFrameMs = isLowPowerViewport ? 40 : 24;
+      if (timestamp - lastRenderTime < targetFrameMs) {
+        return;
+      }
+      lastRenderTime = timestamp;
 
       // Smooth Earth rotational slewing to target destination
       if (targetRotationYRef.current !== null && earthGroupRef.current) {
@@ -840,7 +863,7 @@ export function EarthCanvas({
         if (Math.abs(diffY) < 0.001) {
           targetRotationYRef.current = null;
         }
-      } else if (isRotating && !isDraggingRef.current && earthGroupRef.current) {
+      } else if (isRotatingRef.current && !isDraggingRef.current && earthGroupRef.current) {
         earthGroupRef.current.rotation.y += 0.00085;
       }
 
@@ -853,12 +876,12 @@ export function EarthCanvas({
       }
 
       // Parallax Cloud Rotation
-      if (cloudsMeshRef.current && isRotating && !isDraggingRef.current) {
+      if (cloudsMeshRef.current && isRotatingRef.current && !isDraggingRef.current) {
         cloudsMeshRef.current.rotation.y += 0.0003;
       }
 
       // Animate 5 Tiny Aircraft (Traveling in Both Directions with Staggered Timings)
-      if (isRotating && tinyPlanesRef.current.length > 0) {
+      if (isRotatingRef.current && tinyPlanesRef.current.length > 0) {
         tinyPlanesRef.current.forEach((item, index) => {
           const { plane, curve, speed, direction, baseScale } = item;
           // Advance progress (Forward or Reverse)
@@ -892,7 +915,7 @@ export function EarthCanvas({
       // Destination Pin Beacon Pulse
       const now = Date.now() * 0.003;
       markerNodesRef.current.forEach((m) => {
-        const isFocused = m.id === currentFocusedId;
+        const isFocused = m.id === currentFocusedIdRef.current;
         const baseScale = isFocused ? 1.6 : 1.0;
         const pulse = 1 + Math.sin(now) * (isFocused ? 0.38 : 0.12);
         m.ring.scale.setScalar(baseScale * pulse);
@@ -1000,9 +1023,18 @@ export function EarthCanvas({
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, w < 768 ? 1 : 1.5));
     };
 
     window.addEventListener('resize', handleResize);
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    visibilityObserver.observe(container);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -1014,9 +1046,10 @@ export function EarthCanvas({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('resize', handleResize);
+      visibilityObserver.disconnect();
       renderer.dispose();
     };
-  }, [isRotating, onSelectDestination]);
+  }, [onSelectDestination]);
 
   // Slew globe when destination changes from UI or external prop
   useEffect(() => {
