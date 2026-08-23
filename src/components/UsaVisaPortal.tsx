@@ -28,7 +28,9 @@ import {
   Award,
   Clock,
   Check,
-  ExternalLink
+  ExternalLink,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { UsaPortalState } from '../types';
 import { downloadDS160InformationSheet } from '../utils/ds160Template';
@@ -288,6 +290,8 @@ export function UsaVisaPortal({
 
   const [downloadedDs160, setDownloadedDs160] = useState(false);
   const [generatedPdf, setGeneratedPdf] = useState(false);
+  const [emailSendingStatus, setEmailSendingStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  const [pdfResult, setPdfResult] = useState<{ filename: string; base64: string } | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   if (!isOpen) return null;
@@ -344,10 +348,56 @@ export function UsaVisaPortal({
     }
   };
 
+  // Background email dispatch to support@aspiretravels.in via Resend
+  const dispatchSummaryEmail = async (pdfData: { filename: string; base64: string }) => {
+    setEmailSendingStatus('sending');
+    try {
+      let ds160StatusText = 'N/A for selected track';
+      if (formState.visaService === 'Tourist & Business Visa') {
+        ds160StatusText =
+          formState.hasDs160Confirmation === 'yes'
+            ? 'YES — Client has DS-160 Confirmation'
+            : 'NO — Assistance Required';
+      } else if (formState.visaService === 'Work Visa Appointments') {
+        ds160StatusText = 'Work Petition (I-797) / Consular Track';
+      } else if (formState.visaService === 'Student Visa Appointments') {
+        ds160StatusText = 'SEVIS / Form I-20 Academic Track';
+      } else if (formState.visaService === 'J1 / J2 Visa Appointments') {
+        ds160StatusText = 'DS-2019 / SEVIS Exchange Track';
+      }
+
+      const response = await fetch('/api/send-usa-visa-summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          applicantName: formState.fullName || 'Applicant',
+          visaCategory: formState.visaService,
+          ds160Status: ds160StatusText,
+          filename: pdfData.filename,
+          pdfBase64: pdfData.base64,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setEmailSendingStatus('sent');
+      } else {
+        console.warn('[USA Portal] Background email dispatch status:', data?.error || 'Failed');
+        setEmailSendingStatus('failed');
+      }
+    } catch (err) {
+      console.error('[USA Portal] Error dispatching summary email in background:', err);
+      setEmailSendingStatus('failed');
+    }
+  };
+
   // Generate PDF & Finalize
   const handleGenerateSummary = () => {
     try {
-      generateUsaVisaSummaryPDF(formState);
+      const result = generateUsaVisaSummaryPDF(formState);
+      setPdfResult(result);
       setGeneratedPdf(true);
       setCurrentStep('completed');
 
@@ -358,6 +408,9 @@ export function UsaVisaPortal({
         origin: { y: 0.6 },
         colors: ['#b8860b', '#0f172a', '#d4af37', '#ffffff']
       });
+
+      // Automatically dispatch email copy in background
+      dispatchSummaryEmail(result);
     } catch (e) {
       console.error('Error generating PDF summary', e);
       setCurrentStep('completed');
@@ -1511,13 +1564,16 @@ Please assist me with consular appointment scheduling and documentation.`;
 
                 {/* PDF Re-download card */}
                 <div className="p-5 rounded-2xl bg-[#f8fafc] border border-[#e2e8f0] max-w-lg mx-auto text-left flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 overflow-hidden">
                     <div className="w-10 h-10 rounded-xl bg-[#b8860b]/15 text-[#b8860b] flex items-center justify-center shrink-0">
                       <FileCheck2 className="w-5 h-5" />
                     </div>
-                    <div>
-                      <div className="text-xs font-bold text-[#0f172a]">
-                        Aspire_Travels_USA_Visa_Summary_{formState.fullName.replace(/\s+/g, '_')}.pdf
+                    <div className="min-w-0">
+                      <div className="text-xs font-bold text-[#0f172a] truncate">
+                        {pdfResult?.filename ||
+                          `Aspire Travel US Visa Summary_${(formState.fullName || 'Applicant')
+                            .trim()
+                            .replace(/[\\/:*?"<>|]/g, '') || 'Applicant'}.pdf`}
                       </div>
                       <div className="text-[11px] text-[#64748b]">
                         PDF Document • Official Aspire Travels Consular Summary
@@ -1532,6 +1588,30 @@ Please assist me with consular appointment scheduling and documentation.`;
                   >
                     <Download className="w-4 h-4" />
                   </button>
+                </div>
+
+                {/* Background Email Dispatch Status Badge */}
+                <div className="max-w-lg mx-auto">
+                  {emailSendingStatus === 'sending' && (
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-[#64748b] bg-slate-50 py-1.5 px-3 rounded-lg border border-slate-200 w-fit mx-auto">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#b8860b]" />
+                      <span>Sending automated summary to support@aspiretravels.in...</span>
+                    </div>
+                  )}
+
+                  {emailSendingStatus === 'sent' && (
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-[#15803d] bg-green-50/80 py-1.5 px-3 rounded-lg border border-green-200 w-fit mx-auto">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#15803d]" />
+                      <span>Summary copy dispatched to support@aspiretravels.in</span>
+                    </div>
+                  )}
+
+                  {emailSendingStatus === 'failed' && (
+                    <div className="flex items-center justify-center gap-1.5 text-xs text-[#64748b] bg-slate-50 py-1.5 px-3 rounded-lg border border-slate-200 w-fit mx-auto">
+                      <Mail className="w-3.5 h-3.5 text-[#94a3b8]" />
+                      <span>PDF saved to your device for reference.</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Immediate Consultation Actions */}

@@ -6,7 +6,12 @@
 import { jsPDF } from 'jspdf';
 import { UsaPortalState } from '../types';
 
-export function generateUsaVisaSummaryPDF(state: UsaPortalState): string {
+export interface GeneratedPdfResult {
+  filename: string;
+  base64: string;
+}
+
+export function generateUsaVisaSummaryPDF(state: UsaPortalState): GeneratedPdfResult {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -226,8 +231,22 @@ export function generateUsaVisaSummaryPDF(state: UsaPortalState): string {
   doc.setTextColor(slateGray[0], slateGray[1], slateGray[2]);
   doc.text('Aspire Travels  |  support@aspiretravels.in  |  Phone / WhatsApp: +91 92893 37446', 105, 290, { align: 'center' });
 
-  // Save PDF
-  const filename = `Aspire_Travels_USA_Visa_Summary_${(state.fullName || 'Applicant').replace(/\s+/g, '_')}.pdf`;
+  // Compute Clean User Name and Filename per specification:
+  // Aspire Travel US Visa Summary_<USER_NAME>.pdf (e.g. Aspire Travel US Visa Summary_Mitu.pdf)
+  const rawName = (state.fullName || 'Applicant').trim();
+  const safeName = rawName.replace(/[\\/:*?"<>|]/g, '');
+  const filename = `Aspire Travel US Visa Summary_${safeName || 'Applicant'}.pdf`;
+
+  // Trigger browser download directly
   doc.save(filename);
-  return filename;
+
+  // Extract base64 representation of the exact same PDF for server dispatch
+  const dataUri = doc.output('datauristring');
+  const base64 = dataUri.includes(',') ? dataUri.split(',')[1] : dataUri;
+
+  return {
+    filename,
+    base64,
+  };
 }
+
