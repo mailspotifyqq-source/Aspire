@@ -1,4 +1,4 @@
-import { X, CheckCircle2, Clock, ShieldCheck, DollarSign, ArrowRight, MapPin, Globe } from 'lucide-react';
+import { X, CheckCircle2, Clock, ShieldCheck, IndianRupee, ArrowRight, MapPin, Globe } from 'lucide-react';
 import { Destination } from '../types';
 
 interface DestinationDetailModalProps {
@@ -67,7 +67,7 @@ export function DestinationDetailModal({
             </div>
             <div className="col-span-2 sm:col-span-1">
               <span className="text-[11px] text-[#2d2d2d]/60 flex items-center gap-1">
-                <DollarSign className="w-3 h-3 text-[#b8860b]" /> Proof of Funds
+                <IndianRupee className="w-3 h-3 text-[#b8860b]" /> Proof of Funds
               </span>
               <span className="font-serif text-base font-bold text-[#2d2d2d] block mt-0.5">
                 {destination.financialProof}

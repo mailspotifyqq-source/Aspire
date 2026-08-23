@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles, FileText, CheckCircle2, Clock, DollarSign } from 'lucide-react';
+import { ArrowRight, Sparkles, FileText, CheckCircle2, Clock } from 'lucide-react';
 import { VISA_SERVICES } from '../data/visaData';
 import { VisaService } from '../types';
 

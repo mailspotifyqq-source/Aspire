@@ -3,7 +3,7 @@ import {
   ArrowRight,
   CheckCircle2,
   Clock,
-  DollarSign,
+  IndianRupee,
   Globe2,
   ShieldCheck,
   Sparkles,
@@ -669,7 +669,7 @@ export function DestinationsSection({
                   {/* Financial Solvency */}
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-[#2d2d2d]/70 flex items-center gap-1.5">
-                      <DollarSign className="w-3.5 h-3.5 text-[#b8860b]" /> Financial Solvency
+                      <IndianRupee className="w-3.5 h-3.5 text-[#b8860b]" /> Financial Solvency
                     </span>
                     <span className="font-semibold text-[#2d2d2d] text-right">
                       {selectedDestination.financialProof}

@@ -25,7 +25,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['B1/B2 Visitor Visa', 'F1/F2 Visa Appointments', 'H1B/H4 Visa Appointments', 'L1/L2 Visa Appointments'],
     averageProcessingTime: '3 – 8 Weeks (Interview Wait times vary)',
     successRate: '98.6%',
-    financialProof: '$5,000 – $25,000 depending on category',
+    financialProof: '₹4,00,000 – ₹20,00,000 liquid funds',
     keyRequirements: [
       'Valid Passport with at least 6 months validity beyond intended stay',
       'DS-160 Confirmation Page & Barcode',
@@ -39,8 +39,8 @@ export const DESTINATIONS: Destination[] = [
     name: 'Canada',
     flag: '🇨🇦',
     code: 'CA',
-    landmarkName: 'CN Tower',
-    landmarkImage: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
+    landmarkName: 'CN Tower, Toronto',
+    landmarkImage: 'https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=1200&q=85',
     category: 'Immigration & Study',
     tagline: 'World-Class Education, Express Entry PR & Global Talent Stream',
     description: 'Specialized visa guidance for Canada Visitor Visas (TRV), Study Permits with PGWP work pathways, LMIA Work Permits, and Express Entry (FSW/CEC) permanent residency.',
@@ -49,7 +49,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['Visitor Visa (TRV / Super Visa)', 'Study Permit with PGWP', 'Express Entry (CRS PR)', 'Global Talent Stream Work Permit'],
     averageProcessingTime: '2 – 6 Weeks',
     successRate: '99.0%',
-    financialProof: 'CAD $10,000 – $20,635 annual cost of living',
+    financialProof: '₹6,00,000 – ₹16,00,000 living & tuition proof',
     keyRequirements: [
       'Letter of Acceptance (DLI) or Job Offer / Proof of Funds',
       'Language proficiency (IELTS General / Academic or CELPIP)',
@@ -73,7 +73,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['Schengen Short-Stay (Type C)', 'EU Blue Card', 'National Study Visa (Type D)', 'Portugal D7 / Golden Visa', 'Germany Job Seeker / Opportunity Card'],
     averageProcessingTime: '15 – 30 Days',
     successRate: '98.2%',
-    financialProof: '€45 – €120 per day of stay minimum balance',
+    financialProof: '₹4,000 – ₹10,000 per day of stay minimum balance',
     keyRequirements: [
       'Travel Health Insurance covering minimum €30,000 across Schengen',
       'Confirmed flight itinerary and hotel bookings / invitation letter',
@@ -97,7 +97,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['UK Standard Visitor Visa', 'Skilled Worker Visa (Tier 2)', 'Student Visa (CAS)', 'Global Talent Visa', 'Youth Mobility Scheme'],
     averageProcessingTime: '3 – 5 Weeks (Priority Available)',
     successRate: '98.9%',
-    financialProof: '£1,270 – £9,207 Maintenance Requirement',
+    financialProof: '₹1,50,000 – ₹9,50,000 maintenance requirement',
     keyRequirements: [
       'TB Test certificate (where applicable)',
       'Certificate of Sponsorship (CoS) or University CAS',
@@ -121,7 +121,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['Employment Pass (EP)', 'Tech.Pass / ONE Pass', 'EntrePass', 'Short-Term Business Visit Pass', 'Student Pass'],
     averageProcessingTime: '1 – 3 Weeks',
     successRate: '99.4%',
-    financialProof: 'Fixed monthly salary criteria (SGD $5,000+ for EP)',
+    financialProof: 'Fixed monthly salary criteria (₹3,00,000+ per month for EP)',
     keyRequirements: [
       'MOM COMPASS point verification score sheet',
       'Verified degree credentials from accredited universities',
@@ -145,7 +145,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['Subclass 600 (Visitor)', 'Subclass 500 (Student)', 'Subclass 189/190 (Skilled Independent PR)', 'Subclass 482 (TSS Work Visa)'],
     averageProcessingTime: '2 – 6 Weeks',
     successRate: '99.1%',
-    financialProof: 'AUD $5,000 – $24,505 (Annual living requirement)',
+    financialProof: '₹3,00,000 – ₹15,00,000 living & tuition funds',
     keyRequirements: [
       'GTE / Genuine Student Requirement statement',
       'Skills Assessment certification (for skilled PR pathways)',
@@ -169,7 +169,7 @@ export const DESTINATIONS: Destination[] = [
     popularVisas: ['Japan Tourist & eVisa', 'Japan Highly Skilled Professional', 'South Korea C-3 / D-2', 'UAE Golden Visa / Green Visa', 'UK Standard Visitor & Skilled Worker'],
     averageProcessingTime: '5 – 14 Days',
     successRate: '99.3%',
-    financialProof: '$3,000 – $10,000 bank balance',
+    financialProof: '₹2,50,000 – ₹8,00,000 bank balance',
     keyRequirements: [
       'Cover letter outlining detailed travel schedule',
       'Income Tax Returns (ITR) for last 2 years',
@@ -189,7 +189,7 @@ export const VISA_SERVICES: VisaService[] = [
     fullDesc: 'End-to-end guidance, DS-160 document audit, and consular appointment scheduling for US visitor, tourism, and business travel.',
     processingTime: '5 to 20 Business Days',
     validity: 'Up to 10 Years',
-    estimatedFee: '$185',
+    estimatedFee: '₹15,540',
     requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Sufficient verifiable funds for duration of travel',
@@ -203,11 +203,11 @@ export const VISA_SERVICES: VisaService[] = [
     id: 'f1-f2',
     category: 'Student',
     title: 'F1/F2 Visa Appointments',
-    shortDesc: 'Priority student and dependent appointment booking, SEVIS/I-20 verification, and mock interviews.',
-    fullDesc: 'Dedicated consular scheduling for academic scholars (F-1) and dependents (F-2), with Form I-20 compliance review and personalized consular interview coaching.',
+    shortDesc: 'Priority student and dependent appointment booking and SEVIS/I-20 verification.',
+    fullDesc: 'Dedicated consular scheduling for academic scholars (F-1) and dependents (F-2), with Form I-20 compliance review and consular advisory.',
     processingTime: '2 to 6 Weeks',
     validity: 'Duration of Status (D/S)',
-    estimatedFee: '$185',
+    estimatedFee: '₹15,540',
     requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Valid Form I-20 issued by SEVP-certified institution',
@@ -225,7 +225,7 @@ export const VISA_SERVICES: VisaService[] = [
     fullDesc: 'Consular interview scheduling and document verification for approved Form I-797 petition holders (H-1B) and dependent spouses/children (H-4).',
     processingTime: '3 to 8 Weeks',
     validity: 'Up to 3 Years (Renewable)',
-    estimatedFee: '$205',
+    estimatedFee: '₹17,220',
     requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Approved USCIS Form I-797 Notice of Action',
@@ -243,7 +243,7 @@ export const VISA_SERVICES: VisaService[] = [
     fullDesc: 'Priority appointment scheduling for intracompany transferees (L-1A managers/executives, L-1B specialized knowledge) and dependents (L-2), supporting blanket and individual petitions.',
     processingTime: '3 to 8 Weeks',
     validity: '1 to 5 Years (Renewable)',
-    estimatedFee: '$205',
+    estimatedFee: '₹17,220',
     requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Approved Form I-797 or Blanket L Petition (Form I-129S)',

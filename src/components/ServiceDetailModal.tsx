@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle2, Clock, DollarSign, FileCheck, ArrowRight, ShieldCheck, Calendar } from 'lucide-react';
+import { X, CheckCircle2, Clock, IndianRupee, FileCheck, ArrowRight, ShieldCheck, Calendar } from 'lucide-react';
 import { VisaService } from '../types';
 
 interface ServiceDetailModalProps {
@@ -56,7 +56,7 @@ export function ServiceDetailModal({ service, onClose, onApply }: ServiceDetailM
             {service.estimatedFee && (
               <div>
                 <span className="text-[11px] text-[#2d2d2d]/60 flex items-center gap-1">
-                  <DollarSign className="w-3 h-3 text-[#b8860b]" /> Price
+                  <IndianRupee className="w-3 h-3 text-[#b8860b]" /> Price
                 </span>
                 <span className="font-serif text-base font-bold text-[#2d2d2d] block mt-0.5">
                   {service.estimatedFee}

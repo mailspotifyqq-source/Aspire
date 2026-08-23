@@ -57,7 +57,7 @@ export function VisaAssessmentModal({
     purpose: 'Tourism & Leisure',
     employmentStatus: 'Full-time Employed',
     hasPreviousRefusal: false,
-    fundsAvailability: '$10,000 – $25,000',
+    fundsAvailability: '₹10,00,000 – ₹25,00,000',
     travelDate: 'Within next 3 months',
     fullName: '',
     email: '',
@@ -132,7 +132,7 @@ export function VisaAssessmentModal({
     let score = 96;
     if (form.hasPreviousRefusal) score -= 9;
     if (form.passportValidityMonths < 6) score -= 14;
-    if (form.fundsAvailability === 'Under $5,000') score -= 12;
+    if (form.fundsAvailability === 'Under ₹5,00,000') score -= 12;
     if (form.employmentStatus === 'Unemployed') score -= 10;
     if (isUSATourist && form.hasDs160Confirmation === 'no') {
       // Not having DS-160 ready is normal at pre-filing stage
@@ -187,7 +187,7 @@ export function VisaAssessmentModal({
       ['7. Employment & Work', 'Primary Employment Status', 'Current employment / professional role', 'Employed / Business Owner / Student', form.employmentStatus],
       ['7. Employment & Work', 'Present Employer / Company Name', 'Official employer / business name', 'e.g. Tata Consultancy Services', ''],
       ['7. Employment & Work', 'Employer Address & Phone', 'Official company headquarters / office', 'Street, City, State, Phone', ''],
-      ['7. Employment & Work', 'Monthly Gross Income', 'Monthly income in local currency', 'e.g. INR 1,80,000 / USD 2,200', ''],
+      ['7. Employment & Work', 'Monthly Gross Income', 'Monthly income in INR', 'e.g. ₹1,50,000 / month', ''],
       ['7. Employment & Work', 'Primary Job Duties', 'Summary of day-to-day responsibilities', 'Brief 2-3 sentence overview', ''],
       ['7. Employment & Work', 'Previous Employer (Past 5 Yrs)', 'Prior company name, title, tenure', 'Employer Name, Designation, Dates', ''],
       ['7. Employment & Work', 'Higher Education Institutions', 'University/College degrees attended', 'Institution Name, Course, Graduation Year', ''],

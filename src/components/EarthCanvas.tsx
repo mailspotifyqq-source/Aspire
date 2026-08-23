@@ -1166,26 +1166,15 @@ export function EarthCanvas({
 
         {/* Action Buttons */}
         <div className="flex gap-2 pt-1">
-          <button
-            id={`globe-check-eligibility-${activeDest.id}`}
-            onClick={() => {
-              if (onOpenAssessment) {
-                onOpenAssessment(activeDest.id);
-              }
-            }}
-            className="flex-1 bg-[#b8860b] hover:bg-[#9a7009] text-white text-xs font-semibold py-2 px-2.5 rounded-none shadow-xs flex items-center justify-center gap-1.5 uppercase tracking-wider cursor-pointer transition-colors"
-          >
-            <span>Check {activeDest.code || activeDest.name} Eligibility</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
           {onOpenDetailsModal && (
             <button
               id={`globe-view-details-${activeDest.id}`}
               onClick={() => onOpenDetailsModal(activeDest)}
-              className="border border-[#2d2d2d]/20 hover:bg-[#2d2d2d]/5 text-[#2d2d2d] text-xs font-semibold px-2.5 py-2 rounded-none cursor-pointer transition-colors"
+              className="flex-1 bg-[#b8860b] hover:bg-[#9a7009] text-white text-xs font-semibold py-2.5 px-3 rounded-none shadow-xs flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer transition-colors"
               title="View Complete Country Dossier"
             >
-              Details
+              <span>Explore {activeDest.name} Visa Services</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
