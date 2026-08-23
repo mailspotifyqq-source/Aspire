@@ -33,6 +33,7 @@ import {
 import { UsaPortalState } from '../types';
 import { downloadDS160InformationSheet } from '../utils/ds160Template';
 import { generateUsaVisaSummaryPDF } from '../utils/pdfGenerator';
+import { WHATSAPP_NUMBER } from '../config/contact';
 
 interface UsaVisaPortalProps {
   isOpen: boolean;
@@ -368,13 +369,20 @@ export function UsaVisaPortal({
     const text = `Hello Aspire Consultant Team, I am inquiring about USA Visa Assistance:
 - Visa Track: ${formState.visaService}
 - DS-160 Status: ${formState.hasDs160Confirmation === 'yes' ? 'Confirmation Ready' : 'Assistance Needed'}
-- Applicant: ${formState.fullName}
-- Contact: ${formState.countryCode} ${formState.mobileNumber}
-- Location: ${formState.city}, ${formState.state}
+- Applicant: ${formState.fullName || 'Applicant'}
+- Contact: ${formState.countryCode} ${formState.mobileNumber || 'Not provided'}
+- Location: ${formState.city ? `${formState.city}, ${formState.state}` : 'India'}
 - Applicants: ${formState.applicantsCount}
 
 Please assist me with consular appointment scheduling and documentation.`;
-    return `https://wa.me/919876543210?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  };
+
+  const getQaWhatsAppUrl = () => {
+    const text = formState.fullName
+      ? `Hi Aspire Travels, my name is ${formState.fullName}. I have a question regarding USA Visa (${formState.visaService}) consular appointments & documentation.`
+      : `Hi Aspire Travels, I have a question regarding USA Visa consular appointments & documentation. Please assist me.`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   };
 
   // Progress Steps list
@@ -1695,7 +1703,7 @@ Please assist me with consular appointment scheduling and documentation.`;
 
               <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
                 <a
-                  href={getWhatsAppMessage()}
+                  href={getQaWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold shadow-md transition-all"
