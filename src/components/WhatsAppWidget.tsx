@@ -13,22 +13,18 @@ export function WhatsAppWidget() {
     window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCall = () => {
-    window.location.href = CONTACT_PHONE_HREF;
-  };
-
   return (
     <aside
       aria-label="Contact and Support Options"
-      className="fixed right-4 sm:right-6 bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3"
+      className="fixed right-4 sm:right-6 bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-[9999] flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3"
     >
-      {/* Interactive Contact Popover (Only shows when user explicitly opens it) */}
+      {/* Interactive Contact Popover (Only shows when user explicitly clicks open) */}
       {isOpen && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label="Quick Connect Desk"
-          className="mb-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-md border border-[#2d2d2d]/15 bg-[#fffdd0] shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-3 duration-200"
+          className="mb-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-lg border border-[#2d2d2d]/20 bg-[#fffdd0] shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-3 duration-200"
         >
           {/* Header */}
           <div className="bg-[#2d2d2d] px-4 py-3 text-[#fffdd0]">
@@ -71,7 +67,7 @@ export function WhatsAppWidget() {
               type="button"
               id="whatsapp-popover-btn"
               onClick={handleWhatsAppRedirect}
-              className="flex w-full items-center justify-between rounded bg-[#25D366] px-4 py-3 text-sm font-semibold text-white shadow-md shadow-[#25D366]/20 transition-all hover:bg-[#1ebe5d] active:scale-[0.99]"
+              className="flex w-full items-center justify-between rounded bg-[#25D366] px-4 py-3 text-sm font-semibold text-white shadow-md shadow-[#25D366]/20 transition-all hover:bg-[#1ebe5d] active:scale-[0.99] cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
                 <WhatsAppIcon className="h-5 w-5 fill-current shrink-0" />
@@ -104,13 +100,13 @@ export function WhatsAppWidget() {
           href={CONTACT_PHONE_HREF}
           aria-label={`Call Aspire Travels at ${CONTACT_PHONE_DISPLAY}`}
           title={`Call Us: ${CONTACT_PHONE_DISPLAY}`}
-          className="group relative flex h-12 w-12 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-[#b8860b]/40 bg-[#2d2d2d] text-[#fffdd0] shadow-xl transition-all duration-300 hover:scale-105 hover:bg-[#1f1f1f] hover:border-[#b8860b] active:scale-95"
+          className="group relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-[#b8860b]/60 bg-[#2d2d2d] text-[#fffdd0] shadow-2xl transition-all duration-300 hover:scale-110 hover:bg-[#1f1f1f] hover:border-[#b8860b] active:scale-95 cursor-pointer"
         >
-          <Phone className="h-5 w-5 text-[#b8860b] transition-transform group-hover:scale-110" />
+          <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-[#b8860b] transition-transform group-hover:scale-110" />
           
           {/* Desktop Hover Tooltip */}
-          <span className="pointer-events-none absolute right-full mr-2.5 hidden rounded bg-[#2d2d2d] px-2.5 py-1 text-[11px] font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-lg transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
-            Call {CONTACT_PHONE_DISPLAY}
+          <span className="pointer-events-none absolute right-full mr-3 hidden rounded bg-[#2d2d2d] px-3 py-1.5 text-xs font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-xl transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
+            Call: {CONTACT_PHONE_DISPLAY}
           </span>
         </a>
 
@@ -120,16 +116,13 @@ export function WhatsAppWidget() {
           type="button"
           aria-label="Chat on WhatsApp"
           title="Open WhatsApp Chat"
-          onClick={() => {
-            // Toggles dialog or directly redirects to WhatsApp
-            handleWhatsAppRedirect();
-          }}
-          className="group relative flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white/80 bg-[#25D366] text-white shadow-xl shadow-black/25 transition-all duration-300 hover:scale-105 hover:bg-[#1ebe5d] active:scale-95"
+          onClick={handleWhatsAppRedirect}
+          className="group relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/40 transition-all duration-300 hover:scale-110 hover:bg-[#1ebe5d] active:scale-95 cursor-pointer"
         >
-          <WhatsAppIcon className="h-7 w-7 transition-transform group-hover:scale-110" />
+          <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
 
           {/* Desktop Hover Tooltip */}
-          <span className="pointer-events-none absolute right-full mr-2.5 hidden rounded bg-[#2d2d2d] px-2.5 py-1 text-[11px] font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-lg transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
+          <span className="pointer-events-none absolute right-full mr-3 hidden rounded bg-[#2d2d2d] px-3 py-1.5 text-xs font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-xl transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
             Chat on WhatsApp
           </span>
         </button>
@@ -141,10 +134,10 @@ export function WhatsAppWidget() {
           aria-label={isOpen ? "Close contact options" : "More contact options"}
           aria-expanded={isOpen}
           onClick={() => setIsOpen((prev) => !prev)}
-          className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#2d2d2d]/20 bg-[#fffdd0] text-[#2d2d2d] shadow-md transition-all duration-200 hover:bg-[#f5f5dc] hover:scale-105 active:scale-95 ${
+          className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-[#2d2d2d]/20 bg-[#fffdd0] text-[#2d2d2d] shadow-md transition-all duration-200 hover:bg-[#f5f5dc] hover:scale-105 active:scale-95 cursor-pointer ${
             isOpen ? "rotate-45" : ""
           }`}
-          title="Contact options"
+          title="Contact options menu"
         >
           {isOpen ? (
             <X className="h-4 w-4" />
