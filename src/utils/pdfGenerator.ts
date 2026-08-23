@@ -232,10 +232,10 @@ export function generateUsaVisaSummaryPDF(state: UsaPortalState): GeneratedPdfRe
   doc.text('Aspire Travels  |  support@aspiretravels.in  |  Phone / WhatsApp: +91 92893 37446', 105, 290, { align: 'center' });
 
   // Compute Clean User Name and Filename per specification:
-  // Aspire Travel US Visa Summary_<USER_NAME>.pdf (e.g. Aspire Travel US Visa Summary_Mitu.pdf)
+  // Aspire_Travels_US_Visa_Summary_<USER_NAME>.pdf (e.g. Aspire_Travels_US_Visa_Summary_Mitu.pdf)
   const rawName = (state.fullName || 'Applicant').trim();
-  const safeName = rawName.replace(/[\\/:*?"<>|]/g, '');
-  const filename = `Aspire Travel US Visa Summary_${safeName || 'Applicant'}.pdf`;
+  const safeName = rawName.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_') || 'Applicant';
+  const filename = `Aspire_Travels_US_Visa_Summary_${safeName}.pdf`;
 
   // Trigger browser download directly
   doc.save(filename);

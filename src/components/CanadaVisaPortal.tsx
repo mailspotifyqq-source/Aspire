@@ -25,6 +25,7 @@ import {
   ExternalLink,
   Loader2,
   AlertCircle,
+  RotateCcw,
   Search,
   CreditCard,
   Fingerprint,
@@ -233,6 +234,7 @@ export function CanadaVisaPortal({
 
   const [generatedPdf, setGeneratedPdf] = useState(false);
   const [emailSendingStatus, setEmailSendingStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
   const [pdfResult, setPdfResult] = useState<GeneratedCanadaPdfResult | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -254,6 +256,7 @@ export function CanadaVisaPortal({
   // Background email dispatch to support@aspiretravels.in via Resend
   const dispatchSummaryEmail = async (pdfData: GeneratedCanadaPdfResult) => {
     setEmailSendingStatus('sending');
+    setEmailErrorMessage('');
     try {
       const response = await fetch('/api/send-canada-visa-summary', {
         method: 'POST',
@@ -262,10 +265,19 @@ export function CanadaVisaPortal({
         },
         body: JSON.stringify({
           applicantName: formState.fullName || 'Applicant',
+          email: formState.email || '',
+          phone: `${formState.countryCode || '+91'} ${formState.mobileNumber || ''}`.trim(),
+          city: formState.city || '',
+          state: formState.state || '',
+          country: formState.country || 'India',
+          applicantsCount: formState.applicantsCount || 1,
+          intendedTravelPeriod: formState.intendedTravelPeriod || 'Next 3 to 6 Months',
           visaCategory: formState.visaService,
           travelPurpose: formState.travelPurpose,
           biometricsStatus: formState.biometricsStatus,
           travelHistory: formState.travelHistory,
+          employmentStatus: formState.employmentStatus,
+          fundsReadiness: formState.fundsReadiness,
           filename: pdfData.filename,
           pdfBase64: pdfData.base64,
         }),
@@ -274,13 +286,18 @@ export function CanadaVisaPortal({
       const data = await response.json();
       if (response.ok && data.success) {
         setEmailSendingStatus('sent');
+        setEmailErrorMessage('');
       } else {
-        console.warn('[Canada Portal] Background email dispatch status:', data?.error || 'Failed');
+        const errorMsg = data?.error || 'Email dispatch was rejected by the server.';
+        console.warn('[Canada Portal] Background email dispatch error:', errorMsg);
         setEmailSendingStatus('failed');
+        setEmailErrorMessage(errorMsg);
       }
-    } catch (err) {
-      console.error('[Canada Portal] Error dispatching Canada summary email in background:', err);
+    } catch (err: any) {
+      const errorMsg = err?.message || 'Network error occurred while connecting to the email server.';
+      console.error('[Canada Portal] Error dispatching Canada summary email:', err);
       setEmailSendingStatus('failed');
+      setEmailErrorMessage(errorMsg);
     }
   };
 
@@ -1281,23 +1298,48 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
                   {/* Background Email Dispatch Status Badge */}
                   <div className="max-w-lg mx-auto">
                     {emailSendingStatus === 'sending' && (
-                      <div className="flex items-center justify-center gap-1.5 text-xs text-[#64748b] bg-slate-50 py-1.5 px-3 rounded-lg border border-slate-200 w-fit mx-auto">
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#c41e3a]" />
-                        <span>Sending automated summary to support@aspiretravels.in...</span>
+                      <div className="flex items-center justify-center gap-2 text-xs text-[#475569] bg-[#f8fafc] py-2 px-4 rounded-xl border border-[#e2e8f0] w-fit mx-auto shadow-xs">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#c41e3a]" />
+                        <span>Sending summary copy to Aspire Travels (support@aspiretravels.in)...</span>
                       </div>
                     )}
 
                     {emailSendingStatus === 'sent' && (
-                      <div className="flex items-center justify-center gap-1.5 text-xs text-[#15803d] bg-green-50/80 py-1.5 px-3 rounded-lg border border-green-200 w-fit mx-auto">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#15803d]" />
-                        <span>Summary copy dispatched to support@aspiretravels.in</span>
+                      <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#15803d] bg-[#f0fdf4] py-2 px-4 rounded-xl border border-[#bbf7d0] w-fit mx-auto shadow-xs">
+                        <CheckCircle2 className="w-4 h-4 text-[#15803d]" />
+                        <span>Email sent successfully to Aspire Travels.</span>
                       </div>
                     )}
 
                     {emailSendingStatus === 'failed' && (
-                      <div className="flex items-center justify-center gap-1.5 text-xs text-[#64748b] bg-slate-50 py-1.5 px-3 rounded-lg border border-slate-200 w-fit mx-auto">
-                        <Mail className="w-3.5 h-3.5 text-[#94a3b8]" />
-                        <span>PDF saved to your device for reference.</span>
+                      <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 text-left space-y-2 max-w-md mx-auto shadow-xs">
+                        <div className="flex items-center gap-2 text-xs font-semibold text-amber-900">
+                          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                          <span>PDF generated, but email delivery failed. Please try again.</span>
+                        </div>
+                        
+                        {emailErrorMessage && (
+                          <p className="text-[11px] text-amber-800/80 pl-6 leading-relaxed">
+                            Note: {emailErrorMessage}
+                          </p>
+                        )}
+
+                        <div className="pl-6 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (pdfResult) {
+                                dispatchSummaryEmail(pdfResult);
+                              } else {
+                                handleGenerateSummary();
+                              }
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0f172a] hover:bg-[#1e293b] text-white text-xs font-bold transition-all active:scale-[0.98]"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5 text-[#fbbf24]" />
+                            <span>Retry Sending Email</span>
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>

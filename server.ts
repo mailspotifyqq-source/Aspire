@@ -33,7 +33,20 @@ function getResendClient(): Resend | null {
  */
 app.post('/api/send-usa-visa-summary', async (req, res) => {
   try {
-    const { applicantName, visaCategory, ds160Status, filename, pdfBase64 } = req.body;
+    const {
+      applicantName,
+      email,
+      phone,
+      city,
+      state: applicantState,
+      country,
+      applicantsCount,
+      intendedTravelPeriod,
+      visaCategory,
+      ds160Status,
+      filename,
+      pdfBase64,
+    } = req.body;
 
     if (!pdfBase64) {
       return res.status(400).json({ success: false, error: 'Missing PDF document content' });
@@ -42,8 +55,15 @@ app.post('/api/send-usa-visa-summary', async (req, res) => {
     const cleanApplicantName = (applicantName || 'Applicant').trim();
     const cleanVisaCategory = (visaCategory || 'Tourist & Business Visa').trim();
     const cleanDs160Status = (ds160Status || 'Not specified').trim();
-    const cleanFilename =
-      filename || `Aspire Travel US Visa Summary_${cleanApplicantName.replace(/\s+/g, '_')}.pdf`;
+    const cleanEmail = (email || 'Not provided').trim();
+    const cleanPhone = (phone || 'Not provided').trim();
+    const cleanLocation = `${city || '—'}, ${applicantState || '—'}, ${country || 'India'}`;
+    const cleanApplicantsCount = `${applicantsCount || 1} Person(s)`;
+    const cleanTravelPeriod = (intendedTravelPeriod || 'Upcoming 3-6 Months').trim();
+
+    // Sanitize user name for filename: Aspire_Travels_US_Visa_Summary_<USER_NAME>.pdf
+    const safeUserName = cleanApplicantName.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_') || 'Applicant';
+    const cleanFilename = filename || `Aspire_Travels_US_Visa_Summary_${safeUserName}.pdf`;
 
     const resend = getResendClient();
     if (!resend) {
@@ -52,7 +72,7 @@ app.post('/api/send-usa-visa-summary', async (req, res) => {
       );
       return res.status(500).json({
         success: false,
-        error: 'Email delivery service is not configured on the server.',
+        error: 'Email delivery service (RESEND_API_KEY) is not configured on the server.',
       });
     }
 
@@ -62,33 +82,62 @@ app.post('/api/send-usa-visa-summary', async (req, res) => {
     const subject = `New USA Visa Summary - ${cleanApplicantName}`;
     const textContent = `A new USA Visa Summary has been generated through the Aspire Travels website.
 
-Applicant Name: ${cleanApplicantName}
-Visa Category: ${cleanVisaCategory}
-DS-160 Status: ${cleanDs160Status}
+Applicant Details:
+------------------
+• Applicant Name: ${cleanApplicantName}
+• Visa Category: ${cleanVisaCategory}
+• DS-160 Status: ${cleanDs160Status}
+• Email Address: ${cleanEmail}
+• Mobile / WhatsApp: ${cleanPhone}
+• Location: ${cleanLocation}
+• Number of Applicants: ${cleanApplicantsCount}
+• Target Travel Period: ${cleanTravelPeriod}
 
-The personalized visa summary PDF is attached to this email.`;
+The personalized visa summary PDF (${cleanFilename}) is attached to this email.`;
 
     const htmlContent = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 620px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
         <div style="background-color: #0f172a; padding: 24px; color: #ffffff; border-bottom: 3px solid #b8860b;">
           <h1 style="margin: 0; font-size: 20px; color: #ffffff; letter-spacing: 1px;">ASPIRE TRAVELS</h1>
-          <p style="margin: 4px 0 0 0; font-size: 12px; color: #daa520; text-transform: uppercase;">USA Visa Consular Advisory</p>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: #daa520; text-transform: uppercase;">USA Visa Consular Advisory Notification</p>
         </div>
         <div style="padding: 24px; background-color: #ffffff;">
-          <p style="margin-top: 0; font-size: 15px; color: #334155;">A new USA Visa Summary has been generated through the Aspire Travels website.</p>
+          <p style="margin-top: 0; font-size: 15px; color: #334155;">
+            A new USA Visa Summary has been generated through the Aspire Travels website.
+          </p>
           
           <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #f8fafc; border-radius: 6px; overflow: hidden; border: 1px solid #e2e8f0;">
             <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 12px 16px; font-weight: bold; width: 38%; color: #475569; font-size: 13px;">Applicant Name:</td>
-              <td style="padding: 12px 16px; font-weight: bold; color: #0f172a; font-size: 14px;">${cleanApplicantName}</td>
+              <td style="padding: 10px 16px; font-weight: bold; width: 38%; color: #475569; font-size: 13px;">Applicant Name:</td>
+              <td style="padding: 10px 16px; font-weight: bold; color: #0f172a; font-size: 14px;">${cleanApplicantName}</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 12px 16px; font-weight: bold; color: #475569; font-size: 13px;">Visa Category:</td>
-              <td style="padding: 12px 16px; color: #0f172a; font-size: 14px;">${cleanVisaCategory}</td>
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Visa Category:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanVisaCategory}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">DS-160 Status:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanDs160Status}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Email Address:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanEmail}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Phone / WhatsApp:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanPhone}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Location:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanLocation}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Total Applicants:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanApplicantsCount}</td>
             </tr>
             <tr>
-              <td style="padding: 12px 16px; font-weight: bold; color: #475569; font-size: 13px;">DS-160 Status:</td>
-              <td style="padding: 12px 16px; color: #0f172a; font-size: 14px;">${cleanDs160Status}</td>
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Target Travel Window:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanTravelPeriod}</td>
             </tr>
           </table>
           
@@ -102,7 +151,13 @@ The personalized visa summary PDF is attached to this email.`;
       </div>
     `;
 
-    const pdfBuffer = Buffer.from(pdfBase64, 'base64');
+    // Extract base64 without data URI prefix if present
+    const rawBase64 = pdfBase64.includes(',') ? pdfBase64.split(',')[1] : pdfBase64;
+    const pdfBuffer = Buffer.from(rawBase64, 'base64');
+
+    console.log(
+      `[Server] Initiating Resend email dispatch for "${cleanApplicantName}" (${pdfBuffer.length} bytes) to ${recipient} from ${fromAddress}...`
+    );
 
     const sendResult = await resend.emails.send({
       from: fromAddress,
@@ -119,10 +174,10 @@ The personalized visa summary PDF is attached to this email.`;
     });
 
     if (sendResult.error) {
-      console.error('[Server] Resend error response:', sendResult.error);
+      console.error('[Server] Resend API error response:', JSON.stringify(sendResult.error, null, 2));
       return res.status(500).json({
         success: false,
-        error: sendResult.error.message || 'Resend error',
+        error: sendResult.error.message || 'Resend email dispatch error',
       });
     }
 
@@ -138,7 +193,7 @@ The personalized visa summary PDF is attached to this email.`;
     console.error('[Server] Exception occurred while sending email:', err?.message || err);
     return res.status(500).json({
       success: false,
-      error: 'Failed to dispatch email notification.',
+      error: err?.message || 'Failed to dispatch email notification.',
     });
   }
 });
