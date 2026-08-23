@@ -224,7 +224,7 @@ export function generateUsaVisaSummaryPDF(state: UsaPortalState): string {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(slateGray[0], slateGray[1], slateGray[2]);
-  doc.text('Aspire Travels Pvt Ltd  |  support@aspiretravels.com  |  WhatsApp: +91 98765 43210', 105, 290, { align: 'center' });
+  doc.text('Aspire Travels  |  support@aspiretravels.in  |  Phone / WhatsApp: +91 92893 37446', 105, 290, { align: 'center' });
 
   // Save PDF
   const filename = `Aspire_Travels_USA_Visa_Summary_${(state.fullName || 'Applicant').replace(/\s+/g, '_')}.pdf`;

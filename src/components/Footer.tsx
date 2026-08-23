@@ -1,5 +1,12 @@
 import { useState, type FormEvent } from 'react';
-import { Mail, Check, Globe } from 'lucide-react';
+import { Check, Globe, Mail, Phone, MapPin } from 'lucide-react';
+import {
+  CONTACT_EMAIL,
+  CONTACT_EMAIL_HREF,
+  CONTACT_PHONE_RAW,
+  CONTACT_PHONE_HREF,
+  CONTACT_ADDRESS
+} from '../config/contact';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
@@ -39,17 +46,27 @@ export function Footer({ onNavigate, onOpenConsultation, onOpenAssessment }: Foo
               Your trusted partner in navigating global immigration compliance with precision and elegance.
             </p>
             <div className="space-y-2 text-xs text-[#2d2d2d]/80 font-light">
-              <p>
-                <span className="text-[#b8860b] mr-2 font-semibold">E:</span>
-                <span className="font-mono text-[#2d2d2d]">admissions@aspiretravelsvisa.com</span>
+              <p className="flex items-center gap-1.5">
+                <Mail className="w-3.5 h-3.5 text-[#b8860b] shrink-0" />
+                <a
+                  href={CONTACT_EMAIL_HREF}
+                  className="font-mono text-[#2d2d2d] hover:text-[#b8860b] transition-colors"
+                >
+                  {CONTACT_EMAIL}
+                </a>
               </p>
-              <p>
-                <span className="text-[#b8860b] mr-2 font-semibold">T:</span>
-                <span className="font-mono text-[#2d2d2d]">+1 (800) 847-2873</span>
+              <p className="flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#b8860b] shrink-0" />
+                <a
+                  href={CONTACT_PHONE_HREF}
+                  className="font-mono text-[#2d2d2d] hover:text-[#b8860b] transition-colors"
+                >
+                  {CONTACT_PHONE_RAW}
+                </a>
               </p>
-              <p className="mt-3">
-                <span className="text-[#b8860b] mr-2 block mb-0.5 font-semibold">A:</span>
-                <span>One Sovereign Tower, 45th Floor, International Financial Center</span>
+              <p className="flex items-start gap-1.5 mt-3">
+                <MapPin className="w-3.5 h-3.5 text-[#b8860b] shrink-0 mt-0.5" />
+                <span>{CONTACT_ADDRESS}</span>
               </p>
             </div>
           </div>
@@ -165,19 +182,11 @@ export function Footer({ onNavigate, onOpenConsultation, onOpenAssessment }: Foo
           </div>
         </div>
 
-        {/* Bottom copyright & socials */}
+        {/* Bottom copyright */}
         <div className="border-t border-[#2d2d2d]/10 pt-8 text-center md:text-left text-[#2d2d2d]/50 text-xs tracking-wider flex flex-col md:flex-row justify-between items-center font-light gap-4">
-          <span>&copy; 2024 Aspire Travels Visa Consultancy. All rights reserved.</span>
-          <div className="flex gap-6 uppercase tracking-widest text-[11px] font-medium">
-            <a href="#linkedin" onClick={(e) => e.preventDefault()} className="hover:text-[#b8860b] transition-colors">
-              LinkedIn
-            </a>
-            <a href="#twitter" onClick={(e) => e.preventDefault()} className="hover:text-[#b8860b] transition-colors">
-              Twitter
-            </a>
-            <a href="#instagram" onClick={(e) => e.preventDefault()} className="hover:text-[#b8860b] transition-colors">
-              Instagram
-            </a>
+          <span>&copy; {new Date().getFullYear()} Aspire Travels Visa Consultancy. All rights reserved.</span>
+          <div className="text-[11px] font-medium text-[#2d2d2d]/60">
+            <span>Official Visa & Consular Documentation Advisory</span>
           </div>
         </div>
       </div>
