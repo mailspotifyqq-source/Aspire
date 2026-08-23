@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
 import {
@@ -23,6 +23,11 @@ import {
   GraduationCap,
   Compass,
   MessageCircle,
+  ChevronDown,
+  ChevronUp,
+  Award,
+  Clock,
+  Check,
   ExternalLink
 } from 'lucide-react';
 import { UsaPortalState } from '../types';
@@ -71,6 +76,178 @@ const COUNTRY_CODES = [
   { code: '+971', country: 'UAE', flag: '🇦🇪' }
 ];
 
+// Curated iconic USA landmarks for full-page live rotating background
+const USA_LANDMARKS = [
+  {
+    name: 'Statue of Liberty, New York',
+    url: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'New York City Skyline',
+    url: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'Golden Gate Bridge, San Francisco',
+    url: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'Grand Canyon, Arizona',
+    url: 'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'U.S. Capitol & Washington Monument',
+    url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'Times Square, New York',
+    url: 'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'Lincoln Memorial, Washington D.C.',
+    url: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=2000&q=85'
+  }
+];
+
+// Preset Questions & Answers for Aspire Consultant
+const USA_FAQ_ITEMS = [
+  {
+    id: 1,
+    question: 'How soon can I get an urgent appointment?',
+    answer: `For urgent B1/B2 appointments, timelines depend mainly on how flexible you are with the city:
+
+• Pan-India (any city): Our target is within ~30-60 days. On some days we secure slots in 24–72 hours; on slower weeks it can take up to 4 weeks. To stay transparent, we commit to a 30-60 day timeline so you have a realistic plan.
+• Specific city only: Expect ~45–60 days. City-restricted searches reduce the number of eligible releases we can book from.
+
+✅ What helps us move faster:
+• Allowing us to search Pan-India
+• Having DS-160 ready and accurate
+• Having your Consular fee completed (if you’re choosing Option 3)
+
+🌍 Reference:
+You can also check the official Global Visa Wait Times published by the U.S. Department of State for general timelines. Please note that these are indicative wait times and not reflective of urgent slot availability.`
+  },
+  {
+    id: 2,
+    question: 'What does DS-160 guidance include?',
+    answer: `Our DS-160 guidance ensures your form is filled correctly and aligns with your visa interview preparation:
+
+• Profile creation: We create or review your profile on the CGI Federal portal.
+• DS-160 review: We carefully review your DS-160 to minimize errors and mismatches.
+• Guidance: We guide you in answering tricky sections to align with your case and improve your chances of success.
+• Interview alignment: The answers in your DS-160 must flow consistently into your interview conversation. We help make sure of that.
+
+This service is included in Option 1 and Option 2.`
+  },
+  {
+    id: 3,
+    question: 'Why don’t you show the latest appointment date?',
+    answer: `Appointment availability changes minute by minute. Any date shown publicly is unreliable.
+
+Instead, we commit to timelines we know we can deliver:
+• Pan-India: Within ~30-60 days
+• Specific city: Within ~30–60 days
+
+⏳ We work behind the scenes with continuous monitoring to secure your slot within these timelines, rather than showing misleading dates.`
+  },
+  {
+    id: 4,
+    question: 'Where are you located?',
+    answer: `Our office is based in Mumbai at 247 Embassy Park, 13th Floor, Vikhroli.
+
+📍 We serve customers all over India and book appointments for all US consular locations nationwide.`
+  },
+  {
+    id: 5,
+    question: 'Do I need to give physical documents?',
+    answer: `No. Everything is handled digitally:
+
+• We collect your details online and prepare your DS-160 digitally.
+• You only need to carry your physical documents (passport, DS-160 confirmation, Consular receipt, etc.) on the day of your appointment.`
+  },
+  {
+    id: 6,
+    question: 'How many applications do you process?',
+    answer: `We process 1000+ applications every week across India.
+
+Our team has years of daily experience handling urgent and regular appointments — you can trust us with the process.`
+  },
+  {
+    id: 7,
+    question: 'I have profile-specific questions and don’t want to pay before clearing doubts.',
+    answer: `Once you check out with ₹999, our concierge will personally assist you.
+
+If you are found ineligible or decide not to proceed within 48 hours of checkout due to any kind of technical ineligibility, we refund your ₹999.
+
+⚠️ Until checkout is done, we cannot provide one-on-one consultations — this helps us prioritize serious applicants.`
+  },
+  {
+    id: 8,
+    question: 'Can I request a call back? I don’t trust online websites.',
+    answer: `We understand trust is important.
+
+• Aspire Consultant has been covered in multiple media outlets: aspiretravels.com/media-coverage
+• You can also read our verified reviews on Google: Google Reviews
+• We manage hundreds of bookings daily and are a trusted travel tech company.`
+  },
+  {
+    id: 9,
+    question: 'I am a foreign national located outside India and want an appointment at my consulate location.',
+    answer: `🌍 Yes, we serve all international locations — not just India. You can check the supported visa categories for which we secure an early appointment in the last question.
+
+For pricing and details of the process:
+• Please reach out via the WhatsApp button on our website.
+• Our team will provide the steps specific to your consular location.`
+  },
+  {
+    id: 10,
+    question: 'What documents do you need from me to begin?',
+    answer: `There are no documents required upfront. Once you checkout, we send you a secure form to capture your details, which we then use to prepare your DS-160.
+
+✅ What you provide:
+• Passport photo (front & back) after checkout
+
+✅ What we do:
+• Fill your DS-160 on your behalf
+• Book your early appointment within ~30-60 days
+
+📅 On your appointment date, you only need to carry the documents listed in the official consulate checklist.`
+  },
+  {
+    id: 11,
+    question: 'I have a rejected/refusal case, help me understand how to proceed',
+    answer: `If your application was refused (e.g., administrative refusal or interview refusal), you must book another appointment with the correct DS-160 number.
+
+If your application was rejected (e.g., incorrect documentation or major issue), you will need to reapply when circumstances change. This usually means starting the process again:
+✅ Fill a new DS-160 form
+✅ Pay the consular fee again
+✅ Book a fresh appointment slot
+
+⚠️ Please note: At Aspire Consultant, we only assist with the DS-160 process for B1/B2 applications.
+For all other categories (see the last preset question in this list), we only help with securing the appointment slot.`
+  },
+  {
+    id: 12,
+    question: 'Do you use bots to find appointments? Will my account face any issues if I share my details with Aspire Consultant?',
+    answer: `The entire process we deploy is 100% bot-less.
+
+We do not use any bots, scripts, or automation tools that can lock your account or create issues.
+✅ Your account remains completely safe
+✅ All actions are handled manually by our experienced team
+✅ You can be rest assured that your profile will not face risks from automation`
+  },
+  {
+    id: 13,
+    question: 'Other than B1/B2 which categories do you help in getting an early slot?',
+    answer: `Other than B1/B2, we also help with below categories:
+• Work Visas (H-1B, L-1, O-1, P, R, etc.)
+• Student Visas (F-1 / F-2, M-1)
+• Exchange Visitors & Dependents (J-1 / J-2)
+• Visitor & Transit Extensions
+
+Please note we only help in securing early appointments and not full end-to-end consulting for non-B1/B2 categories.`
+  }
+];
+
 export function UsaVisaPortal({
   isOpen,
   onClose,
@@ -79,6 +256,17 @@ export function UsaVisaPortal({
   initialService
 }: UsaVisaPortalProps) {
   const [currentStep, setCurrentStep] = useState<Step>('service');
+  const [currentLandmarkIndex, setCurrentLandmarkIndex] = useState(0);
+  const [openFaqIds, setOpenFaqIds] = useState<number[]>([1]);
+
+  // Slideshow automatic crossfade timer every 6.5 seconds
+  useEffect(() => {
+    if (!isOpen) return;
+    const interval = setInterval(() => {
+      setCurrentLandmarkIndex((prev) => (prev + 1) % USA_LANDMARKS.length);
+    }, 6500);
+    return () => clearInterval(interval);
+  }, [isOpen]);
 
   const getInitialService = (): UsaPortalState['visaService'] => {
     if (initialService === 'Work Visa & Intra-Company Transfers' || initialService === 'Work Visa Appointments') {
@@ -86,6 +274,9 @@ export function UsaVisaPortal({
     }
     if (initialService === 'Student Visa & Higher Education' || initialService === 'Student Visa Appointments') {
       return 'Student Visa Appointments';
+    }
+    if (initialService === 'J1 / J2 Visa Appointments' || initialService === 'J-1 / J-2 Exchange') {
+      return 'J1 / J2 Visa Appointments';
     }
     return 'Tourist & Business Visa';
   };
@@ -121,7 +312,7 @@ export function UsaVisaPortal({
     if (formState.visaService === 'Tourist & Business Visa') {
       setCurrentStep('ds160');
     } else {
-      // Work or Student Visa bypasses DS-160 inquiry and proceeds directly to Profile
+      // Work, Student, or J1/J2 Visa bypasses DS-160 inquiry and proceeds directly to Profile
       setCurrentStep('profile');
     }
   };
@@ -186,7 +377,7 @@ export function UsaVisaPortal({
 
   // WhatsApp Pre-fill
   const getWhatsAppMessage = () => {
-    const text = `Hello Aspire Travels Team, I am inquiring about USA Visa Assistance:
+    const text = `Hello Aspire Consultant Team, I am inquiring about USA Visa Assistance:
 - Visa Track: ${formState.visaService}
 - DS-160 Status: ${formState.hasDs160Confirmation === 'yes' ? 'Confirmation Ready' : 'Assistance Needed'}
 - Applicant: ${formState.fullName}
@@ -215,10 +406,58 @@ Please assist me with consular appointment scheduling and documentation.`;
     return 1;
   };
 
+  const scrollToQaSection = () => {
+    const el = document.getElementById('usa-qa-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const toggleFaq = (id: number) => {
+    setOpenFaqIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#0a0f1d] text-[#1e293b] flex flex-col font-sans">
-      {/* Top Portal Navbar */}
-      <header className="sticky top-0 z-40 bg-[#0f172a]/95 backdrop-blur-md border-b border-[#1e293b] px-4 sm:px-8 py-3.5 flex items-center justify-between text-white shadow-lg">
+      {/* ========================================================================= */}
+      {/* FULL-PAGE LIVE ROTATING USA LANDMARK BACKGROUND (BEHIND ENTIRE PORTAL) */}
+      {/* ========================================================================= */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {USA_LANDMARKS.map((landmark, idx) => (
+          <div
+            key={landmark.name}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentLandmarkIndex ? 'opacity-35' : 'opacity-0'
+            }`}
+          >
+            <img
+              src={landmark.url}
+              alt={landmark.name}
+              className="w-full h-full object-cover object-center scale-105 transform motion-safe:transition-transform motion-safe:duration-[10000ms]"
+              style={{
+                transform: idx === currentLandmarkIndex ? 'scale(1.08)' : 'scale(1.0)'
+              }}
+            />
+          </div>
+        ))}
+
+        {/* Global Dark Navy & Warm Gold Atmospheric Overlays for Maximum Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1d]/90 via-[#0f172a]/80 to-[#0a0f1d]/95" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/40 via-transparent to-black/60" />
+
+        {/* Subtle Landmark Name Indicator in Bottom Left */}
+        <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] text-slate-300 font-mono">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#fbbf24] animate-pulse" />
+          <span>{USA_LANDMARKS[currentLandmarkIndex].name}</span>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* TOP PORTAL NAVBAR (NO TOP WHATSAPP DESK, CLEAN & ELEGANT) */}
+      {/* ========================================================================= */}
+      <header className="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between text-white shadow-xl">
         <div className="flex items-center gap-3">
           <button
             onClick={onClose}
@@ -231,84 +470,91 @@ Please assist me with consular appointment scheduling and documentation.`;
 
           <div className="h-5 w-[1px] bg-white/20 hidden sm:block" />
 
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🇺🇸</span>
+          <div className="flex items-center gap-2.5">
+            <span className="text-2xl drop-shadow-sm">🇺🇸</span>
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-serif font-bold text-sm sm:text-base tracking-wide text-white">
                   ASPIRE TRAVELS
                 </span>
-                <span className="bg-[#b8860b]/30 text-[#fbbf24] border border-[#b8860b]/50 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full">
+                <span className="bg-[#b8860b]/30 text-[#fbbf24] border border-[#b8860b]/50 text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full">
                   USA Visa Portal
                 </span>
               </div>
-              <p className="text-[10px] text-slate-300 hidden md:block">
-                Consular Advisory & Appointment Guidance for Indian Applicants
+              <p className="text-[10px] text-slate-300 hidden md:block font-light">
+                Consular Advisory & Priority Appointment Guidance for Indian Applicants
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <a
-            href={getWhatsAppMessage()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25D366]/20 border border-[#25D366]/40 text-[#4ade80] text-xs font-semibold hover:bg-[#25D366]/30 transition-colors"
+        {/* Right Header Navigation: Questions & Answers shortcut + Close Button */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <button
+            type="button"
+            onClick={scrollToQaSection}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-semibold transition-all active:scale-95"
           >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>WhatsApp Desk</span>
-          </a>
+            <HelpCircle className="w-3.5 h-3.5 text-[#fbbf24]" />
+            <span className="hidden xs:inline">Questions & Answers</span>
+            <span className="xs:hidden">Q&A</span>
+          </button>
 
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white text-xs font-medium px-2 py-1"
+            className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-lg text-xs font-medium transition-colors"
+            aria-label="Close portal"
           >
-            Close ✕
+            ✕
           </button>
         </div>
       </header>
 
-      {/* Main Content Body */}
-      <main className="flex-1 flex flex-col items-center justify-start pb-16 bg-[#fbf9f5]">
-        {/* USA HERO SECTION WITH ICONIC STATUE OF LIBERTY LANDMARK BACKGROUND */}
-        <section className="relative w-full overflow-hidden bg-[#0f172a] text-white py-12 sm:py-16 px-4 sm:px-8 border-b border-[#e2e8f0]">
-          {/* Background Image: Iconic Statue of Liberty & New York Skyline */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=2000&q=85"
-              alt="USA Landmark Statue of Liberty"
-              className="w-full h-full object-cover object-center opacity-30 brightness-90 transform scale-105"
-            />
-            {/* Dark & Soft Gradient Overlays for Crystal Clear Readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-[#0f172a]/60" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-black/40" />
-          </div>
-
-          <div className="relative z-10 max-w-4xl mx-auto text-center">
+      {/* ========================================================================= */}
+      {/* MAIN CONTENT BODY (CONTINUOUS BACKGROUND FLOWING BENEATH ALL SECTIONS) */}
+      {/* ========================================================================= */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-start pb-20 w-full">
+        {/* USA HERO SECTION */}
+        <section className="w-full text-white pt-10 pb-8 px-4 sm:px-8">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#fbbf24] text-xs font-semibold uppercase tracking-wider mb-4"
+              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#fbbf24] text-xs font-semibold uppercase tracking-wider mb-4 shadow-sm"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>India ➔ United States Consular Advisory</span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white tracking-tight leading-tight"
-            >
-              USA Visa Services
-            </motion.h1>
+            {/* Title & Questions & Answers Button side-by-side on desktop */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-1">
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white tracking-tight leading-tight drop-shadow-md"
+              >
+                USA Visa Services
+              </motion.h1>
+
+              <motion.button
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15 }}
+                onClick={scrollToQaSection}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/15 hover:bg-[#b8860b] hover:border-[#b8860b] border border-white/25 text-white text-xs sm:text-sm font-bold backdrop-blur-md shadow-lg transition-all active:scale-95 group"
+              >
+                <HelpCircle className="w-4 h-4 text-[#fbbf24] group-hover:text-white transition-colors" />
+                <span>Questions & Answers</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:translate-y-0.5 transition-transform" />
+              </motion.button>
+            </div>
 
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="mt-3 text-sm sm:text-base md:text-lg text-slate-200 max-w-2xl mx-auto font-light"
+              transition={{ delay: 0.2 }}
+              className="mt-3 text-sm sm:text-base md:text-lg text-slate-200 max-w-2xl mx-auto font-light drop-shadow-sm"
             >
               Professional assistance for your U.S. visa journey from India.
             </motion.p>
@@ -344,7 +590,7 @@ Please assist me with consular appointment scheduling and documentation.`;
                         {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
                       </div>
                       <span
-                        className={`text-[10px] sm:text-xs mt-1.5 font-medium whitespace-nowrap ${
+                        className={`text-[10px] sm:text-xs mt-1.5 font-medium whitespace-nowrap drop-shadow-sm ${
                           isCurrent ? 'text-[#fbbf24] font-semibold' : isCompleted ? 'text-slate-200' : 'text-slate-400'
                         }`}
                       >
@@ -358,10 +604,12 @@ Please assist me with consular appointment scheduling and documentation.`;
           </div>
         </section>
 
-        {/* Dynamic Step Panels (Max Width 4xl, Elegant Light Cards with Deep Navy Contrast) */}
-        <div className="w-full max-w-3xl px-4 sm:px-6 -mt-4 z-20">
-          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-[#e5e0d8] p-5 sm:p-8 md:p-10">
-            {/* STEP 1: SELECT YOUR VISA SERVICE */}
+        {/* ========================================================================= */}
+        {/* DYNAMIC STEP WIZARD PANELS (ELEGANT GLASS / BLURRED CARDS) */}
+        {/* ========================================================================= */}
+        <div className="w-full max-w-4xl px-4 sm:px-6 z-20">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 p-5 sm:p-8 md:p-10 text-[#1e293b]">
+            {/* STEP 1: SELECT YOUR VISA SERVICE (EXACTLY 4 OPTIONS) */}
             {currentStep === 'service' && (
               <motion.div
                 key="step-service"
@@ -382,12 +630,12 @@ Please assist me with consular appointment scheduling and documentation.`;
                   </p>
                 </div>
 
-                {/* EXACTLY 3 USA VISA OPTIONS */}
-                <div className="grid grid-cols-1 gap-3.5 sm:gap-4">
+                {/* EXACTLY 4 USA VISA OPTIONS (BALANCED 2x2 GRID ON DESKTOP, VERTICAL STACK ON MOBILE) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Option 1: Tourist & Business Visa */}
                   <div
                     onClick={() => handleSelectService('Tourist & Business Visa')}
-                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-4 ${
+                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-3.5 ${
                       formState.visaService === 'Tourist & Business Visa'
                         ? 'bg-[#fefaf0] border-[#b8860b] shadow-md ring-2 ring-[#b8860b]/20'
                         : 'bg-white border-[#e2e8f0] hover:border-[#b8860b]/50 hover:bg-[#faf8f4]'
@@ -403,26 +651,26 @@ Please assist me with consular appointment scheduling and documentation.`;
                       <Plane className="w-5 h-5" />
                     </div>
 
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-serif font-bold text-base sm:text-lg text-[#0f172a]">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-1 mb-0.5">
+                        <h3 className="font-serif font-bold text-base text-[#0f172a] truncate">
                           Tourist & Business Visa
                         </h3>
-                        <span className="text-xs font-semibold bg-[#e0f2fe] text-[#0369a1] px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold bg-[#e0f2fe] text-[#0369a1] px-2 py-0.5 rounded-sm shrink-0">
                           B1/B2 Visa
                         </span>
                       </div>
-                      <p className="text-xs sm:text-sm text-[#475569] mt-1 leading-relaxed">
+                      <p className="text-xs text-[#475569] mt-1 leading-relaxed">
                         For holidays, sightseeing, visiting family/friends in the U.S., attending conferences, client meetings, or medical visits.
                       </p>
-                      <div className="flex items-center gap-3 mt-2.5 text-[11px] text-[#64748b]">
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2.5 text-[11px] text-[#64748b]">
                         <span>• 10-Year Multi-Entry</span>
-                        <span>• VAC & Consular Appointments</span>
+                        <span>• VAC & Consular Slots</span>
                         <span>• DS-160 Guidance</span>
                       </div>
                     </div>
 
-                    <div className="self-center">
+                    <div className="self-center shrink-0">
                       <div
                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                           formState.visaService === 'Tourist & Business Visa'
@@ -440,7 +688,7 @@ Please assist me with consular appointment scheduling and documentation.`;
                   {/* Option 2: Work Visa Appointments */}
                   <div
                     onClick={() => handleSelectService('Work Visa Appointments')}
-                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-4 ${
+                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-3.5 ${
                       formState.visaService === 'Work Visa Appointments'
                         ? 'bg-[#fefaf0] border-[#b8860b] shadow-md ring-2 ring-[#b8860b]/20'
                         : 'bg-white border-[#e2e8f0] hover:border-[#b8860b]/50 hover:bg-[#faf8f4]'
@@ -456,26 +704,26 @@ Please assist me with consular appointment scheduling and documentation.`;
                       <Briefcase className="w-5 h-5" />
                     </div>
 
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-serif font-bold text-base sm:text-lg text-[#0f172a]">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-1 mb-0.5">
+                        <h3 className="font-serif font-bold text-base text-[#0f172a] truncate">
                           Work Visa Appointments
                         </h3>
-                        <span className="text-xs font-semibold bg-[#f0fdf4] text-[#15803d] px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold bg-[#f0fdf4] text-[#15803d] px-2 py-0.5 rounded-sm shrink-0">
                           H-1B, L-1, O-1
                         </span>
                       </div>
-                      <p className="text-xs sm:text-sm text-[#475569] mt-1 leading-relaxed">
-                        For approved petition holders (Form I-797), specialty occupation professionals, intracompany transfers, and dependents (H-4 / L-2).
+                      <p className="text-xs text-[#475569] mt-1 leading-relaxed">
+                        For approved petition holders (Form I-797), specialty occupation professionals, intracompany transfers, and dependents.
                       </p>
-                      <div className="flex items-center gap-3 mt-2.5 text-[11px] text-[#64748b]">
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2.5 text-[11px] text-[#64748b]">
                         <span>• Priority Interview Slots</span>
-                        <span>• Dropbox / In-Person</span>
+                        <span>• Dropbox & In-Person</span>
                         <span>• 221(g) Audit</span>
                       </div>
                     </div>
 
-                    <div className="self-center">
+                    <div className="self-center shrink-0">
                       <div
                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                           formState.visaService === 'Work Visa Appointments'
@@ -493,7 +741,7 @@ Please assist me with consular appointment scheduling and documentation.`;
                   {/* Option 3: Student Visa Appointments */}
                   <div
                     onClick={() => handleSelectService('Student Visa Appointments')}
-                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-4 ${
+                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-3.5 ${
                       formState.visaService === 'Student Visa Appointments'
                         ? 'bg-[#fefaf0] border-[#b8860b] shadow-md ring-2 ring-[#b8860b]/20'
                         : 'bg-white border-[#e2e8f0] hover:border-[#b8860b]/50 hover:bg-[#faf8f4]'
@@ -509,26 +757,26 @@ Please assist me with consular appointment scheduling and documentation.`;
                       <GraduationCap className="w-5 h-5" />
                     </div>
 
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-serif font-bold text-base sm:text-lg text-[#0f172a]">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-1 mb-0.5">
+                        <h3 className="font-serif font-bold text-base text-[#0f172a] truncate">
                           Student Visa Appointments
                         </h3>
-                        <span className="text-xs font-semibold bg-[#faf5ff] text-[#7e22ce] px-2 py-0.5 rounded">
-                          F-1 / F-2 & J-1
+                        <span className="text-[10px] font-bold bg-[#faf5ff] text-[#7e22ce] px-2 py-0.5 rounded-sm shrink-0">
+                          F-1 / F-2 & Higher Ed
                         </span>
                       </div>
-                      <p className="text-xs sm:text-sm text-[#475569] mt-1 leading-relaxed">
-                        For undergraduate, master’s, and PhD scholars with valid Form I-20 and SEVIS, exchange visitors, and accompanying family.
+                      <p className="text-xs text-[#475569] mt-1 leading-relaxed">
+                        For undergraduate, master’s, and PhD scholars with valid Form I-20 and SEVIS, exchange students, and accompanying family.
                       </p>
-                      <div className="flex items-center gap-3 mt-2.5 text-[11px] text-[#64748b]">
-                        <span>• Emergency Appointment Assistance</span>
-                        <span>• Mock Visa Interviews</span>
-                        <span>• Funding Validation</span>
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2.5 text-[11px] text-[#64748b]">
+                        <span>• Emergency Slot Assistance</span>
+                        <span>• Mock Interviews</span>
+                        <span>• Financial Solvency</span>
                       </div>
                     </div>
 
-                    <div className="self-center">
+                    <div className="self-center shrink-0">
                       <div
                         className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                           formState.visaService === 'Student Visa Appointments'
@@ -537,6 +785,59 @@ Please assist me with consular appointment scheduling and documentation.`;
                         }`}
                       >
                         {formState.visaService === 'Student Visa Appointments' && (
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Option 4: J1 / J2 Visa Appointments */}
+                  <div
+                    onClick={() => handleSelectService('J1 / J2 Visa Appointments')}
+                    className={`group p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 flex items-start gap-3.5 ${
+                      formState.visaService === 'J1 / J2 Visa Appointments'
+                        ? 'bg-[#fefaf0] border-[#b8860b] shadow-md ring-2 ring-[#b8860b]/20'
+                        : 'bg-white border-[#e2e8f0] hover:border-[#b8860b]/50 hover:bg-[#faf8f4]'
+                    }`}
+                  >
+                    <div
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                        formState.visaService === 'J1 / J2 Visa Appointments'
+                          ? 'bg-[#b8860b] text-white shadow-sm'
+                          : 'bg-[#f1ebe1] text-[#b8860b] group-hover:bg-[#b8860b] group-hover:text-white'
+                      }`}
+                    >
+                      <Compass className="w-5 h-5" />
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-1 mb-0.5">
+                        <h3 className="font-serif font-bold text-base text-[#0f172a] truncate">
+                          J1 / J2 Visa Appointments
+                        </h3>
+                        <span className="text-[10px] font-bold bg-[#fff7ed] text-[#c2410c] px-2 py-0.5 rounded-sm shrink-0">
+                          J-1 / J-2 Exchange
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#475569] mt-1 leading-relaxed">
+                        For exchange visitors, research scholars, short-term scholars, professors, interns, trainees, au pairs, and exchange dependents (J-2).
+                      </p>
+                      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2.5 text-[11px] text-[#64748b]">
+                        <span>• DS-2019 / SEVIS Validation</span>
+                        <span>• Consular Slot Expedited Booking</span>
+                        <span>• J-2 Dependent Filing</span>
+                      </div>
+                    </div>
+
+                    <div className="self-center shrink-0">
+                      <div
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                          formState.visaService === 'J1 / J2 Visa Appointments'
+                            ? 'border-[#b8860b] bg-[#b8860b] text-white'
+                            : 'border-[#cbd5e1]'
+                        }`}
+                      >
+                        {formState.visaService === 'J1 / J2 Visa Appointments' && (
                           <CheckCircle2 className="w-3.5 h-3.5" />
                         )}
                       </div>
@@ -691,7 +992,7 @@ Please assist me with consular appointment scheduling and documentation.`;
                           Download our information sheet, fill in the required details, and share it with our team. We’ll assist you with the next step.
                         </p>
 
-                        {/* Prominent Download Button */}
+                        {/* Prominent Download Button (Original untouched template) */}
                         <div className="mt-4 flex flex-wrap items-center gap-3">
                           <button
                             type="button"
@@ -1282,6 +1583,128 @@ Please assist me with consular appointment scheduling and documentation.`;
             )}
           </div>
         </div>
+
+        {/* ========================================================================= */}
+        {/* QUESTIONS & ANSWERS SECTION (DEDICATED FAQ ACCORDION OVER FULL BACKGROUND) */}
+        {/* ========================================================================= */}
+        <section id="usa-qa-section" className="w-full max-w-4xl px-4 sm:px-6 mt-16 z-20">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 p-6 sm:p-10 text-[#1e293b]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#f1ebe1] pb-6 mb-6">
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#b8860b]/10 text-[#8b6508] text-xs font-bold uppercase tracking-wider mb-2">
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>Aspire Consultant Advisory Desk</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#0f172a]">
+                  Questions & Answers
+                </h2>
+                <p className="text-xs sm:text-sm text-[#64748b] mt-1">
+                  Frequently asked questions regarding urgent appointments, DS-160 filing, timelines, and consular policies.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (openFaqIds.length === USA_FAQ_ITEMS.length) {
+                      setOpenFaqIds([]);
+                    } else {
+                      setOpenFaqIds(USA_FAQ_ITEMS.map((item) => item.id));
+                    }
+                  }}
+                  className="px-3.5 py-1.5 rounded-lg border border-[#d6cfc4] hover:bg-[#f8f5ee] text-xs font-semibold text-[#475569] transition-colors"
+                >
+                  {openFaqIds.length === USA_FAQ_ITEMS.length ? 'Collapse All' : 'Expand All'}
+                </button>
+              </div>
+            </div>
+
+            {/* Accordion List */}
+            <div className="space-y-3.5">
+              {USA_FAQ_ITEMS.map((faq) => {
+                const isOpenFaq = openFaqIds.includes(faq.id);
+
+                return (
+                  <div
+                    key={faq.id}
+                    className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                      isOpenFaq
+                        ? 'bg-[#fcfaf6] border-[#b8860b]/40 shadow-sm'
+                        : 'bg-white border-[#e2e8f0] hover:border-[#b8860b]/30 hover:bg-[#faf8f4]'
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleFaq(faq.id)}
+                      className="w-full p-4 sm:p-5 text-left flex items-start justify-between gap-4 cursor-pointer"
+                      aria-expanded={isOpenFaq}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-[#b8860b]/10 text-[#8b6508] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                          Q{faq.id}
+                        </span>
+                        <span className="font-serif font-bold text-sm sm:text-base text-[#0f172a] leading-snug">
+                          {faq.question}
+                        </span>
+                      </div>
+
+                      <div className="shrink-0 text-[#b8860b] mt-0.5">
+                        {isOpenFaq ? (
+                          <ChevronUp className="w-5 h-5" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 opacity-60" />
+                        )}
+                      </div>
+                    </button>
+
+                    <AnimatePresence>
+                      {isOpenFaq && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-5 pb-5 pt-1 sm:px-6 sm:pb-6 border-t border-[#f1ebe1]/80">
+                            <div className="text-xs sm:text-sm text-[#334155] leading-relaxed whitespace-pre-line pl-9">
+                              {faq.answer}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Bottom Q&A Action Strip */}
+            <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-[#0f172a] text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 className="font-serif font-bold text-sm sm:text-base text-white">
+                  Still have specific consular questions?
+                </h4>
+                <p className="text-xs text-slate-300 mt-0.5 font-light">
+                  Our Aspire Consultant senior advisors are available for personalized profile evaluations.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+                <a
+                  href={getWhatsAppMessage()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold shadow-md transition-all"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat on WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );

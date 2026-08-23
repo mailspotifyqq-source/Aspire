@@ -153,6 +153,8 @@ export function generateUsaVisaSummaryPDF(state: UsaPortalState): string {
     ds160Label = 'Work Petition (I-797) / Consular Track';
   } else if (state.visaService === 'Student Visa Appointments') {
     ds160Label = 'SEVIS / Form I-20 Academic Consular Track';
+  } else if (state.visaService === 'J1 / J2 Visa Appointments') {
+    ds160Label = 'DS-2019 / SEVIS Exchange Visitor Track';
   }
 
   doc.setFont('helvetica', 'bold');

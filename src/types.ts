@@ -59,7 +59,7 @@ export interface Consultant {
 }
 
 export interface UsaPortalState {
-  visaService: 'Tourist & Business Visa' | 'Work Visa Appointments' | 'Student Visa Appointments';
+  visaService: 'Tourist & Business Visa' | 'Work Visa Appointments' | 'Student Visa Appointments' | 'J1 / J2 Visa Appointments';
   hasDs160Confirmation: 'yes' | 'no' | null;
   fullName: string;
   dateOfBirth: string;
