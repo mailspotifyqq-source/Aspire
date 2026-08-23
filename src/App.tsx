@@ -17,6 +17,7 @@ import { AirplaneFlyby } from './components/AirplaneFlyby';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { DestinationSelectorModal } from './components/DestinationSelectorModal';
 import { UsaVisaPortal } from './components/UsaVisaPortal';
+import { CanadaVisaPortal } from './components/CanadaVisaPortal';
 import { VisaAssessmentModal } from './components/VisaAssessmentModal';
 import { ExpertConsultationModal } from './components/ExpertConsultationModal';
 import { ServiceDetailModal } from './components/ServiceDetailModal';
@@ -31,6 +32,8 @@ export default function App() {
   const [destinationSelectorOpen, setDestinationSelectorOpen] = useState(false);
   const [usaPortalOpen, setUsaPortalOpen] = useState(false);
   const [usaPortalInitialService, setUsaPortalInitialService] = useState<string | undefined>();
+
+  const [canadaPortalOpen, setCanadaPortalOpen] = useState(false);
 
   const [assessmentModalOpen, setAssessmentModalOpen] = useState(false);
   const [assessmentPrefillDestination, setAssessmentPrefillDestination] = useState<string | undefined>();
@@ -75,6 +78,8 @@ export default function App() {
     if (destinationId === 'usa') {
       setUsaPortalInitialService(category);
       setUsaPortalOpen(true);
+    } else if (destinationId === 'canada') {
+      setCanadaPortalOpen(true);
     } else if (destinationId) {
       setAssessmentPrefillDestination(destinationId);
       setAssessmentPrefillCategory(category || 'Tourist & Business Visa');
@@ -90,6 +95,8 @@ export default function App() {
     if (destId === 'usa') {
       setUsaPortalInitialService(undefined);
       setUsaPortalOpen(true);
+    } else if (destId === 'canada') {
+      setCanadaPortalOpen(true);
     } else {
       setAssessmentPrefillDestination(destId);
       setAssessmentPrefillCategory('Tourist & Business Visa');
@@ -176,7 +183,17 @@ export default function App() {
         initialService={usaPortalInitialService}
       />
 
-      {/* Non-USA 4-Step Interactive Visa Assessment Journey */}
+      {/* Dedicated Full-Screen Canada Visa Portal */}
+      <CanadaVisaPortal
+        isOpen={canadaPortalOpen}
+        onClose={() => setCanadaPortalOpen(false)}
+        onOpenConsultation={() => {
+          setCanadaPortalOpen(false);
+          setConsultationModalOpen(true);
+        }}
+      />
+
+      {/* Other Destinations 4-Step Interactive Visa Assessment Journey */}
       <VisaAssessmentModal
         isOpen={assessmentModalOpen}
         onClose={() => setAssessmentModalOpen(false)}

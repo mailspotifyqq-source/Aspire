@@ -74,6 +74,26 @@ export interface UsaPortalState {
   notes?: string;
 }
 
+export interface CanadaPortalState {
+  visaService: 'Business & Tourist Visa';
+  travelPurpose: 'Tourism & Sightseeing' | 'Business Meetings & Conferences' | 'Visiting Family & Relatives' | 'Solo Exploration & Leisure';
+  biometricsStatus: 'Valid (Given in last 10 years)' | 'Need New VFS Biometrics Appointment' | 'Unsure / First Time Applicant';
+  travelHistory: 'Valid US Visa or Travel to US/UK/Schengen (CAN+ Eligible)' | 'Other International Travel' | 'Fresh Passport / First International Trip';
+  employmentStatus: 'Salaried Professional' | 'Business Owner / Self-Employed' | 'Retired' | 'Student / Freelancer';
+  fundsAvailability: '₹4,00,000 – ₹7,00,000' | '₹7,00,000 – ₹15,00,000' | '₹15,00,000+';
+  fullName: string;
+  dateOfBirth: string;
+  email: string;
+  countryCode: string;
+  mobileNumber: string;
+  city: string;
+  state: string;
+  country: string;
+  applicantsCount: number;
+  intendedTravelPeriod?: string;
+  notes?: string;
+}
+
 export interface AssessmentFormState {
   destinationId: string;
   visaCategory: string;

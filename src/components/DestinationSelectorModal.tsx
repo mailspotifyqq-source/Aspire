@@ -78,6 +78,7 @@ export function DestinationSelectorModal({
               {destinations.map((dest) => {
                 const isSelected = selectedId === dest.id;
                 const isUsa = dest.id === 'usa';
+                const isCanada = dest.id === 'canada';
 
                 return (
                   <div
@@ -120,9 +121,14 @@ export function DestinationSelectorModal({
                         </div>
                       )}
 
-                      {/* USA Portal Badge */}
+                      {/* Dedicated Portal Badges */}
                       {isUsa && (
                         <div className="absolute top-2 left-2 bg-[#1e293b]/85 backdrop-blur-xs text-[#fbbf24] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-xs">
+                          Dedicated Portal
+                        </div>
+                      )}
+                      {isCanada && (
+                        <div className="absolute top-2 left-2 bg-[#881337]/90 backdrop-blur-xs text-[#fecdd3] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-xs">
                           Dedicated Portal
                         </div>
                       )}
@@ -144,6 +150,8 @@ export function DestinationSelectorModal({
               <span>
                 {selectedId === 'usa'
                   ? 'Selecting USA opens the dedicated USA Visa Portal with customized DS-160 advisory and appointment guidance.'
+                  : selectedId === 'canada'
+                  ? 'Selecting Canada opens the dedicated Canada Visa Portal for Business & Tourist Visas with IRCC & VFS biometrics advisory.'
                   : 'Tailored consular advisory, documentation checklists, and profile assessment for your selected country.'}
               </span>
             </div>
@@ -171,7 +179,14 @@ export function DestinationSelectorModal({
                 onClick={handleContinue}
                 className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#b8860b] hover:bg-[#996f09] text-white text-xs font-bold shadow-md shadow-[#b8860b]/20 hover:shadow-lg transition-all active:scale-[0.98]"
               >
-                <span>Continue to {selectedId === 'usa' ? 'USA Visa Portal' : 'Application'}</span>
+                <span>
+                  Continue to{' '}
+                  {selectedId === 'usa'
+                    ? 'USA Visa Portal'
+                    : selectedId === 'canada'
+                    ? 'Canada Visa Portal'
+                    : 'Application'}
+                </span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
