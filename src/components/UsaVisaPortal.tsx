@@ -373,6 +373,7 @@ export function UsaVisaPortal({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({
           applicantName: formState.fullName || 'Applicant',
@@ -390,13 +391,23 @@ export function UsaVisaPortal({
         }),
       });
 
-      const data = await response.json();
-      if (response.ok && data.success) {
+      let data: any = null;
+      let rawText = '';
+      try {
+        rawText = await response.text();
+        data = rawText ? JSON.parse(rawText) : null;
+      } catch (parseErr) {
+        console.warn('[USA Portal] Server returned non-JSON payload:', response.status, rawText);
+      }
+
+      if (response.ok && data?.success) {
         setEmailSendingStatus('sent');
         setEmailErrorMessage('');
       } else {
-        const errorMsg = data?.error || 'Email dispatch was rejected by the server.';
-        console.warn('[USA Portal] Background email dispatch error:', errorMsg);
+        const errorMsg =
+          data?.error ||
+          (rawText && rawText.length < 200 ? rawText : `Server responded with HTTP ${response.status} (${response.statusText || 'Error'})`);
+        console.warn('[USA Portal] Background email dispatch rejected:', errorMsg);
         setEmailSendingStatus('failed');
         setEmailErrorMessage(errorMsg);
       }

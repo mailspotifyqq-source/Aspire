@@ -7,15 +7,23 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+// Support Render/Cloud Run/Docker dynamic PORT or fallback to 3000
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-// Body parser supporting base64 PDF payload
-app.use(express.json({ limit: '15mb' }));
-app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+// Body parser supporting base64 PDF payload up to 25MB
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.setHeader('Content-Type', 'application/json');
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    resendConfigured: !!(process.env.RESEND_API_KEY && process.env.RESEND_API_KEY.trim().length > 0),
+    supportEmail: process.env.SUPPORT_EMAIL || 'support@aspiretravels.in',
+    fromEmail: process.env.FROM_EMAIL || 'support@aspiretravels.in',
+  });
 });
 
 // Lazy Resend client instantiation
@@ -28,10 +36,11 @@ function getResendClient(): Resend | null {
 }
 
 /**
- * POST /api/send-usa-visa-summary
- * Secure server-side endpoint that dispatches the USA Visa Summary PDF to support@aspiretravels.in via Resend
+ * Common handler for sending USA Visa Summary PDF via Resend
  */
-app.post('/api/send-usa-visa-summary', async (req, res) => {
+async function handleSendUsaVisaSummary(req: express.Request, res: express.Response) {
+  res.setHeader('Content-Type', 'application/json');
+  
   try {
     const {
       applicantName,
@@ -46,13 +55,19 @@ app.post('/api/send-usa-visa-summary', async (req, res) => {
       ds160Status,
       filename,
       pdfBase64,
-    } = req.body;
-
-    if (!pdfBase64) {
-      return res.status(400).json({ success: false, error: 'Missing PDF document content' });
-    }
+    } = req.body || {};
 
     const cleanApplicantName = (applicantName || 'Applicant').trim();
+    console.log(`[Server] Received USA Visa email request for applicant: "${cleanApplicantName}"`);
+
+    if (!pdfBase64) {
+      console.warn('[Server] Error: Missing PDF document content in request body.');
+      return res.status(400).json({
+        success: false,
+        error: 'Missing PDF document content. Please generate the PDF first.',
+      });
+    }
+
     const cleanVisaCategory = (visaCategory || 'Tourist & Business Visa').trim();
     const cleanDs160Status = (ds160Status || 'Not specified').trim();
     const cleanEmail = (email || 'Not provided').trim();
@@ -68,11 +83,11 @@ app.post('/api/send-usa-visa-summary', async (req, res) => {
     const resend = getResendClient();
     if (!resend) {
       console.warn(
-        '[Server] RESEND_API_KEY environment variable is not configured. Email dispatch skipped.'
+        '[Server] RESEND_API_KEY environment variable is not configured on the server.'
       );
       return res.status(500).json({
         success: false,
-        error: 'Email delivery service (RESEND_API_KEY) is not configured on the server.',
+        error: 'Email delivery service is not configured (RESEND_API_KEY is missing on server).',
       });
     }
 
@@ -113,11 +128,11 @@ The personalized visa summary PDF (${cleanFilename}) is attached to this email.`
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
               <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Visa Category:</td>
-              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanVisaCategory}</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanVisaCategory}</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
               <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">DS-160 Status:</td>
-              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanDs160Status}</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanDs160Status}</td>
             </tr>
             <tr style="border-bottom: 1px solid #e2e8f0;">
               <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Email Address:</td>
@@ -156,7 +171,203 @@ The personalized visa summary PDF (${cleanFilename}) is attached to this email.`
     const pdfBuffer = Buffer.from(rawBase64, 'base64');
 
     console.log(
-      `[Server] Initiating Resend email dispatch for "${cleanApplicantName}" (${pdfBuffer.length} bytes) to ${recipient} from ${fromAddress}...`
+      `[Server] Dispatching USA Visa Summary email via Resend:
+  - Applicant: ${cleanApplicantName}
+  - Filename: ${cleanFilename} (${pdfBuffer.length} bytes)
+  - To: ${recipient}
+  - From: ${fromAddress}`
+    );
+
+    const sendResult = await resend.emails.send({
+      from: fromAddress,
+      to: recipient,
+      subject: subject,
+      text: textContent,
+      html: htmlContent,
+      attachments: [
+        {
+          filename: cleanFilename,
+          content: pdfBuffer,
+        },
+      ],
+    });
+
+    if (sendResult.error) {
+      console.error('[Server] Resend API returned error:', JSON.stringify(sendResult.error, null, 2));
+      return res.status(500).json({
+        success: false,
+        error: sendResult.error.message || 'Resend service rejected the email dispatch.',
+      });
+    }
+
+    console.log(
+      `[Server] USA Visa Summary email successfully sent for "${cleanApplicantName}" to ${recipient} (Email Message ID: ${sendResult.data?.id})`
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Email sent successfully to Aspire Travels.',
+      messageId: sendResult.data?.id,
+    });
+  } catch (err: any) {
+    console.error('[Server] Exception occurred while sending USA Visa email:', err?.message || err);
+    return res.status(500).json({
+      success: false,
+      error: err?.message || 'Internal server error while dispatching email notification.',
+    });
+  }
+}
+
+/**
+ * Common handler for sending Canada Visa Summary PDF via Resend
+ */
+async function handleSendCanadaVisaSummary(req: express.Request, res: express.Response) {
+  res.setHeader('Content-Type', 'application/json');
+  
+  try {
+    const {
+      applicantName,
+      email,
+      phone,
+      city,
+      state: applicantState,
+      country,
+      applicantsCount,
+      intendedTravelPeriod,
+      visaCategory,
+      travelPurpose,
+      biometricsStatus,
+      travelHistory,
+      employmentStatus,
+      fundsReadiness,
+      filename,
+      pdfBase64,
+    } = req.body || {};
+
+    const cleanApplicantName = (applicantName || 'Applicant').trim();
+    console.log(`[Server] Received Canada Visa email request for applicant: "${cleanApplicantName}"`);
+
+    if (!pdfBase64) {
+      console.warn('[Server] Error: Missing Canada PDF document content.');
+      return res.status(400).json({ success: false, error: 'Missing PDF document content' });
+    }
+
+    const cleanVisaCategory = (visaCategory || 'Canada Business & Tourist Visa').trim();
+    const cleanTravelPurpose = (travelPurpose || 'Tourism & Sightseeing').trim();
+    const cleanBiometrics = (biometricsStatus || 'Not specified').trim();
+    const cleanTravelHistory = (travelHistory || 'Standard').trim();
+    const cleanEmployment = (employmentStatus || 'Salaried Employee').trim();
+    const cleanFunds = (fundsReadiness || 'Ready in Liquid Bank Savings').trim();
+    const cleanEmail = (email || 'Not provided').trim();
+    const cleanPhone = (phone || 'Not provided').trim();
+    const cleanLocation = `${city || '—'}, ${applicantState || '—'}, ${country || 'India'}`;
+    const cleanApplicantsCount = `${applicantsCount || 1} Person(s)`;
+    const cleanTravelPeriod = (intendedTravelPeriod || 'Next 3 to 6 Months').trim();
+
+    const safeUserName = cleanApplicantName.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_') || 'Applicant';
+    const cleanFilename = filename || `Aspire_Travels_Canada_Visa_Summary_${safeUserName}.pdf`;
+
+    const resend = getResendClient();
+    if (!resend) {
+      console.warn(
+        '[Server] RESEND_API_KEY environment variable is not configured on the server.'
+      );
+      return res.status(500).json({
+        success: false,
+        error: 'Email delivery service is not configured (RESEND_API_KEY is missing on server).',
+      });
+    }
+
+    const recipient = process.env.SUPPORT_EMAIL || 'support@aspiretravels.in';
+    const fromAddress = process.env.FROM_EMAIL || 'support@aspiretravels.in';
+
+    const subject = `New Canada Visa Summary - ${cleanApplicantName}`;
+    const textContent = `A new Canada Visa Summary has been generated through the Aspire Travels website.
+
+Applicant Details:
+------------------
+• Applicant Name: ${cleanApplicantName}
+• Visa Category: ${cleanVisaCategory}
+• Purpose of Visit: ${cleanTravelPurpose}
+• Biometrics Status: ${cleanBiometrics}
+• Travel History / CAN+: ${cleanTravelHistory}
+• Employment: ${cleanEmployment}
+• Funds Readiness: ${cleanFunds}
+• Email Address: ${cleanEmail}
+• Mobile / WhatsApp: ${cleanPhone}
+• Location: ${cleanLocation}
+• Total Applicants: ${cleanApplicantsCount}
+• Target Travel Period: ${cleanTravelPeriod}
+
+The personalized Canada visa summary PDF (${cleanFilename}) is attached to this email.`;
+
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 620px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+        <div style="background-color: #0f172a; padding: 24px; color: #ffffff; border-bottom: 3px solid #c41e3a;">
+          <h1 style="margin: 0; font-size: 20px; color: #ffffff; letter-spacing: 1px;">ASPIRE TRAVELS</h1>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: #fca5a5; text-transform: uppercase;">Canada Consular & IRCC Visitor Visa Advisory</p>
+        </div>
+        <div style="padding: 24px; background-color: #ffffff;">
+          <p style="margin-top: 0; font-size: 15px; color: #334155;">A new Canada Visa Summary has been generated through the Aspire Travels website.</p>
+          
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #f8fafc; border-radius: 6px; overflow: hidden; border: 1px solid #e2e8f0;">
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; width: 38%; color: #475569; font-size: 13px;">Applicant Name:</td>
+              <td style="padding: 10px 16px; font-weight: bold; color: #0f172a; font-size: 14px;">${cleanApplicantName}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Visa Category:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanVisaCategory}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Purpose of Visit:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanTravelPurpose}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Biometrics:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanBiometrics}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">CAN+ / Travel History:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanTravelHistory}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Email Address:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanEmail}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Phone / WhatsApp:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanPhone}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Location:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanLocation}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Total Applicants:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanApplicantsCount}</td>
+            </tr>
+          </table>
+          
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 0;">
+            The personalized Canada visa summary PDF (<strong>${cleanFilename}</strong>) is attached to this email.
+          </p>
+        </div>
+        <div style="background-color: #f1f5f9; padding: 14px 24px; font-size: 11px; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0;">
+          Aspire Travels &bull; ${recipient} &bull; +91 92893 37446
+        </div>
+      </div>
+    `;
+
+    const rawBase64 = pdfBase64.includes(',') ? pdfBase64.split(',')[1] : pdfBase64;
+    const pdfBuffer = Buffer.from(rawBase64, 'base64');
+
+    console.log(
+      `[Server] Dispatching Canada Visa Summary email via Resend:
+  - Applicant: ${cleanApplicantName}
+  - Filename: ${cleanFilename} (${pdfBuffer.length} bytes)
+  - To: ${recipient}
+  - From: ${fromAddress}`
     );
 
     const sendResult = await resend.emails.send({
@@ -177,143 +388,7 @@ The personalized visa summary PDF (${cleanFilename}) is attached to this email.`
       console.error('[Server] Resend API error response:', JSON.stringify(sendResult.error, null, 2));
       return res.status(500).json({
         success: false,
-        error: sendResult.error.message || 'Resend email dispatch error',
-      });
-    }
-
-    console.log(
-      `[Server] USA Visa Summary email successfully sent for "${cleanApplicantName}" to ${recipient} (Email ID: ${sendResult.data?.id})`
-    );
-
-    return res.json({
-      success: true,
-      messageId: sendResult.data?.id,
-    });
-  } catch (err: any) {
-    console.error('[Server] Exception occurred while sending email:', err?.message || err);
-    return res.status(500).json({
-      success: false,
-      error: err?.message || 'Failed to dispatch email notification.',
-    });
-  }
-});
-
-/**
- * POST /api/send-canada-visa-summary
- * Secure server-side endpoint that dispatches the Canada Visa Summary PDF to support@aspiretravels.in via Resend
- */
-app.post('/api/send-canada-visa-summary', async (req, res) => {
-  try {
-    const {
-      applicantName,
-      visaCategory,
-      travelPurpose,
-      biometricsStatus,
-      travelHistory,
-      filename,
-      pdfBase64,
-    } = req.body;
-
-    if (!pdfBase64) {
-      return res.status(400).json({ success: false, error: 'Missing PDF document content' });
-    }
-
-    const cleanApplicantName = (applicantName || 'Applicant').trim();
-    const cleanVisaCategory = (visaCategory || 'Canada Business & Tourist Visa').trim();
-    const cleanTravelPurpose = (travelPurpose || 'Tourism & Sightseeing').trim();
-    const cleanBiometrics = (biometricsStatus || 'Not specified').trim();
-    const cleanTravelHistory = (travelHistory || 'Standard').trim();
-    const cleanFilename =
-      filename || `Aspire Travel Canada Visa Summary_${cleanApplicantName.replace(/\s+/g, '_')}.pdf`;
-
-    const resend = getResendClient();
-    if (!resend) {
-      console.warn(
-        '[Server] RESEND_API_KEY environment variable is not configured. Email dispatch skipped.'
-      );
-      return res.status(500).json({
-        success: false,
-        error: 'Email delivery service is not configured on the server.',
-      });
-    }
-
-    const recipient = process.env.SUPPORT_EMAIL || 'support@aspiretravels.in';
-    const fromAddress = process.env.FROM_EMAIL || 'support@aspiretravels.in';
-
-    const subject = `New Canada Visa Summary - ${cleanApplicantName}`;
-    const textContent = `A new Canada Visa Summary has been generated through the Aspire Travels website.
-
-Applicant Name: ${cleanApplicantName}
-Visa Category: ${cleanVisaCategory}
-Purpose of Visit: ${cleanTravelPurpose}
-Biometrics Status: ${cleanBiometrics}
-Travel History / CAN+: ${cleanTravelHistory}
-
-The personalized Canada visa summary PDF is attached to this email.`;
-
-    const htmlContent = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
-        <div style="background-color: #0f172a; padding: 24px; color: #ffffff; border-bottom: 3px solid #c41e3a;">
-          <h1 style="margin: 0; font-size: 20px; color: #ffffff; letter-spacing: 1px;">ASPIRE TRAVELS</h1>
-          <p style="margin: 4px 0 0 0; font-size: 12px; color: #fca5a5; text-transform: uppercase;">Canada Consular & IRCC Visitor Visa Advisory</p>
-        </div>
-        <div style="padding: 24px; background-color: #ffffff;">
-          <p style="margin-top: 0; font-size: 15px; color: #334155;">A new Canada Visa Summary has been generated through the Aspire Travels website.</p>
-          
-          <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #f8fafc; border-radius: 6px; overflow: hidden; border: 1px solid #e2e8f0;">
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 12px 16px; font-weight: bold; width: 38%; color: #475569; font-size: 13px;">Applicant Name:</td>
-              <td style="padding: 12px 16px; font-weight: bold; color: #0f172a; font-size: 14px;">${cleanApplicantName}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 12px 16px; font-weight: bold; color: #475569; font-size: 13px;">Visa Category:</td>
-              <td style="padding: 12px 16px; color: #0f172a; font-size: 14px;">${cleanVisaCategory}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 12px 16px; font-weight: bold; color: #475569; font-size: 13px;">Purpose of Visit:</td>
-              <td style="padding: 12px 16px; color: #0f172a; font-size: 14px;">${cleanTravelPurpose}</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #e2e8f0;">
-              <td style="padding: 12px 16px; font-weight: bold; color: #475569; font-size: 13px;">Biometrics:</td>
-              <td style="padding: 12px 16px; color: #0f172a; font-size: 14px;">${cleanBiometrics}</td>
-            </tr>
-            <tr>
-              <td style="padding: 12px 16px; font-weight: bold; color: #475569; font-size: 13px;">CAN+ / Travel History:</td>
-              <td style="padding: 12px 16px; color: #0f172a; font-size: 14px;">${cleanTravelHistory}</td>
-            </tr>
-          </table>
-          
-          <p style="font-size: 13px; color: #64748b; margin-bottom: 0;">
-            The personalized Canada visa summary PDF (<strong>${cleanFilename}</strong>) is attached to this email.
-          </p>
-        </div>
-        <div style="background-color: #f1f5f9; padding: 14px 24px; font-size: 11px; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0;">
-          Aspire Travels &bull; ${recipient} &bull; +91 92893 37446
-        </div>
-      </div>
-    `;
-
-    const pdfBuffer = Buffer.from(pdfBase64, 'base64');
-
-    const sendResult = await resend.emails.send({
-      from: fromAddress,
-      to: recipient,
-      subject: subject,
-      text: textContent,
-      html: htmlContent,
-      attachments: [
-        {
-          filename: cleanFilename,
-          content: pdfBuffer,
-        },
-      ],
-    });
-
-    if (sendResult.error) {
-      console.error('[Server] Resend error response:', sendResult.error);
-      return res.status(500).json({
-        success: false,
-        error: sendResult.error.message || 'Resend error',
+        error: sendResult.error.message || 'Resend service rejected the email dispatch.',
       });
     }
 
@@ -321,15 +396,43 @@ The personalized Canada visa summary PDF is attached to this email.`;
       `[Server] Canada Visa Summary email successfully sent for "${cleanApplicantName}" to ${recipient} (Email ID: ${sendResult.data?.id})`
     );
 
-    return res.json({
+    return res.status(200).json({
       success: true,
+      message: 'Email sent successfully to Aspire Travels.',
       messageId: sendResult.data?.id,
     });
   } catch (err: any) {
     console.error('[Server] Exception occurred while sending Canada email:', err?.message || err);
     return res.status(500).json({
       success: false,
-      error: 'Failed to dispatch email notification.',
+      error: err?.message || 'Internal server error while dispatching email notification.',
+    });
+  }
+}
+
+// Register endpoints and aliases
+app.post('/api/send-usa-visa-summary', handleSendUsaVisaSummary);
+app.post('/api/send-summary', handleSendUsaVisaSummary);
+app.post('/api/send-email', handleSendUsaVisaSummary);
+
+app.post('/api/send-canada-visa-summary', handleSendCanadaVisaSummary);
+app.post('/api/send-canada-summary', handleSendCanadaVisaSummary);
+
+// Explicit 404 handler for any unmatched /api/* requests so they ALWAYS return JSON
+app.all('/api/*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    error: `API route not found: ${req.method} ${req.originalUrl}`,
+  });
+});
+
+// Global Express error handling middleware ensuring all unhandled errors/413s return valid JSON
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('[Server Error Middleware Caught]:', err);
+  if (!res.headersSent) {
+    res.status(err.status || err.statusCode || 500).json({
+      success: false,
+      error: err.message || 'Internal server error occurred while processing request.',
     });
   }
 });
