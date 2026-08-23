@@ -94,6 +94,37 @@ export interface CanadaPortalState {
   notes?: string;
 }
 
+export interface SchengenPortalState {
+  primaryDestination: string;
+  entryCountry: string;
+  visaType: 'Tourist (Type C)' | 'Business & Trade Fair' | 'Visiting Family / Friends' | 'Cultural / Sports Event' | 'Airport Transit';
+  entryType: 'Single Entry' | 'Double Entry' | 'Multiple Entry';
+  travelDurationDays: number;
+  intendedTravelDate: string;
+  biometricVisStatus: 'Biometrics given within last 59 months (Waiver eligible)' | 'Need new VFS biometrics appointment' | 'First-time Schengen applicant';
+  hasPreviousSchengen: 'Yes, in last 3 years' | 'Yes, older than 3 years' | 'No previous Schengen';
+  validOtherVisas: string[];
+  employmentStatus: 'Salaried Professional' | 'Self-Employed / Business Owner' | 'Freelancer / Consultant' | 'Student' | 'Retired' | 'Homemaker';
+  monthlyIncome: string;
+  bankBalance: string;
+  hasItr: 'Yes, last 2-3 years ITR-V filed' | 'Form 16 / Salaried' | 'Not filed / Tax exempt';
+  hasSponsor: 'Self-funded' | 'Fully Sponsored by Employer' | 'Sponsored by Family / Host in Europe';
+  hasTravelInsurance: 'Yes, €30,000+ compliant' | 'Need Aspire assistance with insurance';
+  fullName: string;
+  passportNumber?: string;
+  dateOfBirth: string;
+  email: string;
+  countryCode: string;
+  mobileNumber: string;
+  city: string;
+  state: string;
+  preferredVfsCity: string;
+  adultsCount: number;
+  childrenCount: number;
+  infantsCount: number;
+  notes?: string;
+}
+
 export interface AssessmentFormState {
   destinationId: string;
   visaCategory: string;

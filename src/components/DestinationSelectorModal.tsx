@@ -79,6 +79,7 @@ export function DestinationSelectorModal({
                 const isSelected = selectedId === dest.id;
                 const isUsa = dest.id === 'usa';
                 const isCanada = dest.id === 'canada';
+                const isEurope = dest.id === 'europe';
 
                 return (
                   <div
@@ -129,6 +130,11 @@ export function DestinationSelectorModal({
                       )}
                       {isCanada && (
                         <div className="absolute top-2 left-2 bg-[#881337]/90 backdrop-blur-xs text-[#fecdd3] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-xs">
+                          Dedicated Portal
+                        </div>
+                      )}
+                      {isEurope && (
+                        <div className="absolute top-2 left-2 bg-[#1e3a8a]/90 backdrop-blur-xs text-[#bfdbfe] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-xs">
                           Dedicated Portal
                         </div>
                       )}

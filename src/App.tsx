@@ -18,6 +18,7 @@ import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { DestinationSelectorModal } from './components/DestinationSelectorModal';
 import { UsaVisaPortal } from './components/UsaVisaPortal';
 import { CanadaVisaPortal } from './components/CanadaVisaPortal';
+import { SchengenVisaPortal } from './components/SchengenVisaPortal';
 import { VisaAssessmentModal } from './components/VisaAssessmentModal';
 import { ExpertConsultationModal } from './components/ExpertConsultationModal';
 import { ServiceDetailModal } from './components/ServiceDetailModal';
@@ -34,6 +35,7 @@ export default function App() {
   const [usaPortalInitialService, setUsaPortalInitialService] = useState<string | undefined>();
 
   const [canadaPortalOpen, setCanadaPortalOpen] = useState(false);
+  const [schengenPortalOpen, setSchengenPortalOpen] = useState(false);
 
   const [assessmentModalOpen, setAssessmentModalOpen] = useState(false);
   const [assessmentPrefillDestination, setAssessmentPrefillDestination] = useState<string | undefined>();
@@ -80,6 +82,8 @@ export default function App() {
       setUsaPortalOpen(true);
     } else if (destinationId === 'canada') {
       setCanadaPortalOpen(true);
+    } else if (destinationId === 'europe' || destinationId === 'schengen' || destinationId === 'switzerland') {
+      setSchengenPortalOpen(true);
     } else if (destinationId) {
       setAssessmentPrefillDestination(destinationId);
       setAssessmentPrefillCategory(category || 'Tourist & Business Visa');
@@ -97,6 +101,8 @@ export default function App() {
       setUsaPortalOpen(true);
     } else if (destId === 'canada') {
       setCanadaPortalOpen(true);
+    } else if (destId === 'europe' || destId === 'schengen' || destId === 'switzerland') {
+      setSchengenPortalOpen(true);
     } else {
       setAssessmentPrefillDestination(destId);
       setAssessmentPrefillCategory('Tourist & Business Visa');
@@ -189,6 +195,16 @@ export default function App() {
         onClose={() => setCanadaPortalOpen(false)}
         onOpenConsultation={() => {
           setCanadaPortalOpen(false);
+          setConsultationModalOpen(true);
+        }}
+      />
+
+      {/* Dedicated Full-Screen Europe Schengen Visa Portal */}
+      <SchengenVisaPortal
+        isOpen={schengenPortalOpen}
+        onClose={() => setSchengenPortalOpen(false)}
+        onOpenConsultation={() => {
+          setSchengenPortalOpen(false);
           setConsultationModalOpen(true);
         }}
       />

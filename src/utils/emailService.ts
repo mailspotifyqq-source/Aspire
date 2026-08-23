@@ -7,6 +7,11 @@
 
 export interface VisaSummaryEmailPayload {
   applicantName: string;
+  destination?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  totalApplicants?: number | string;
+  pdfFilename?: string;
   email?: string;
   phone?: string;
   city?: string;
@@ -21,9 +26,9 @@ export interface VisaSummaryEmailPayload {
   travelHistory?: string;
   employmentStatus?: string;
   fundsReadiness?: string;
-  filename: string;
+  filename?: string;
   pdfBase64: string;
-  serviceType: 'usa' | 'canada';
+  serviceType?: 'usa' | 'canada' | 'schengen';
 }
 
 export interface EmailDispatchResult {
