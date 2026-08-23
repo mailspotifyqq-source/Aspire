@@ -34,13 +34,15 @@ export interface EmailDispatchResult {
   isNotConfigured?: boolean;
 }
 
+export const DEFAULT_EMAIL_WORKER_URL = 'https://aspire-visa.mailspotifyqq.workers.dev';
+
 /**
  * Returns the configured Cloudflare Worker URL.
  * Order of priority:
  * 1. window.__EMAIL_WORKER_URL__ (runtime global)
  * 2. localStorage.getItem('VITE_EMAIL_WORKER_URL') (client-side override for testing)
  * 3. import.meta.env.VITE_EMAIL_WORKER_URL (Vite build-time env var)
- * 4. Fallback relative route (/api/send-usa-visa-summary)
+ * 4. Primary production Cloudflare Worker URL (https://aspire-visa.mailspotifyqq.workers.dev)
  */
 export function getEmailWorkerUrl(): string {
   if (typeof window !== 'undefined') {
@@ -64,8 +66,8 @@ export function getEmailWorkerUrl(): string {
     return envUrl.trim();
   }
 
-  // Default fallback if running in full-stack dev/proxy
-  return '/api/send-usa-visa-summary';
+  // Primary Cloudflare Worker URL for Render Static Site
+  return DEFAULT_EMAIL_WORKER_URL;
 }
 
 /**
@@ -78,7 +80,20 @@ export async function sendVisaSummaryEmail(
 
   // If worker URL is not configured and running as static site with relative fallback
   const isRelativeUrl = workerUrl.startsWith('/');
-  const isViteLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+  // Ensure all payload aliases are populated for any Worker code variant
+  const sanitizedEmail = (payload.email && payload.email.trim().length > 0) ? payload.email.trim() : 'support@aspiretravels.in';
+  const cleanBase64 = payload.pdfBase64.includes(',') ? payload.pdfBase64.split(',')[1] : payload.pdfBase64;
+
+  const fullPayload = {
+    ...payload,
+    name: payload.applicantName || 'Applicant',
+    applicantName: payload.applicantName || 'Applicant',
+    email: sanitizedEmail,
+    pdf: cleanBase64,
+    pdfBase64: cleanBase64,
+    filename: payload.filename,
+  };
 
   try {
     const response = await fetch(workerUrl, {
@@ -87,7 +102,7 @@ export async function sendVisaSummaryEmail(
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(fullPayload),
     });
 
     const rawText = await response.text();
@@ -102,11 +117,12 @@ export async function sendVisaSummaryEmail(
       }
     }
 
-    if (response.ok && data?.success) {
+    // Success if response.ok and either data.success is true OR an email ID was returned
+    if (response.ok && (data?.success === true || data?.id || data?.messageId)) {
       return {
         success: true,
-        message: data.message || 'Email sent successfully to Aspire Travels.',
-        messageId: data.messageId,
+        message: data?.message || 'Email sent successfully to Aspire Travels.',
+        messageId: data?.id || data?.messageId,
       };
     }
 
@@ -121,6 +137,8 @@ export async function sendVisaSummaryEmail(
 
     const errorMessage =
       data?.error ||
+      data?.details?.message ||
+      data?.message ||
       (rawText && rawText.length < 250 && !isHtml ? rawText : `Delivery service returned HTTP ${response.status} (${response.statusText || 'Error'})`);
 
     return {
