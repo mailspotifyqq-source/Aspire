@@ -37,6 +37,7 @@ import { CanadaPortalState } from '../types';
 import { generateCanadaVisaSummaryPDF, GeneratedCanadaPdfResult } from '../utils/canadaPdfGenerator';
 import { sendVisaSummaryEmail } from '../utils/emailService';
 import { WHATSAPP_NUMBER, CONTACT_PHONE_RAW } from '../config/contact';
+import { CanadaDocumentChecklistModal } from './CanadaDocumentChecklistModal';
 
 interface CanadaVisaPortalProps {
   isOpen: boolean;
@@ -238,6 +239,7 @@ export function CanadaVisaPortal({
   const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
   const [pdfResult, setPdfResult] = useState<GeneratedCanadaPdfResult | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isChecklistModalOpen, setIsChecklistModalOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -481,8 +483,18 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
           </div>
         </div>
 
-        {/* Right Header: Questions & Answers shortcut + Close Button */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Right Header: Document Checklist + Questions & Answers shortcut + Close Button */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <button
+            type="button"
+            onClick={() => setIsChecklistModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/60 hover:bg-indigo-600 border border-indigo-400/50 text-white text-xs font-semibold transition-all active:scale-95 shadow-xs"
+          >
+            <FileText className="w-3.5 h-3.5 text-indigo-200" />
+            <span className="hidden xs:inline">Checklist</span>
+            <span className="xs:hidden">Docs</span>
+          </button>
+
           <button
             type="button"
             onClick={scrollToQaSection}
@@ -519,8 +531,8 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
               <span>India ➔ Canada IRCC Consular Advisory (V-1 / B-1 TRV)</span>
             </motion.div>
 
-            {/* Title & Q&A button */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mt-1">
+            {/* Title & Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-1">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -530,17 +542,31 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
                 Canada Visa Services
               </motion.h1>
 
-              <motion.button
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.15 }}
-                onClick={scrollToQaSection}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/15 hover:bg-[#c41e3a] hover:border-[#c41e3a] border border-white/25 text-white text-xs sm:text-sm font-bold backdrop-blur-md shadow-lg transition-all active:scale-95 group"
-              >
-                <HelpCircle className="w-4 h-4 text-[#fbbf24] group-hover:text-white transition-colors" />
-                <span>Questions & Answers</span>
-                <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:translate-y-0.5 transition-transform" />
-              </motion.button>
+              <div className="flex items-center gap-2.5 flex-wrap justify-center">
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.12 }}
+                  onClick={() => setIsChecklistModalOpen(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 border border-indigo-400 text-white text-xs sm:text-sm font-bold shadow-lg transition-all active:scale-95 group"
+                >
+                  <FileText className="w-4 h-4 text-indigo-200 group-hover:scale-110 transition-transform" />
+                  <span>Document Checklist</span>
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                </motion.button>
+
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.15 }}
+                  onClick={scrollToQaSection}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/15 hover:bg-[#c41e3a] hover:border-[#c41e3a] border border-white/25 text-white text-xs sm:text-sm font-bold backdrop-blur-md shadow-lg transition-all active:scale-95 group"
+                >
+                  <HelpCircle className="w-4 h-4 text-[#fbbf24] group-hover:text-white transition-colors" />
+                  <span>Questions & Answers</span>
+                  <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:translate-y-0.5 transition-transform" />
+                </motion.button>
+              </div>
             </div>
 
             <motion.p
@@ -1209,6 +1235,36 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
                     ))}
                   </div>
 
+                  {/* Official Aspire Consultant Document Checklist Banner */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-900 via-indigo-950 to-slate-900 text-white border border-indigo-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-xs sm:text-sm text-white">
+                            Official Canada Document Checklist (Aspire Consultant)
+                          </span>
+                          <span className="text-[9px] font-bold uppercase bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full">
+                            Interactive
+                          </span>
+                        </div>
+                        <p className="text-xs text-indigo-200 leading-relaxed">
+                          Open the complete checklist covering Standard Tourist Visas, US Visa Holder (CAN+) fast-track, 10-year employment history, and sample letter templates.
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsChecklistModalOpen(true)}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 text-xs font-bold shadow-md transition-all active:scale-95 shrink-0 cursor-pointer"
+                    >
+                      <span>Open Complete Checklist</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
                   {/* Summary Snapshot Card */}
                   <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#f8fafc] to-[#f1f5f9] border border-[#cbd5e1] space-y-3">
                     <div className="text-xs font-bold uppercase tracking-wider text-[#0f172a] flex items-center gap-1.5">
@@ -1341,6 +1397,15 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
 
                   {/* Direct Action Buttons */}
                   <div className="pt-2 max-w-md mx-auto space-y-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsChecklistModalOpen(true)}
+                      className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md transition-all active:scale-[0.98]"
+                    >
+                      <FileText className="w-4 h-4 text-indigo-200" />
+                      <span>View & Download Official Document Checklist</span>
+                    </button>
+
                     <a
                       href={getWhatsAppMessage()}
                       target="_blank"
@@ -1555,6 +1620,12 @@ Please assist me with IRCC documentation review and VFS biometrics appointment s
           Aspire Travels is an independent visa documentation consultancy assisting applicants with IRCC online filings and VFS appointments.
         </p>
       </footer>
+
+      {/* DEDICATED OFFICIAL CANADA DOCUMENT CHECKLIST MODAL */}
+      <CanadaDocumentChecklistModal
+        isOpen={isChecklistModalOpen}
+        onClose={() => setIsChecklistModalOpen(false)}
+      />
     </div>
   );
 }
