@@ -36,6 +36,7 @@ import {
 import { UsaPortalState } from '../types';
 import { downloadDS160InformationSheet } from '../utils/ds160Template';
 import { generateUsaVisaSummaryPDF } from '../utils/pdfGenerator';
+import { sendVisaSummaryEmail } from '../utils/emailService';
 import { WHATSAPP_NUMBER } from '../config/contact';
 
 interface UsaVisaPortalProps {
@@ -350,7 +351,7 @@ export function UsaVisaPortal({
     }
   };
 
-  // Background email dispatch to support@aspiretravels.in via Resend
+  // Background email dispatch to support@aspiretravels.in via Cloudflare Worker -> Resend
   const dispatchSummaryEmail = async (pdfData: { filename: string; base64: string }) => {
     setEmailSendingStatus('sending');
     setEmailErrorMessage('');
@@ -369,50 +370,33 @@ export function UsaVisaPortal({
         ds160StatusText = 'DS-2019 / SEVIS Exchange Track';
       }
 
-      const response = await fetch('/api/send-usa-visa-summary', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          applicantName: formState.fullName || 'Applicant',
-          email: formState.email || '',
-          phone: `${formState.countryCode || '+91'} ${formState.mobileNumber || ''}`.trim(),
-          city: formState.city || '',
-          state: formState.state || '',
-          country: formState.country || 'India',
-          applicantsCount: formState.applicantsCount || 1,
-          intendedTravelPeriod: formState.intendedTravelPeriod || 'Upcoming 3-6 Months',
-          visaCategory: formState.visaService,
-          ds160Status: ds160StatusText,
-          filename: pdfData.filename,
-          pdfBase64: pdfData.base64,
-        }),
+      const result = await sendVisaSummaryEmail({
+        applicantName: formState.fullName || 'Applicant',
+        email: formState.email || '',
+        phone: `${formState.countryCode || '+91'} ${formState.mobileNumber || ''}`.trim(),
+        city: formState.city || '',
+        state: formState.state || '',
+        country: formState.country || 'India',
+        applicantsCount: formState.applicantsCount || 1,
+        intendedTravelPeriod: formState.intendedTravelPeriod || 'Upcoming 3-6 Months',
+        visaCategory: formState.visaService,
+        ds160Status: ds160StatusText,
+        filename: pdfData.filename,
+        pdfBase64: pdfData.base64,
+        serviceType: 'usa',
       });
 
-      let data: any = null;
-      let rawText = '';
-      try {
-        rawText = await response.text();
-        data = rawText ? JSON.parse(rawText) : null;
-      } catch (parseErr) {
-        console.warn('[USA Portal] Server returned non-JSON payload:', response.status, rawText);
-      }
-
-      if (response.ok && data?.success) {
+      if (result.success) {
         setEmailSendingStatus('sent');
         setEmailErrorMessage('');
       } else {
-        const errorMsg =
-          data?.error ||
-          (rawText && rawText.length < 200 ? rawText : `Server responded with HTTP ${response.status} (${response.statusText || 'Error'})`);
-        console.warn('[USA Portal] Background email dispatch rejected:', errorMsg);
+        const errorMsg = result.error || 'Email dispatch failed. Please try again.';
+        console.warn('[USA Portal] Email dispatch failed:', errorMsg);
         setEmailSendingStatus('failed');
         setEmailErrorMessage(errorMsg);
       }
     } catch (err: any) {
-      const errorMsg = err?.message || 'Network error occurred while connecting to the email server.';
+      const errorMsg = err?.message || 'Network error occurred while connecting to the email service.';
       console.error('[USA Portal] Error dispatching summary email:', err);
       setEmailSendingStatus('failed');
       setEmailErrorMessage(errorMsg);

@@ -1,0 +1,9 @@
+name = "aspire-travels-email-worker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+SUPPORT_EMAIL = "support@aspiretravels.in"
+FROM_EMAIL = "support@aspiretravels.in"
+
+# Set your secret via: wrangler secret put RESEND_API_KEY

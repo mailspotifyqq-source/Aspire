@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { CanadaPortalState } from '../types';
 import { generateCanadaVisaSummaryPDF, GeneratedCanadaPdfResult } from '../utils/canadaPdfGenerator';
+import { sendVisaSummaryEmail } from '../utils/emailService';
 import { WHATSAPP_NUMBER, CONTACT_PHONE_RAW } from '../config/contact';
 
 interface CanadaVisaPortalProps {
@@ -253,54 +254,37 @@ export function CanadaVisaPortal({
     return Object.keys(errs).length === 0;
   };
 
-  // Background email dispatch to support@aspiretravels.in via Resend
+  // Background email dispatch to support@aspiretravels.in via Cloudflare Worker -> Resend
   const dispatchSummaryEmail = async (pdfData: GeneratedCanadaPdfResult) => {
     setEmailSendingStatus('sending');
     setEmailErrorMessage('');
     try {
-      const response = await fetch('/api/send-canada-visa-summary', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          applicantName: formState.fullName || 'Applicant',
-          email: formState.email || '',
-          phone: `${formState.countryCode || '+91'} ${formState.mobileNumber || ''}`.trim(),
-          city: formState.city || '',
-          state: formState.state || '',
-          country: formState.country || 'India',
-          applicantsCount: formState.applicantsCount || 1,
-          intendedTravelPeriod: formState.intendedTravelPeriod || 'Next 3 to 6 Months',
-          visaCategory: formState.visaService,
-          travelPurpose: formState.travelPurpose,
-          biometricsStatus: formState.biometricsStatus,
-          travelHistory: formState.travelHistory,
-          employmentStatus: formState.employmentStatus,
-          fundsReadiness: formState.fundsReadiness,
-          filename: pdfData.filename,
-          pdfBase64: pdfData.base64,
-        }),
+      const result = await sendVisaSummaryEmail({
+        applicantName: formState.fullName || 'Applicant',
+        email: formState.email || '',
+        phone: `${formState.countryCode || '+91'} ${formState.mobileNumber || ''}`.trim(),
+        city: formState.city || '',
+        state: formState.state || '',
+        country: formState.country || 'India',
+        applicantsCount: formState.applicantsCount || 1,
+        intendedTravelPeriod: formState.intendedTravelPeriod || 'Next 3 to 6 Months',
+        visaCategory: formState.visaService,
+        travelPurpose: formState.travelPurpose,
+        biometricsStatus: formState.biometricsStatus,
+        travelHistory: formState.travelHistory,
+        employmentStatus: formState.employmentStatus,
+        fundsReadiness: formState.fundsReadiness,
+        filename: pdfData.filename,
+        pdfBase64: pdfData.base64,
+        serviceType: 'canada',
       });
 
-      let data: any = null;
-      let rawText = '';
-      try {
-        rawText = await response.text();
-        data = rawText ? JSON.parse(rawText) : null;
-      } catch (parseErr) {
-        console.warn('[Canada Portal] Server returned non-JSON payload:', response.status, rawText);
-      }
-
-      if (response.ok && data?.success) {
+      if (result.success) {
         setEmailSendingStatus('sent');
         setEmailErrorMessage('');
       } else {
-        const errorMsg =
-          data?.error ||
-          (rawText && rawText.length < 200 ? rawText : `Server responded with HTTP ${response.status} (${response.statusText || 'Error'})`);
-        console.warn('[Canada Portal] Background email dispatch error:', errorMsg);
+        const errorMsg = result.error || 'Email dispatch failed. Please try again.';
+        console.warn('[Canada Portal] Email dispatch failed:', errorMsg);
         setEmailSendingStatus('failed');
         setEmailErrorMessage(errorMsg);
       }
