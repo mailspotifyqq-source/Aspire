@@ -76,14 +76,18 @@ const COUNTRY_CODES = [
   { code: '+971', country: 'UAE', flag: '🇦🇪' }
 ];
 
-// Curated iconic USA landmarks for full-page live rotating background
+// Curated iconic USA landmarks & high-grade NYC street visuals for full-page live rotating background
 const USA_LANDMARKS = [
   {
-    name: 'Statue of Liberty, New York',
+    name: 'NYC Fifth Avenue & Midtown Street',
+    url: 'https://images.unsplash.com/photo-1518391846015-55a9cc003b25?auto=format&fit=crop&w=2000&q=85'
+  },
+  {
+    name: 'Statue of Liberty, New York Harbor',
     url: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=2000&q=85'
   },
   {
-    name: 'New York City Skyline',
+    name: 'New York City Manhattan Skyline',
     url: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=85'
   },
   {
@@ -91,20 +95,16 @@ const USA_LANDMARKS = [
     url: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=2000&q=85'
   },
   {
-    name: 'Grand Canyon, Arizona',
-    url: 'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=2000&q=85'
-  },
-  {
     name: 'U.S. Capitol & Washington Monument',
     url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=2000&q=85'
   },
   {
-    name: 'Times Square, New York',
-    url: 'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=2000&q=85'
+    name: 'Grand Canyon National Park, Arizona',
+    url: 'https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=2000&q=85'
   },
   {
-    name: 'Lincoln Memorial, Washington D.C.',
-    url: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=2000&q=85'
+    name: 'Times Square & Broadway Avenue, NYC',
+    url: 'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=2000&q=85'
   }
 ];
 
@@ -152,7 +152,7 @@ Instead, we commit to timelines we know we can deliver:
   {
     id: 4,
     question: 'Where are you located?',
-    answer: `Our office is based in Mumbai at 247 Embassy Park, 13th Floor, Vikhroli.
+    answer: `Our office is based at P1004 Jaipuria Sunrise Greens, Indrapuram Ahinsa Khand One 201014.
 
 📍 We serve customers all over India and book appointments for all US consular locations nationwide.`
   },
@@ -420,16 +420,16 @@ Please assist me with consular appointment scheduling and documentation.`;
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#0a0f1d] text-[#1e293b] flex flex-col font-sans">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#0c1e3d] text-[#1e293b] flex flex-col font-sans">
       {/* ========================================================================= */}
-      {/* FULL-PAGE LIVE ROTATING USA LANDMARK BACKGROUND (BEHIND ENTIRE PORTAL) */}
+      {/* FULL-PAGE LIVE ROTATING USA LANDMARK BACKGROUND (LIGHT BLUE & HIGH VISIBILITY) */}
       {/* ========================================================================= */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         {USA_LANDMARKS.map((landmark, idx) => (
           <div
             key={landmark.name}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              idx === currentLandmarkIndex ? 'opacity-35' : 'opacity-0'
+              idx === currentLandmarkIndex ? 'opacity-85' : 'opacity-0'
             }`}
           >
             <img
@@ -437,20 +437,34 @@ Please assist me with consular appointment scheduling and documentation.`;
               alt={landmark.name}
               className="w-full h-full object-cover object-center scale-105 transform motion-safe:transition-transform motion-safe:duration-[10000ms]"
               style={{
-                transform: idx === currentLandmarkIndex ? 'scale(1.08)' : 'scale(1.0)'
+                transform: idx === currentLandmarkIndex ? 'scale(1.06)' : 'scale(1.0)'
               }}
             />
           </div>
         ))}
 
-        {/* Global Dark Navy & Warm Gold Atmospheric Overlays for Maximum Contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f1d]/90 via-[#0f172a]/80 to-[#0a0f1d]/95" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950/40 via-transparent to-black/60" />
+        {/* Crisp Light-Blue & Sapphire Sky Atmospheric Overlays for High Monument Visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b2545]/60 via-[#134074]/40 to-[#0b2545]/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400/25 via-blue-900/20 to-[#071326]/50" />
 
-        {/* Subtle Landmark Name Indicator in Bottom Left */}
-        <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] text-slate-300 font-mono">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#fbbf24] animate-pulse" />
-          <span>{USA_LANDMARKS[currentLandmarkIndex].name}</span>
+        {/* Subtle Landmark Name & Slideshow Progress Indicator in Bottom Left */}
+        <div className="absolute bottom-5 left-5 z-10 hidden sm:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-950/60 backdrop-blur-md border border-white/20 text-xs text-white font-medium shadow-lg pointer-events-auto">
+          <span className="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse" />
+          <span className="font-semibold text-sky-200">{USA_LANDMARKS[currentLandmarkIndex].name}</span>
+          <span className="text-white/40">•</span>
+          <div className="flex items-center gap-1">
+            {USA_LANDMARKS.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setCurrentLandmarkIndex(i)}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === currentLandmarkIndex ? 'w-4 bg-[#38bdf8]' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                }`}
+                aria-label={`View ${USA_LANDMARKS[i].name}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -608,7 +622,7 @@ Please assist me with consular appointment scheduling and documentation.`;
         {/* DYNAMIC STEP WIZARD PANELS (ELEGANT GLASS / BLURRED CARDS) */}
         {/* ========================================================================= */}
         <div className="w-full max-w-4xl px-4 sm:px-6 z-20">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 p-5 sm:p-8 md:p-10 text-[#1e293b]">
+          <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/60 p-5 sm:p-8 md:p-10 text-[#1e293b] ring-1 ring-black/5">
             {/* STEP 1: SELECT YOUR VISA SERVICE (EXACTLY 4 OPTIONS) */}
             {currentStep === 'service' && (
               <motion.div
