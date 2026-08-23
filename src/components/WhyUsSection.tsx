@@ -1,12 +1,7 @@
-import { ShieldCheck, Scale, Cpu, FileCheck, CheckCircle2, Users } from 'lucide-react';
+import { ShieldCheck, Cpu, FileCheck, CheckCircle2, Users } from 'lucide-react';
 
 export function WhyUsSection() {
   const pillars = [
-    {
-      icon: Scale,
-      title: 'Licensed Immigration Counsel',
-      desc: 'Our petitions are drafted and reviewed by accredited attorneys and registered migration agents with in-depth knowledge of USCIS, UK Visas & Immigration, and European consular jurisprudence.'
-    },
     {
       icon: FileCheck,
       title: 'Tri-Tier Document Audit',
@@ -41,7 +36,7 @@ export function WhyUsSection() {
         </div>
 
         {/* Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {pillars.map((p, idx) => {
             const Icon = p.icon;
             return (
@@ -79,7 +74,7 @@ export function WhyUsSection() {
               We Guarantee 100% Pre-Filing Compliance
             </h3>
             <p className="text-xs sm:text-sm text-[#d4c4a8] leading-relaxed font-light max-w-2xl">
-              An incomplete itinerary or ambiguous employer certificate can lead to needless delays or formal refusals. Our legal auditors scrutinize every line of your submission package to ensure airtight conformity with consular requirements.
+              An incomplete itinerary or ambiguous employer certificate can lead to needless delays or formal refusals. Our compliance auditors scrutinize every line of your submission package to ensure airtight conformity with consular requirements.
             </p>
           </div>
           <div className="md:col-span-4 flex flex-col items-center md:items-end justify-center">

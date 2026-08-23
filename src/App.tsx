@@ -15,6 +15,8 @@ import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { AirplaneFlyby } from './components/AirplaneFlyby';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
+import { DestinationSelectorModal } from './components/DestinationSelectorModal';
+import { UsaVisaPortal } from './components/UsaVisaPortal';
 import { VisaAssessmentModal } from './components/VisaAssessmentModal';
 import { ExpertConsultationModal } from './components/ExpertConsultationModal';
 import { ServiceDetailModal } from './components/ServiceDetailModal';
@@ -26,6 +28,10 @@ export default function App() {
   const [selectedDestinationId, setSelectedDestinationId] = useState<string>('usa');
 
   // Modals state
+  const [destinationSelectorOpen, setDestinationSelectorOpen] = useState(false);
+  const [usaPortalOpen, setUsaPortalOpen] = useState(false);
+  const [usaPortalInitialService, setUsaPortalInitialService] = useState<string | undefined>();
+
   const [assessmentModalOpen, setAssessmentModalOpen] = useState(false);
   const [assessmentPrefillDestination, setAssessmentPrefillDestination] = useState<string | undefined>();
   const [assessmentPrefillCategory, setAssessmentPrefillCategory] = useState<string | undefined>();
@@ -64,10 +70,31 @@ export default function App() {
     }
   };
 
+  // Main entry point for "Start Your Visa Journey" and assessment triggers
   const handleStartAssessment = (destinationId?: string, category?: string) => {
-    setAssessmentPrefillDestination(destinationId);
-    setAssessmentPrefillCategory(category);
-    setAssessmentModalOpen(true);
+    if (destinationId === 'usa') {
+      setUsaPortalInitialService(category);
+      setUsaPortalOpen(true);
+    } else if (destinationId) {
+      setAssessmentPrefillDestination(destinationId);
+      setAssessmentPrefillCategory(category || 'Tourist & Business Visa');
+      setAssessmentModalOpen(true);
+    } else {
+      // Step 1: Open Destination Selector first
+      setDestinationSelectorOpen(true);
+    }
+  };
+
+  const handleDestinationSelected = (destId: string) => {
+    setDestinationSelectorOpen(false);
+    if (destId === 'usa') {
+      setUsaPortalInitialService(undefined);
+      setUsaPortalOpen(true);
+    } else {
+      setAssessmentPrefillDestination(destId);
+      setAssessmentPrefillCategory('Tourist & Business Visa');
+      setAssessmentModalOpen(true);
+    }
   };
 
   return (
@@ -105,7 +132,7 @@ export default function App() {
         {/* Visa Services with Document Checklists */}
         <VisaServicesSection
           onSelectService={(srv) => setSelectedServiceForDetail(srv)}
-          onOpenAssessment={(cat) => handleStartAssessment(undefined, cat)}
+          onOpenAssessment={(cat) => handleStartAssessment('usa', cat)}
         />
 
         {/* Why Us / Legal Accreditation & Pre-Screen Guarantee */}
@@ -131,7 +158,25 @@ export default function App() {
       {/* WhatsApp Chat Floating Desk */}
       <WhatsAppWidget />
 
-      {/* 4-Step Interactive Visa Assessment Journey */}
+      {/* Step 1: Destination Selector Modal */}
+      <DestinationSelectorModal
+        isOpen={destinationSelectorOpen}
+        onClose={() => setDestinationSelectorOpen(false)}
+        onSelectDestination={handleDestinationSelected}
+      />
+
+      {/* Dedicated Full-Screen USA Visa Portal */}
+      <UsaVisaPortal
+        isOpen={usaPortalOpen}
+        onClose={() => setUsaPortalOpen(false)}
+        onBookExpert={() => {
+          setUsaPortalOpen(false);
+          setConsultationModalOpen(true);
+        }}
+        initialService={usaPortalInitialService}
+      />
+
+      {/* Non-USA 4-Step Interactive Visa Assessment Journey */}
       <VisaAssessmentModal
         isOpen={assessmentModalOpen}
         onClose={() => setAssessmentModalOpen(false)}
@@ -155,7 +200,7 @@ export default function App() {
         onClose={() => setSelectedServiceForDetail(null)}
         onApply={(category) => {
           setSelectedServiceForDetail(null);
-          handleStartAssessment(undefined, category);
+          handleStartAssessment('usa', category);
         }}
       />
 

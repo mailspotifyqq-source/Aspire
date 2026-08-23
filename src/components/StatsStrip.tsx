@@ -21,7 +21,7 @@ const STATS_DATA: StatItem[] = [
     labelBottom: "Destinations",
   },
   {
-    value: "15+",
+    value: "5+",
     labelTop: "Years Of",
     labelBottom: "Excellence",
   },

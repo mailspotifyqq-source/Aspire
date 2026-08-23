@@ -15,12 +15,14 @@ export const DESTINATIONS: Destination[] = [
     name: 'USA',
     flag: '🇺🇸',
     code: 'US',
+    landmarkName: 'Statue of Liberty',
+    landmarkImage: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=800&q=80',
     category: 'Work & Study',
     tagline: 'Global Hub for Innovation, Higher Education & Enterprise',
     description: 'From B1/B2 tourism and F-1 student visas to H-1B, L-1 intracompany transfers, and O-1 extraordinary ability petitions, our US immigration specialists guide your petition through USCIS and consular processing.',
     lat: 37.0902,
     lon: -95.7129,
-    popularVisas: ['B1/B2 Visitor Visa', 'F-1 Student Visa', 'H-1B Specialty Occupation', 'O-1 Extraordinary Ability', 'L-1 Intra-Company Transfer'],
+    popularVisas: ['B1/B2 Visitor Visa', 'F1/F2 Visa Appointments', 'H1B/H4 Visa Appointments', 'L1/L2 Visa Appointments'],
     averageProcessingTime: '3 – 8 Weeks (Interview Wait times vary)',
     successRate: '98.6%',
     financialProof: '$5,000 – $25,000 depending on category',
@@ -37,6 +39,8 @@ export const DESTINATIONS: Destination[] = [
     name: 'Canada',
     flag: '🇨🇦',
     code: 'CA',
+    landmarkName: 'CN Tower',
+    landmarkImage: 'https://images.unsplash.com/photo-1517935703635-2717090c2226?auto=format&fit=crop&w=800&q=80',
     category: 'Immigration & Study',
     tagline: 'World-Class Education, Express Entry PR & Global Talent Stream',
     description: 'Specialized visa guidance for Canada Visitor Visas (TRV), Study Permits with PGWP work pathways, LMIA Work Permits, and Express Entry (FSW/CEC) permanent residency.',
@@ -59,6 +63,8 @@ export const DESTINATIONS: Destination[] = [
     name: 'Europe (Schengen)',
     flag: '🇪🇺',
     code: 'EU',
+    landmarkName: 'Eiffel Tower',
+    landmarkImage: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=800&q=80',
     category: 'Schengen & Work',
     tagline: '29 Countries, One Seamless Visa for Travel, Culture & Business',
     description: 'Explore the Schengen Zone with single or multi-entry tourist visas, national long-stay D-visas, the EU Blue Card for skilled experts, and European Golden Visa residency programs.',
@@ -81,6 +87,8 @@ export const DESTINATIONS: Destination[] = [
     name: 'United Kingdom',
     flag: '🇬🇧',
     code: 'GB',
+    landmarkName: 'Big Ben',
+    landmarkImage: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80',
     category: 'Work & Tourism',
     tagline: 'Global Financial Hub, Prestigious Universities & Skilled Worker Visas',
     description: 'Comprehensive visa filing for UK Standard Visitor (6-month & 2/5/10-year multi-entry), Student Route (CAS), Skilled Worker Visa (CoS), and Global Talent endorsement.',
@@ -103,6 +111,8 @@ export const DESTINATIONS: Destination[] = [
     name: 'Singapore',
     flag: '🇸🇬',
     code: 'SG',
+    landmarkName: 'Marina Bay Sands',
+    landmarkImage: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80',
     category: 'Business & Tech',
     tagline: 'Asia’s Financial Capital & Premier Gateway for Tech Talent',
     description: 'Singapore attracts elite professionals and founders with the Employment Pass (COMPASS framework), Tech.Pass, ONE Pass (Overseas Networks & Expertise), and seamless business visit passes.',
@@ -125,6 +135,8 @@ export const DESTINATIONS: Destination[] = [
     name: 'Australia',
     flag: '🇦🇺',
     code: 'AU',
+    landmarkName: 'Sydney Opera House',
+    landmarkImage: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80',
     category: 'Skilled & Family',
     tagline: 'High Standard of Living, World-Class Universities & Points-Based PR',
     description: 'Australia offers lucrative skilled migration pathways (Subclass 189, 190, 491), visitor visas (Subclass 600), and top-tier university study permits (Subclass 500) with generous post-study work rights.',
@@ -144,9 +156,11 @@ export const DESTINATIONS: Destination[] = [
   },
   {
     id: 'asia',
-    name: 'Asia (Japan & East Asia)',
+    name: 'Asia',
     flag: '🇯🇵',
     code: 'JP',
+    landmarkName: 'Mount Fuji',
+    landmarkImage: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80',
     category: 'Tourism & Work',
     tagline: 'Vibrant Economies, Ancient Traditions & High-Tech Opportunities',
     description: 'Comprehensive visa processing for Japan, South Korea, UAE, and East Asian powerhouses. Specializing in tourist eVisa, Highly Skilled Professional (HSP) visas, and business delegate entry.',
@@ -168,57 +182,76 @@ export const DESTINATIONS: Destination[] = [
 
 export const VISA_SERVICES: VisaService[] = [
   {
-    id: 'tourist',
-    category: 'Leisure',
-    title: 'Tourist & Business Visas',
-    shortDesc: 'Smooth leisure, family, and business travel support across key destinations.',
-    fullDesc: 'Whether you are planning a European holiday, a US family reunion, or an international business visit, we prepare the required documentation for your visa journey.',
+    id: 'b1-b2',
+    category: 'Visitor',
+    title: 'B1/B2 Visitor Visa',
+    shortDesc: 'Tourism, family visits, business travel, and expedited appointment scheduling.',
+    fullDesc: 'End-to-end guidance, DS-160 document audit, and consular appointment scheduling for US visitor, tourism, and business travel.',
     processingTime: '5 to 20 Business Days',
-    validity: 'Up to 10 Years (Country dependent)',
+    validity: 'Up to 10 Years',
     estimatedFee: '$185',
     requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
       'Sufficient verifiable funds for duration of travel',
       'Strong socio-economic ties to home country',
       'No prior immigration violations or active bans',
-      'Clear criminal record'
+      'Clear criminal background'
     ],
-    popularDestinations: ['USA (B1/B2)', 'Schengen (Europe)', 'UK Standard Visitor', 'Australia (Subclass 600)', 'Japan eVisa']
+    popularDestinations: ['USA (B1/B2)']
   },
   {
-    id: 'work',
+    id: 'f1-f2',
+    category: 'Student',
+    title: 'F1/F2 Visa Appointments',
+    shortDesc: 'Priority student and dependent appointment booking, SEVIS/I-20 verification, and mock interviews.',
+    fullDesc: 'Dedicated consular scheduling for academic scholars (F-1) and dependents (F-2), with Form I-20 compliance review and personalized consular interview coaching.',
+    processingTime: '2 to 6 Weeks',
+    validity: 'Duration of Status (D/S)',
+    estimatedFee: '$185',
+    requiredDocuments: PRIMARY_DOCUMENTS,
+    eligibilityPoints: [
+      'Valid Form I-20 issued by SEVP-certified institution',
+      'Proof of SEVIS I-901 fee payment',
+      'Verifiable liquid funding for tuition and living expenses',
+      'Intent to depart the U.S. upon completion of studies'
+    ],
+    popularDestinations: ['USA (F-1 / F-2)']
+  },
+  {
+    id: 'h1b-h4',
+    category: 'Employment',
+    title: 'H1B/H4 Visa Appointments',
+    shortDesc: 'Fast-track consular interview booking and Form I-797 review for specialty professionals and families.',
+    fullDesc: 'Consular interview scheduling and document verification for approved Form I-797 petition holders (H-1B) and dependent spouses/children (H-4).',
+    processingTime: '3 to 8 Weeks',
+    validity: 'Up to 3 Years (Renewable)',
+    estimatedFee: '$205',
+    requiredDocuments: PRIMARY_DOCUMENTS,
+    eligibilityPoints: [
+      'Approved USCIS Form I-797 Notice of Action',
+      'Valid employer sponsorship documentation',
+      'Academic credentials matching job requirements',
+      'Clean immigration and background record'
+    ],
+    popularDestinations: ['USA (H-1B / H-4)']
+  },
+  {
+    id: 'l1-l2',
     category: 'Corporate',
-    title: 'Work Visa & Intra-Company Transfers',
-    shortDesc: 'Work authorizations, skilled migration, and talent mobility for top professionals.',
-    fullDesc: 'We assist tech professionals, executives, healthcare specialists, and corporate employers navigate sponsorship petitions, Labor Condition Applications, skills assessments, and consular interviews.',
-    processingTime: '3 to 12 Weeks',
+    title: 'L1/L2 Visa Appointments',
+    shortDesc: 'Intra-company managerial and executive transfer appointments and dependent processing.',
+    fullDesc: 'Priority appointment scheduling for intracompany transferees (L-1A managers/executives, L-1B specialized knowledge) and dependents (L-2), supporting blanket and individual petitions.',
+    processingTime: '3 to 8 Weeks',
     validity: '1 to 5 Years (Renewable)',
-    estimatedFee: '',
+    estimatedFee: '$205',
     requiredDocuments: PRIMARY_DOCUMENTS,
     eligibilityPoints: [
-      'Recognized qualification matching the occupation code',
-      'Salary meeting statutory minimum prevailing wage',
-      'Employer is licensed and accredited sponsor',
-      'Language proficiency scores where mandated'
+      'Approved Form I-797 or Blanket L Petition (Form I-129S)',
+      'Continuous employment with qualifying overseas entity for at least 1 year',
+      'Executive, managerial, or specialized knowledge capacity',
+      'Valid corporate sponsorship documentation'
     ],
-    popularDestinations: ['US H-1B / L-1', 'Australia TSS 482', 'Singapore Employment Pass', 'Germany EU Blue Card', 'UK Skilled Worker']
-  },
-  {
-    id: 'student',
-    category: 'Education',
-    title: 'Student Visa & Higher Education',
-    shortDesc: 'Guiding aspiring scholars to world-renowned universities and colleges.',
-    fullDesc: 'Comprehensive end-to-end guidance from university offer acceptance, scholarship verification, financial sponsorship documentation, to mock visa interview drills.',
-    processingTime: '2 to 8 Weeks',
-    validity: 'Duration of Academic Course + Post-Study Work Period',
-    estimatedFee: '',
-    requiredDocuments: PRIMARY_DOCUMENTS,
-    eligibilityPoints: [
-      'Unconditional admission into registered institution',
-      'Liquid financial capability to cover tuition and living costs',
-      'Genuine intent to pursue education and maintain student status'
-    ],
-    popularDestinations: ['USA (F-1)', 'UK Student Visa', 'Australia (Subclass 500)', 'Canada Study Permit', 'Germany Student National Visa']
+    popularDestinations: ['USA (L-1 / L-2)']
   }
 ];
 export const CUSTOMER_REVIEWS: CustomerReview[] = [

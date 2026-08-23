@@ -18,13 +18,13 @@ export function VisaServicesSection({
         <div className="mb-16 text-center">
           <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Comprehensive Immigration Solutions</span>
+            <span>Consular Solutions & Expedited Appointments</span>
           </div>
           <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#2d2d2d] mb-4 italic font-light">
-            Visa Services
+            USA Visa Services
           </h2>
           <p className="font-sans text-base text-[#4a3c31]/80 font-light max-w-xl mx-auto">
-            Bespoke legal advisory and end-to-end document preparation tailored to your unique international objectives.
+            Comprehensive guidance, documentation audit, and priority appointment scheduling for your US consular journey.
           </p>
         </div>
 
