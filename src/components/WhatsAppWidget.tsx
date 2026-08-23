@@ -1,94 +1,159 @@
-import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
-import { WHATSAPP_URL } from '../config/contact';
-
-const POPUP_DISMISSED_KEY = 'aspire-whatsapp-popup-dismissed';
+import { useState } from 'react';
+import { X, Phone, MessageCircle } from 'lucide-react';
+import {
+  WHATSAPP_URL,
+  CONTACT_PHONE_HREF,
+  CONTACT_PHONE_DISPLAY,
+} from '../config/contact';
 
 export function WhatsAppWidget() {
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (sessionStorage.getItem(POPUP_DISMISSED_KEY) === 'true') {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setIsOpen(true);
-    }, 2000);
-
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  const handleContinue = () => {
+  const handleWhatsAppRedirect = () => {
     window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
-    setIsOpen(false);
   };
 
-  const handleClose = () => {
-    sessionStorage.setItem(POPUP_DISMISSED_KEY, 'true');
-    setIsOpen(false);
+  const handleCall = () => {
+    window.location.href = CONTACT_PHONE_HREF;
   };
 
   return (
-    <div className="fixed right-4 sm:right-6 bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end">
+    <aside
+      aria-label="Contact and Support Options"
+      className="fixed right-4 sm:right-6 bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3"
+    >
+      {/* Interactive Contact Popover (Only shows when user explicitly opens it) */}
       {isOpen && (
-        <div className="mb-3 w-[min(21rem,calc(100vw-2rem))] overflow-hidden rounded-sm border border-[#2d2d2d]/15 bg-[#fffdd0] shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-3 duration-300">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Quick Connect Desk"
+          className="mb-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-md border border-[#2d2d2d]/15 bg-[#fffdd0] shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-3 duration-200"
+        >
+          {/* Header */}
           <div className="bg-[#2d2d2d] px-4 py-3 text-[#fffdd0]">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex min-w-0 items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#b8860b]/50 bg-[#fffdd0] text-[#2d2d2d]">
-                  <span className="font-serif text-sm font-bold">AT</span>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#b8860b]/50 bg-[#fffdd0] text-[#2d2d2d]">
+                  <span className="font-serif text-xs font-bold text-[#b8860b]">AT</span>
                 </div>
-                <div className="min-w-0">
-                  <h4 className="font-serif text-base font-semibold leading-tight">Aspire Travels</h4>
-                  <p className="mt-0.5 text-[11px] text-[#fffdd0]/75">Typically replies within minutes</p>
+                <div>
+                  <h4 className="font-serif text-sm font-semibold leading-tight text-[#fffdd0]">
+                    Aspire Travels Desk
+                  </h4>
+                  <p className="text-[11px] text-[#fffdd0]/70">Direct Visa Consultation</p>
                 </div>
               </div>
               <button
                 type="button"
-                aria-label="Close WhatsApp chat"
-                onClick={handleClose}
-                className="rounded-full p-1 text-[#fffdd0]/70 transition-colors hover:bg-white/10 hover:text-[#fffdd0]"
+                aria-label="Close contact window"
+                onClick={() => setIsOpen(false)}
+                className="rounded-full p-1.5 text-[#fffdd0]/70 transition-colors hover:bg-white/10 hover:text-[#fffdd0]"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
           </div>
 
-          <div className="space-y-3 px-4 py-4">
-            <div className="ml-1 max-w-[92%] rounded-sm border border-[#2d2d2d]/10 bg-[#f5f5dc] px-3 py-2.5 shadow-sm">
-              <p className="text-sm leading-relaxed text-[#2d2d2d]">
-                {'\u{1F44B}'} Hi! Planning your visa journey?
+          {/* Quick contact actions */}
+          <div className="space-y-2.5 p-4">
+            <div className="rounded border border-[#2d2d2d]/10 bg-[#f5f5dc] p-3 text-xs leading-relaxed text-[#2d2d2d]">
+              <p className="font-medium text-[#2d2d2d]">
+                Have visa questions or need application guidance?
               </p>
-            </div>
-            <div className="ml-1 max-w-[92%] rounded-sm border border-[#2d2d2d]/10 bg-[#f5f5dc] px-3 py-2.5 shadow-sm">
-              <p className="text-sm leading-relaxed text-[#2d2d2d]">
-                Need help choosing the right visa or getting started? We're happy to help.
+              <p className="mt-1 text-[#2d2d2d]/75">
+                Reach out directly via WhatsApp or phone call for immediate assistance.
               </p>
             </div>
 
+            {/* WhatsApp option */}
             <button
               type="button"
-              onClick={handleContinue}
-              className="mt-1 flex w-full items-center justify-center gap-2 rounded-sm bg-[#25D366] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-[#25D366]/20 transition-all duration-300 hover:bg-[#1ebe5d] hover:shadow-xl active:scale-[0.98]"
+              id="whatsapp-popover-btn"
+              onClick={handleWhatsAppRedirect}
+              className="flex w-full items-center justify-between rounded bg-[#25D366] px-4 py-3 text-sm font-semibold text-white shadow-md shadow-[#25D366]/20 transition-all hover:bg-[#1ebe5d] active:scale-[0.99]"
             >
-              <WhatsAppIcon className="h-4 w-4" />
-              <span>Continue on WhatsApp</span>
+              <div className="flex items-center gap-2.5">
+                <WhatsAppIcon className="h-5 w-5 fill-current shrink-0" />
+                <span>Chat on WhatsApp</span>
+              </div>
+              <span className="text-[11px] font-normal opacity-90">Instant Reply</span>
             </button>
+
+            {/* Phone Call option */}
+            <a
+              id="call-popover-btn"
+              href={CONTACT_PHONE_HREF}
+              className="flex w-full items-center justify-between rounded border border-[#2d2d2d]/20 bg-[#2d2d2d] px-4 py-3 text-sm font-semibold text-[#fffdd0] shadow-md transition-all hover:bg-[#1f1f1f] active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-2.5">
+                <Phone className="h-4 w-4 text-[#b8860b] shrink-0" />
+                <span>Call Visa Expert</span>
+              </div>
+              <span className="text-xs font-mono text-[#b8860b]">{CONTACT_PHONE_DISPLAY}</span>
+            </a>
           </div>
         </div>
       )}
 
-      <button
-        id="whatsapp-floating-btn"
-        type="button"
-        aria-label="Open WhatsApp enquiry"
-        onClick={() => setIsOpen((open) => !open)}
-        className="flex h-13 w-13 items-center justify-center rounded-full border border-white/70 bg-[#25D366] text-white shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:bg-[#1ebe5d] active:scale-95 sm:h-14 sm:w-14"
-      >
-        <WhatsAppIcon className="h-7 w-7" />
-      </button>
-    </div>
+      {/* Floating Action Buttons at Corner */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Direct Call Button */}
+        <a
+          id="floating-call-btn"
+          href={CONTACT_PHONE_HREF}
+          aria-label={`Call Aspire Travels at ${CONTACT_PHONE_DISPLAY}`}
+          title={`Call Us: ${CONTACT_PHONE_DISPLAY}`}
+          className="group relative flex h-12 w-12 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-[#b8860b]/40 bg-[#2d2d2d] text-[#fffdd0] shadow-xl transition-all duration-300 hover:scale-105 hover:bg-[#1f1f1f] hover:border-[#b8860b] active:scale-95"
+        >
+          <Phone className="h-5 w-5 text-[#b8860b] transition-transform group-hover:scale-110" />
+          
+          {/* Desktop Hover Tooltip */}
+          <span className="pointer-events-none absolute right-full mr-2.5 hidden rounded bg-[#2d2d2d] px-2.5 py-1 text-[11px] font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-lg transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
+            Call {CONTACT_PHONE_DISPLAY}
+          </span>
+        </a>
+
+        {/* WhatsApp Direct Redirect / Action Button */}
+        <button
+          id="floating-whatsapp-btn"
+          type="button"
+          aria-label="Chat on WhatsApp"
+          title="Open WhatsApp Chat"
+          onClick={() => {
+            // Toggles dialog or directly redirects to WhatsApp
+            handleWhatsAppRedirect();
+          }}
+          className="group relative flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white/80 bg-[#25D366] text-white shadow-xl shadow-black/25 transition-all duration-300 hover:scale-105 hover:bg-[#1ebe5d] active:scale-95"
+        >
+          <WhatsAppIcon className="h-7 w-7 transition-transform group-hover:scale-110" />
+
+          {/* Desktop Hover Tooltip */}
+          <span className="pointer-events-none absolute right-full mr-2.5 hidden rounded bg-[#2d2d2d] px-2.5 py-1 text-[11px] font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-lg transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
+            Chat on WhatsApp
+          </span>
+        </button>
+
+        {/* Quick Help Menu Button */}
+        <button
+          id="floating-contact-menu-toggle"
+          type="button"
+          aria-label={isOpen ? "Close contact options" : "More contact options"}
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((prev) => !prev)}
+          className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#2d2d2d]/20 bg-[#fffdd0] text-[#2d2d2d] shadow-md transition-all duration-200 hover:bg-[#f5f5dc] hover:scale-105 active:scale-95 ${
+            isOpen ? "rotate-45" : ""
+          }`}
+          title="Contact options"
+        >
+          {isOpen ? (
+            <X className="h-4 w-4" />
+          ) : (
+            <MessageCircle className="h-4 w-4 text-[#b8860b]" />
+          )}
+        </button>
+      </div>
+    </aside>
   );
 }
 
@@ -107,3 +172,4 @@ function WhatsAppIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+

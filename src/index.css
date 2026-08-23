@@ -100,7 +100,30 @@
   .animate-flag-wave,
   .animate-dash-travel,
   .animate-cloud-drift,
-  .animate-cloud-drift-slow {
+  .animate-cloud-drift-slow,
+  .animate-marquee-left-to-right {
     animation: none !important;
   }
 }
+
+/* Stats Strip Marquee Moving Left to Right */
+@keyframes marqueeLeftToRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-left-to-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeLeftToRight 26s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-left-to-right:hover {
+  animation-play-state: paused;
+}
+
