@@ -95,33 +95,23 @@ export interface CanadaPortalState {
 }
 
 export interface SchengenPortalState {
+  visaService: 'Business & Tourist Visa' | 'Visiting Family & Friends' | 'Business & Trade Fair' | 'Cultural & Sports Event';
+  travelPurpose: 'Tourism & Sightseeing' | 'Business Meetings & Conferences' | 'Visiting Family & Relatives' | 'Solo Exploration & Leisure';
   primaryDestination: string;
-  entryCountry: string;
-  visaType: 'Tourist (Type C)' | 'Business & Trade Fair' | 'Visiting Family / Friends' | 'Cultural / Sports Event' | 'Airport Transit';
-  entryType: 'Single Entry' | 'Double Entry' | 'Multiple Entry';
-  travelDurationDays: number;
-  intendedTravelDate: string;
-  biometricVisStatus: 'Biometrics given within last 59 months (Waiver eligible)' | 'Need new VFS biometrics appointment' | 'First-time Schengen applicant';
-  hasPreviousSchengen: 'Yes, in last 3 years' | 'Yes, older than 3 years' | 'No previous Schengen';
-  validOtherVisas: string[];
-  employmentStatus: 'Salaried Professional' | 'Self-Employed / Business Owner' | 'Freelancer / Consultant' | 'Student' | 'Retired' | 'Homemaker';
-  monthlyIncome: string;
-  bankBalance: string;
-  hasItr: 'Yes, last 2-3 years ITR-V filed' | 'Form 16 / Salaried' | 'Not filed / Tax exempt';
-  hasSponsor: 'Self-funded' | 'Fully Sponsored by Employer' | 'Sponsored by Family / Host in Europe';
-  hasTravelInsurance: 'Yes, €30,000+ compliant' | 'Need Aspire assistance with insurance';
+  biometricsStatus: 'Valid VIS Biometrics (Given in last 59 months)' | 'Need New VFS Biometrics Appointment' | 'Unsure / First Time Applicant';
+  travelHistory: 'Previous Schengen or US/UK/Canada Visa' | 'Other International Travel' | 'Fresh Passport / First International Trip';
+  employmentStatus: 'Salaried Professional' | 'Business Owner / Self-Employed' | 'Retired' | 'Student / Freelancer';
+  fundsAvailability: '₹4,00,000 – ₹7,00,000' | '₹7,00,000 – ₹15,00,000' | '₹15,00,000+';
   fullName: string;
-  passportNumber?: string;
   dateOfBirth: string;
   email: string;
   countryCode: string;
   mobileNumber: string;
   city: string;
   state: string;
-  preferredVfsCity: string;
-  adultsCount: number;
-  childrenCount: number;
-  infantsCount: number;
+  country: string;
+  applicantsCount: number;
+  intendedTravelPeriod?: string;
   notes?: string;
 }
 

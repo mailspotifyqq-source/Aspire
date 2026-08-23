@@ -74,18 +74,18 @@ export function generateSchengenVisaSummaryPDF(state: SchengenPortalState): Gene
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10.5);
   doc.setTextColor(royalNavy[0], royalNavy[1], royalNavy[2]);
-  doc.text(`Primary Destination: ${state.primaryDestination} (29 Schengen States)`, 22, y + 8);
+  doc.text(`Primary Destination: ${state.primaryDestination || 'Europe (Schengen Area)'}`, 22, y + 8);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(slateGray[0], slateGray[1], slateGray[2]);
   doc.text(
-    `Visa Category: Short-Stay Schengen (Type C)  |  Entry: ${state.entryType}  |  Port of Entry: ${state.entryCountry}`,
+    `Visa Category: ${state.visaService || 'Business & Tourist Visa'}  |  Trip Purpose: ${state.travelPurpose || 'Tourism & Sightseeing'}`,
     22,
     y + 14
   );
   doc.text(
-    `Target Travel Date: ${state.intendedTravelDate || 'Planned upcoming travel'}  |  Stay: ~${state.travelDurationDays} Days  |  VFS Centre: ${state.preferredVfsCity}`,
+    `Intended Travel Period: ${state.intendedTravelPeriod || 'Upcoming travel'}  |  Total Applicants: ${state.applicantsCount || 1}`,
     22,
     y + 19
   );
@@ -137,16 +137,12 @@ export function generateSchengenVisaSummaryPDF(state: SchengenPortalState): Gene
     '1. APPLICANT INFORMATION & CONTACT DETAILS',
     [
       ['Full Name (As on Passport):', state.fullName || 'Not provided'],
-      ['Passport Number:', state.passportNumber || 'Will provide upon filing'],
       ['Date of Birth:', state.dateOfBirth || 'Not provided'],
       ['Email Address:', state.email || 'Not provided'],
-      ['Mobile / WhatsApp:', `${state.countryCode} ${state.mobileNumber}` || 'Not provided'],
-      ['Residential City & State:', `${state.city || ''}, ${state.state || ''} (India)`],
-      ['Preferred VFS Global Centre:', `${state.preferredVfsCity} Visa Application Centre`],
-      [
-        'Total Applicants:',
-        `${state.adultsCount} Adult(s), ${state.childrenCount} Child(ren) (6-12), ${state.infantsCount} Infant(s) (<6)`,
-      ],
+      ['Mobile / WhatsApp:', `${state.countryCode || '+91'} ${state.mobileNumber || ''}`.trim() || 'Not provided'],
+      ['Residential City & State:', `${state.city || ''}, ${state.state || ''} (${state.country || 'India'})`],
+      ['Total Applicants:', `${state.applicantsCount || 1} Applicant(s)`],
+      ['Intended Travel Period:', state.intendedTravelPeriod || 'Next 3 to 6 Months'],
     ],
     y
   );
@@ -155,12 +151,11 @@ export function generateSchengenVisaSummaryPDF(state: SchengenPortalState): Gene
   y = drawSection(
     '2. SCHENGEN CONSULAR PROFILE & BIOMETRIC VIS STATUS',
     [
-      ['Trip Purpose:', state.visaType],
-      ['Primary Schengen State:', state.primaryDestination],
-      ['First Country of Entry:', state.entryCountry],
-      ['Biometrics (VIS 59 Months):', state.biometricVisStatus],
-      ['Prior Schengen History:', state.hasPreviousSchengen],
-      ['Other Visas Held:', state.validOtherVisas.length > 0 ? state.validOtherVisas.join(', ') : 'None / Fresh Applicant'],
+      ['Primary Schengen State:', state.primaryDestination || 'Europe (Schengen 29 States)'],
+      ['Visa Category:', state.visaService || 'Business & Tourist Visa'],
+      ['Travel Purpose:', state.travelPurpose || 'Tourism & Sightseeing'],
+      ['Biometrics (VIS 59 Months):', state.biometricsStatus || 'Standard VFS Appointment'],
+      ['Prior Travel History:', state.travelHistory || 'Fresh Passport / First International Trip'],
     ],
     y
   );
@@ -169,12 +164,10 @@ export function generateSchengenVisaSummaryPDF(state: SchengenPortalState): Gene
   y = drawSection(
     '3. EMPLOYMENT, FINANCIAL SOLVENCY & TIES',
     [
-      ['Current Employment Status:', state.employmentStatus],
-      ['Monthly Income:', state.monthlyIncome || 'Declared in bank balance'],
-      ['Liquid Bank Balance:', state.bankBalance],
-      ['Income Tax Returns (ITR-V):', state.hasItr],
-      ['Financial Sponsorship:', state.hasSponsor],
-      ['Travel Medical Insurance (€30k):', state.hasTravelInsurance],
+      ['Current Employment Status:', state.employmentStatus || 'Salaried Professional'],
+      ['Funds Availability:', state.fundsAvailability || '₹7,00,000 – ₹15,00,000'],
+      ['Travel Medical Insurance (€30k):', 'Mandatory €30,000 cover across 29 Schengen States (Aspire Assistance Available)'],
+      ['Income Tax Returns (ITR-V):', '2 to 3 years ITR acknowledgement + 6-month original stamped bank statements'],
     ],
     y
   );
