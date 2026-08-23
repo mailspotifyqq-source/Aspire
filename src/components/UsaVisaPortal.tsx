@@ -1549,7 +1549,7 @@ Please assist me with consular appointment scheduling and documentation.`;
                       className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[#b8860b] text-[#8b6508] hover:bg-[#b8860b]/10 text-xs font-bold transition-colors"
                     >
                       <Phone className="w-3.5 h-3.5" />
-                      <span>Book 1-on-1 Consular Video Call</span>
+                      <span>Book 1-on-1 Consular Audio Call</span>
                     </button>
                   )}
                 </div>
