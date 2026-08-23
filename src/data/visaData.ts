@@ -40,7 +40,7 @@ export const DESTINATIONS: Destination[] = [
     flag: '🇨🇦',
     code: 'CA',
     landmarkName: 'CN Tower',
-    landmarkImage: 'https://images.unsplash.com/photo-1517935703635-2717090c2226?auto=format&fit=crop&w=800&q=80',
+    landmarkImage: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80',
     category: 'Immigration & Study',
     tagline: 'World-Class Education, Express Entry PR & Global Talent Stream',
     description: 'Specialized visa guidance for Canada Visitor Visas (TRV), Study Permits with PGWP work pathways, LMIA Work Permits, and Express Entry (FSW/CEC) permanent residency.',

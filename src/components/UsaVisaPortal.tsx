@@ -134,9 +134,7 @@ You can also check the official Global Visa Wait Times published by the U.S. Dep
 • Profile creation: We create or review your profile on the CGI Federal portal.
 • DS-160 review: We carefully review your DS-160 to minimize errors and mismatches.
 • Guidance: We guide you in answering tricky sections to align with your case and improve your chances of success.
-• Interview alignment: The answers in your DS-160 must flow consistently into your interview conversation. We help make sure of that.
-
-This service is included in Option 1 and Option 2.`
+• Interview alignment: The answers in your DS-160 must flow consistently into your interview conversation. We help make sure of that.`
   },
   {
     id: 3,
@@ -167,30 +165,20 @@ Instead, we commit to timelines we know we can deliver:
   {
     id: 6,
     question: 'How many applications do you process?',
-    answer: `We process 1000+ applications every week across India.
+    answer: `We process 100+ clients every week across India.
 
 Our team has years of daily experience handling urgent and regular appointments — you can trust us with the process.`
   },
   {
     id: 7,
-    question: 'I have profile-specific questions and don’t want to pay before clearing doubts.',
-    answer: `Once you check out with ₹999, our concierge will personally assist you.
-
-If you are found ineligible or decide not to proceed within 48 hours of checkout due to any kind of technical ineligibility, we refund your ₹999.
-
-⚠️ Until checkout is done, we cannot provide one-on-one consultations — this helps us prioritize serious applicants.`
-  },
-  {
-    id: 8,
     question: 'Can I request a call back? I don’t trust online websites.',
     answer: `We understand trust is important.
 
-• Aspire Consultant has been covered in multiple media outlets: aspiretravels.com/media-coverage
-• You can also read our verified reviews on Google: Google Reviews
+• You can read our verified reviews on Google: Google Reviews
 • We manage hundreds of bookings daily and are a trusted travel tech company.`
   },
   {
-    id: 9,
+    id: 8,
     question: 'I am a foreign national located outside India and want an appointment at my consulate location.',
     answer: `🌍 Yes, we serve all international locations — not just India. You can check the supported visa categories for which we secure an early appointment in the last question.
 
@@ -199,7 +187,7 @@ For pricing and details of the process:
 • Our team will provide the steps specific to your consular location.`
   },
   {
-    id: 10,
+    id: 9,
     question: 'What documents do you need from me to begin?',
     answer: `There are no documents required upfront. Once you checkout, we send you a secure form to capture your details, which we then use to prepare your DS-160.
 
@@ -213,7 +201,7 @@ For pricing and details of the process:
 📅 On your appointment date, you only need to carry the documents listed in the official consulate checklist.`
   },
   {
-    id: 11,
+    id: 10,
     question: 'I have a rejected/refusal case, help me understand how to proceed',
     answer: `If your application was refused (e.g., administrative refusal or interview refusal), you must book another appointment with the correct DS-160 number.
 
@@ -226,7 +214,7 @@ If your application was rejected (e.g., incorrect documentation or major issue),
 For all other categories (see the last preset question in this list), we only help with securing the appointment slot.`
   },
   {
-    id: 12,
+    id: 11,
     question: 'Do you use bots to find appointments? Will my account face any issues if I share my details with Aspire Consultant?',
     answer: `The entire process we deploy is 100% bot-less.
 
@@ -236,7 +224,7 @@ We do not use any bots, scripts, or automation tools that can lock your account 
 ✅ You can be rest assured that your profile will not face risks from automation`
   },
   {
-    id: 13,
+    id: 12,
     question: 'Other than B1/B2 which categories do you help in getting an early slot?',
     answer: `Other than B1/B2, we also help with below categories:
 • Work Visas (H-1B, L-1, O-1, P, R, etc.)
@@ -785,7 +773,7 @@ Please assist me with consular appointment scheduling and documentation.`;
                       </p>
                       <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-2.5 text-[11px] text-[#64748b]">
                         <span>• Emergency Slot Assistance</span>
-                        <span>• Mock Interviews</span>
+                        <span>• I-20 & SEVIS Verification</span>
                         <span>• Financial Solvency</span>
                       </div>
                     </div>
