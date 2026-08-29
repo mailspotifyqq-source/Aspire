@@ -435,49 +435,37 @@ Allow: /
 Sitemap: https://aspiretravels.in/sitemap.xml
 `.trim();
 
-// Explicit SEO routes for sitemap.xml and robots.txt (handles GET & HEAD, production dist, public, or inline)
-app.all(['/sitemap.xml', '/sitemap'], (req, res) => {
+// Explicit SEO routes for sitemap.xml and robots.txt (clean static file serving)
+app.get('/sitemap.xml', (req, res) => {
+  const distFile = path.join(process.cwd(), 'dist', 'sitemap.xml');
+  const publicFile = path.join(process.cwd(), 'public', 'sitemap.xml');
+  const targetFile = fs.existsSync(distFile) ? distFile : publicFile;
+
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=86400');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
-  if (req.method === 'HEAD') {
-    return res.status(200).end();
+  if (fs.existsSync(targetFile)) {
+    return res.sendFile(targetFile);
   }
-
-  const distFile = path.join(process.cwd(), 'dist', 'sitemap.xml');
-  const publicFile = path.join(process.cwd(), 'public', 'sitemap.xml');
-
-  if (fs.existsSync(distFile)) {
-    return res.sendFile(distFile);
-  }
-  if (fs.existsSync(publicFile)) {
-    return res.sendFile(publicFile);
-  }
-  return res.status(200).send(SITEMAP_XML_CONTENT);
+  return res.status(200).type('application/xml').send(SITEMAP_XML_CONTENT);
 });
 
-app.all('/robots.txt', (req, res) => {
+app.get('/robots.txt', (req, res) => {
+  const distFile = path.join(process.cwd(), 'dist', 'robots.txt');
+  const publicFile = path.join(process.cwd(), 'public', 'robots.txt');
+  const targetFile = fs.existsSync(distFile) ? distFile : publicFile;
+
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=86400');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
-  if (req.method === 'HEAD') {
-    return res.status(200).end();
+  if (fs.existsSync(targetFile)) {
+    return res.sendFile(targetFile);
   }
-
-  const distFile = path.join(process.cwd(), 'dist', 'robots.txt');
-  const publicFile = path.join(process.cwd(), 'public', 'robots.txt');
-
-  if (fs.existsSync(distFile)) {
-    return res.sendFile(distFile);
-  }
-  if (fs.existsSync(publicFile)) {
-    return res.sendFile(publicFile);
-  }
-  return res.status(200).send(ROBOTS_TXT_CONTENT);
+  return res.status(200).type('text/plain').send(ROBOTS_TXT_CONTENT);
 });
 
 // Explicit 404 handler for any unmatched /api/* requests so they ALWAYS return JSON
