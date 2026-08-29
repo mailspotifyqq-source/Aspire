@@ -427,19 +427,25 @@ const SITEMAP_XML_CONTENT = `<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-</urlset>
-`;
+</urlset>`.trim();
 
 const ROBOTS_TXT_CONTENT = `User-agent: *
 Allow: /
 
 Sitemap: https://aspiretravels.in/sitemap.xml
-`;
+`.trim();
 
-// Explicit SEO routes for sitemap.xml and robots.txt (handles both production dist, public, or inline)
-app.get('/sitemap.xml', (req, res) => {
+// Explicit SEO routes for sitemap.xml and robots.txt (handles GET & HEAD, production dist, public, or inline)
+app.all(['/sitemap.xml', '/sitemap'], (req, res) => {
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  if (req.method === 'HEAD') {
+    return res.status(200).end();
+  }
+
   const distFile = path.join(process.cwd(), 'dist', 'sitemap.xml');
   const publicFile = path.join(process.cwd(), 'public', 'sitemap.xml');
 
@@ -449,12 +455,19 @@ app.get('/sitemap.xml', (req, res) => {
   if (fs.existsSync(publicFile)) {
     return res.sendFile(publicFile);
   }
-  return res.send(SITEMAP_XML_CONTENT);
+  return res.status(200).send(SITEMAP_XML_CONTENT);
 });
 
-app.get('/robots.txt', (req, res) => {
+app.all('/robots.txt', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+
+  if (req.method === 'HEAD') {
+    return res.status(200).end();
+  }
+
   const distFile = path.join(process.cwd(), 'dist', 'robots.txt');
   const publicFile = path.join(process.cwd(), 'public', 'robots.txt');
 
@@ -464,7 +477,7 @@ app.get('/robots.txt', (req, res) => {
   if (fs.existsSync(publicFile)) {
     return res.sendFile(publicFile);
   }
-  return res.send(ROBOTS_TXT_CONTENT);
+  return res.status(200).send(ROBOTS_TXT_CONTENT);
 });
 
 // Explicit 404 handler for any unmatched /api/* requests so they ALWAYS return JSON
