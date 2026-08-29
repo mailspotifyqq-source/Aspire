@@ -46,7 +46,7 @@ const GLOBAL_HUBS: HubMarker[] = [
   {
     id: 'canada',
     label: 'Canada',
-    subLabel: 'Express Entry & Study Permits',
+    subLabel: 'Tourism & Business Visas',
     coordinates: [-106.3468, 56.1304],
     flag: '🇨🇦',
     labelAnchor: 'top',
@@ -55,7 +55,7 @@ const GLOBAL_HUBS: HubMarker[] = [
   {
     id: 'uk',
     label: 'United Kingdom',
-    subLabel: 'Standard Visitor & Skilled Worker',
+    subLabel: 'Tourism & Business Visas',
     coordinates: [-2.0, 54.0],
     flag: '🇬🇧',
     labelAnchor: 'top',
@@ -64,7 +64,7 @@ const GLOBAL_HUBS: HubMarker[] = [
   {
     id: 'europe',
     label: 'Europe (Schengen)',
-    subLabel: '29 Countries & EU Blue Card',
+    subLabel: 'Tourism & Business Visas',
     coordinates: [10.4515, 51.1657],
     flag: '🇪🇺',
     labelAnchor: 'right',
@@ -77,7 +77,7 @@ const GLOBAL_HUBS: HubMarker[] = [
   {
     id: 'singapore',
     label: 'Singapore',
-    subLabel: 'Employment Pass & Tech.Pass',
+    subLabel: 'Tourism & Business Visas',
     coordinates: [103.8198, 1.3521],
     flag: '🇸🇬',
     labelAnchor: 'left',
@@ -86,7 +86,7 @@ const GLOBAL_HUBS: HubMarker[] = [
   {
     id: 'asia',
     label: 'Asia (Japan & East Asia)',
-    subLabel: 'eVisas & Highly Skilled Talent',
+    subLabel: 'Tourism & Business Visas',
     coordinates: [138.2529, 36.2048],
     flag: '🇯🇵',
     labelAnchor: 'right',
@@ -95,7 +95,7 @@ const GLOBAL_HUBS: HubMarker[] = [
   {
     id: 'australia',
     label: 'Australia',
-    subLabel: 'Points PR & Subclass 500/600',
+    subLabel: 'Tourism & Business Visas',
     coordinates: [133.7751, -25.2744],
     flag: '🇦🇺',
     labelAnchor: 'bottom',

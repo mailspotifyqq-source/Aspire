@@ -22,7 +22,7 @@ export function DestinationDetailModal({
           <div>
             <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#b8860b] font-bold">
               <MapPin className="w-3.5 h-3.5" />
-              <span>{destination.category} Immigrations Hub</span>
+              <span>{destination.category} Consular Hub</span>
             </div>
             <h3 className="font-serif text-2xl sm:text-3xl text-[#2d2d2d] font-bold mt-1">
               {destination.name} Consular Guidelines

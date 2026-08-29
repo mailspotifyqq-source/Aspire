@@ -41,22 +41,22 @@ export const DESTINATIONS: Destination[] = [
     code: 'CA',
     landmarkName: 'CN Tower, Toronto',
     landmarkImage: 'https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=1200&q=85',
-    category: 'Immigration & Study',
-    tagline: 'World-Class Education, Express Entry PR & Global Talent Stream',
-    description: 'Specialized visa guidance for Canada Visitor Visas (TRV), Study Permits with PGWP work pathways, LMIA Work Permits, and Express Entry (FSW/CEC) permanent residency.',
+    category: 'Tourism & Business',
+    tagline: 'End-to-End Filing for Canada Business & Tourist Visas (TRV)',
+    description: 'Specialized visa guidance for Canada Visitor Visas (Temporary Resident Visa / TRV), CAN+ fast-track pre-screening, business conference delegations, and VFS biometrics coordination.',
     lat: 56.1304,
     lon: -106.3468,
-    popularVisas: ['Visitor Visa (TRV / Super Visa)', 'Study Permit with PGWP', 'Express Entry (CRS PR)', 'Global Talent Stream Work Permit'],
+    popularVisas: ['Business & Tourist Visa'],
     averageProcessingTime: '2 – 6 Weeks',
     successRate: '99.0%',
-    financialProof: '₹6,00,000 – ₹16,00,000 living & tuition proof',
+    financialProof: '₹4,00,000 – ₹10,00,000 liquid savings',
     keyRequirements: [
-      'Letter of Acceptance (DLI) or Job Offer / Proof of Funds',
-      'Language proficiency (IELTS General / Academic or CELPIP)',
-      'Biometrics & Police Character Clearances',
-      'Ties to country of residence'
+      'Valid Passport with at least 6 months validity',
+      'Financial solvency proof (6 months stamped bank statements & ITR)',
+      'Detailed travel itinerary or Canadian business invitation letter',
+      'VFS Biometric enrollment & strong ties to home country'
     ],
-    highlights: ['Post-Graduation Work Permits (PGWP)', 'Fast-Track PR via Express Entry', 'Welcoming Multicultural Cities']
+    highlights: ['Multiple-Entry 10-Year TRV', 'CAN+ Expedited Processing', 'Tourism & Business Delegations']
   },
   {
     id: 'europe',
@@ -65,12 +65,12 @@ export const DESTINATIONS: Destination[] = [
     code: 'EU',
     landmarkName: 'Eiffel Tower',
     landmarkImage: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=800&q=80',
-    category: 'Schengen & Work',
+    category: 'Tourism & Business',
     tagline: '29 Countries, One Seamless Visa for Travel, Culture & Business',
-    description: 'Explore the Schengen Zone with single or multi-entry tourist visas, national long-stay D-visas, the EU Blue Card for skilled experts, and European Golden Visa residency programs.',
+    description: 'Explore Switzerland, France, Germany, Italy, Spain, and all 29 Schengen nations with single or multi-entry tourist and short-stay business visitor visas (Type C).',
     lat: 48.8566,
     lon: 2.3522,
-    popularVisas: ['Schengen Short-Stay (Type C)', 'EU Blue Card', 'National Study Visa (Type D)', 'Portugal D7 / Golden Visa', 'Germany Job Seeker / Opportunity Card'],
+    popularVisas: ['Business & Tourist Visa'],
     averageProcessingTime: '15 – 30 Days',
     successRate: '98.2%',
     financialProof: '₹4,000 – ₹10,000 per day of stay minimum balance',
@@ -78,9 +78,9 @@ export const DESTINATIONS: Destination[] = [
       'Travel Health Insurance covering minimum €30,000 across Schengen',
       'Confirmed flight itinerary and hotel bookings / invitation letter',
       '3-6 Months bank statements stamped by banking institution',
-      'Detailed day-by-day travel itinerary or employment contract'
+      'Detailed day-by-day travel itinerary or business conference invite'
     ],
-    highlights: ['Access to 29 European Nations', 'Rich Cultural & Historic Heritage', 'Flexible Multi-Entry 1-5 Year Visas']
+    highlights: ['Access to 29 European Nations', 'Tourist & Business Short-Stay', 'Flexible Multi-Entry Visas']
   },
   {
     id: 'uk',
@@ -89,22 +89,22 @@ export const DESTINATIONS: Destination[] = [
     code: 'GB',
     landmarkName: 'Big Ben',
     landmarkImage: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80',
-    category: 'Work & Tourism',
-    tagline: 'Global Financial Hub, Prestigious Universities & Skilled Worker Visas',
-    description: 'Comprehensive visa filing for UK Standard Visitor (6-month & 2/5/10-year multi-entry), Student Route (CAS), Skilled Worker Visa (CoS), and Global Talent endorsement.',
+    category: 'Tourism & Business',
+    tagline: 'Standard Visitor Visa Guidance for Sightseeing, Business & Family Visits',
+    description: 'Comprehensive consular filing for UK Standard Visitor Visas (6-month, 2-year, 5-year, and 10-year multi-entry) for tourism, holidays, corporate meetings, and visiting relatives.',
     lat: 51.5074,
     lon: -0.1278,
-    popularVisas: ['UK Standard Visitor Visa', 'Skilled Worker Visa (Tier 2)', 'Student Visa (CAS)', 'Global Talent Visa', 'Youth Mobility Scheme'],
+    popularVisas: ['Business & Tourist Visa'],
     averageProcessingTime: '3 – 5 Weeks (Priority Available)',
     successRate: '98.9%',
-    financialProof: '₹1,50,000 – ₹9,50,000 maintenance requirement',
+    financialProof: '₹2,50,000 – ₹6,50,000 maintenance balance',
     keyRequirements: [
-      'TB Test certificate (where applicable)',
-      'Certificate of Sponsorship (CoS) or University CAS',
-      'Proof of financial maintenance and accommodation',
-      'Certified English proficiency (SELT / IELTS)'
+      'Valid Passport with at least 6 months validity',
+      'Employment leave NOC or Business ownership proof',
+      '6 Months original stamped bank statements & 2 years ITR',
+      'Travel itinerary or UK business invitation letter'
     ],
-    highlights: ['London Financial Ecosystem', '2-Year Graduate Route Work Rights', 'Fast-Track Priority Consular Processing']
+    highlights: ['6-Month to 10-Year Multi-Entry', 'Fast-Track Priority Processing', 'Tourism & Corporate Delegations']
   },
   {
     id: 'singapore',
@@ -113,22 +113,22 @@ export const DESTINATIONS: Destination[] = [
     code: 'SG',
     landmarkName: 'Marina Bay Sands',
     landmarkImage: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80',
-    category: 'Business & Tech',
-    tagline: 'Asia’s Financial Capital & Premier Gateway for Tech Talent',
-    description: 'Singapore attracts elite professionals and founders with the Employment Pass (COMPASS framework), Tech.Pass, ONE Pass (Overseas Networks & Expertise), and seamless business visit passes.',
+    category: 'Tourism & Business',
+    tagline: 'Premier Asian Gateway for Leisure, Conferences & Corporate Travel',
+    description: 'Effortless visa facilitation for Singapore tourist eVisas, short-term business visit passes, corporate delegations, trade exhibitions, and international conferences.',
     lat: 1.3521,
     lon: 103.8198,
-    popularVisas: ['Employment Pass (EP)', 'Tech.Pass / ONE Pass', 'EntrePass', 'Short-Term Business Visit Pass', 'Student Pass'],
-    averageProcessingTime: '1 – 3 Weeks',
+    popularVisas: ['Business & Tourist Visa'],
+    averageProcessingTime: '3 – 7 Days',
     successRate: '99.4%',
-    financialProof: 'Fixed monthly salary criteria (₹3,00,000+ per month for EP)',
+    financialProof: '₹1,50,000 – ₹3,50,000 liquid funds',
     keyRequirements: [
-      'MOM COMPASS point verification score sheet',
-      'Verified degree credentials from accredited universities',
-      'Letter of Offer or corporate sponsorship documentation',
-      'Clean background verification and employer tax clearances'
+      'Valid Passport with minimum 6 months validity',
+      'Form 14A duly completed with passport-size photograph',
+      'Confirmed return flight tickets and hotel reservations',
+      '3 Months bank statements and employment proof / company letter'
     ],
-    highlights: ['Zero Capital Gains Tax', 'Tier-1 Asian Business Hub', 'Fastest Processing Timelines Worldwide']
+    highlights: ['Fast eVisa Digital Turnaround', 'Business & Conference Delegations', 'Top Global Tourism Destination']
   },
   {
     id: 'australia',
@@ -137,22 +137,22 @@ export const DESTINATIONS: Destination[] = [
     code: 'AU',
     landmarkName: 'Sydney Opera House',
     landmarkImage: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80',
-    category: 'Skilled & Family',
-    tagline: 'High Standard of Living, World-Class Universities & Points-Based PR',
-    description: 'Australia offers lucrative skilled migration pathways (Subclass 189, 190, 491), visitor visas (Subclass 600), and top-tier university study permits (Subclass 500) with generous post-study work rights.',
+    category: 'Tourism & Business',
+    tagline: 'Subclass 600 Visitor & Business Visas for Seamless Travel Down Under',
+    description: 'Expert filing and documentation for Australian Subclass 600 Visitor Visas (Tourist stream and Business Visitor stream) with fast turnaround times.',
     lat: -25.2744,
     lon: 133.7751,
-    popularVisas: ['Subclass 600 (Visitor)', 'Subclass 500 (Student)', 'Subclass 189/190 (Skilled Independent PR)', 'Subclass 482 (TSS Work Visa)'],
-    averageProcessingTime: '2 – 6 Weeks',
+    popularVisas: ['Business & Tourist Visa'],
+    averageProcessingTime: '2 – 4 Weeks',
     successRate: '99.1%',
-    financialProof: '₹3,00,000 – ₹15,00,000 living & tuition funds',
+    financialProof: '₹3,00,000 – ₹7,00,000 liquid funds',
     keyRequirements: [
-      'GTE / Genuine Student Requirement statement',
-      'Skills Assessment certification (for skilled PR pathways)',
-      'Health & Character police clearances',
-      'Proof of funds and English language test scores (IELTS / PTE)'
+      'Genuine Temporary Entrant (GTE) statement & intent to return',
+      '6 Months stamped bank statements & 3 years ITR',
+      'Employment proof with approved leave or business registration',
+      'Clean background & health character declarations'
     ],
-    highlights: ['Points-Based PR Pathway', '2-4 Year Post-Study Work Visas', 'Universal Healthcare & Exceptional Lifestyle']
+    highlights: ['Subclass 600 Fast-Track', '1 to 3 Year Multi-Entry Available', 'Tourism & Business Conferences']
   },
   {
     id: 'asia',
@@ -161,12 +161,12 @@ export const DESTINATIONS: Destination[] = [
     code: 'JP',
     landmarkName: 'Mount Fuji',
     landmarkImage: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80',
-    category: 'Tourism & Work',
-    tagline: 'Vibrant Economies, Ancient Traditions & High-Tech Opportunities',
-    description: 'Comprehensive visa processing for Japan, South Korea, UAE, and East Asian powerhouses. Specializing in tourist eVisa, Highly Skilled Professional (HSP) visas, and business delegate entry.',
+    category: 'Tourism & Business',
+    tagline: 'Vibrant Tourism, Cultural Exploration & High-Tech Business Hubs',
+    description: 'Comprehensive tourist and business visa assistance for Japan, South Korea, UAE, and East Asian destinations with seamless eVisa and consular handling.',
     lat: 35.6762,
     lon: 139.6503,
-    popularVisas: ['Japan Tourist & eVisa', 'Japan Highly Skilled Professional', 'South Korea C-3 / D-2', 'UAE Golden Visa / Green Visa', 'UK Standard Visitor & Skilled Worker'],
+    popularVisas: ['Business & Tourist Visa'],
     averageProcessingTime: '5 – 14 Days',
     successRate: '99.3%',
     financialProof: '₹2,50,000 – ₹8,00,000 bank balance',
@@ -176,7 +176,7 @@ export const DESTINATIONS: Destination[] = [
       'Round-trip confirmed flight reservations',
       'Valid passport with at least 2 blank pages'
     ],
-    highlights: ['Fast eVisa Digital Turnaround', 'Dynamic Global Tourism Destinations', 'Booming Tech & Engineering Markets']
+    highlights: ['Fast eVisa Digital Turnaround', 'Dynamic Global Tourism Destinations', 'Business & Trade Delegate Visas']
   }
 ];
 
