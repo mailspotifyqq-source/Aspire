@@ -418,6 +418,37 @@ app.post('/api/send-email', handleSendUsaVisaSummary);
 app.post('/api/send-canada-visa-summary', handleSendCanadaVisaSummary);
 app.post('/api/send-canada-summary', handleSendCanadaVisaSummary);
 
+// Explicit SEO routes for sitemap.xml and robots.txt (supports both production dist and dev public)
+app.get('/sitemap.xml', (req, res) => {
+  const distFile = path.join(process.cwd(), 'dist', 'sitemap.xml');
+  const publicFile = path.join(process.cwd(), 'public', 'sitemap.xml');
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.sendFile(distFile, (err) => {
+    if (err) {
+      res.sendFile(publicFile, (err2) => {
+        if (err2) {
+          res.status(404).send('sitemap.xml not found');
+        }
+      });
+    }
+  });
+});
+
+app.get('/robots.txt', (req, res) => {
+  const distFile = path.join(process.cwd(), 'dist', 'robots.txt');
+  const publicFile = path.join(process.cwd(), 'public', 'robots.txt');
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.sendFile(distFile, (err) => {
+    if (err) {
+      res.sendFile(publicFile, (err2) => {
+        if (err2) {
+          res.status(404).send('robots.txt not found');
+        }
+      });
+    }
+  });
+});
+
 // Explicit 404 handler for any unmatched /api/* requests so they ALWAYS return JSON
 app.all('/api/*', (req, res) => {
   res.status(404).json({
