@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Globe, PhoneCall } from 'lucide-react';
+import { Menu, X, PhoneCall } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 interface HeaderProps {
   onOpenConsultation: () => void;
@@ -55,19 +56,14 @@ export function Header({
           <button
             id="brand-logo-btn"
             onClick={() => handleNavClick('hero')}
-            className="text-left group flex items-center gap-2.5 focus:outline-none"
+            className="text-left group flex items-center focus:outline-none"
           >
-            <div className="w-8 h-8 rounded-full bg-[#b8860b]/15 border border-[#b8860b]/30 flex items-center justify-center text-[#b8860b] group-hover:bg-[#b8860b] group-hover:text-white transition-all duration-300">
-              <Globe className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-[#2d2d2d] group-hover:text-[#b8860b] transition-colors">
-                Aspire Travels
-              </span>
-              <span className="hidden lg:block text-[10px] uppercase tracking-[0.25em] text-[#2d2d2d]/50 font-sans">
-                Visa & Immigration Consultancy
-              </span>
-            </div>
+            <BrandLogo
+              markSize={38}
+              showText={true}
+              showSubtitle={true}
+              subtitleText="Visa & Consular Advisory"
+            />
           </button>
 
           {/* Desktop Navigation Links */}
@@ -132,10 +128,12 @@ export function Header({
           >
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-[#2d2d2d]/10">
-                <div>
-                  <span className="font-serif text-2xl font-bold text-[#2d2d2d]">Aspire Travels</span>
-                  <p className="text-xs text-[#2d2d2d]/60">Expert Visa Consultancy</p>
-                </div>
+                <BrandLogo
+                  markSize={34}
+                  showText={true}
+                  showSubtitle={true}
+                  subtitleText="Visa Consultancy"
+                />
                 <button
                   id="mobile-nav-close-btn"
                   onClick={() => setMobileMenuOpen(false)}

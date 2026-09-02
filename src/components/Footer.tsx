@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
-import { Check, Globe, Mail, Phone, MapPin } from 'lucide-react';
+import { Check, Mail, Phone, MapPin } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 import {
   CONTACT_EMAIL,
   CONTACT_EMAIL_HREF,
@@ -34,13 +35,14 @@ export function Footer({ onNavigate, onOpenConsultation, onOpenAssessment }: Foo
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-16">
           {/* Column 1: Brand & Contact Info */}
           <div className="pr-4">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 rounded-full bg-[#b8860b]/20 text-[#b8860b] flex items-center justify-center">
-                <Globe className="w-3.5 h-3.5" />
-              </div>
-              <span className="font-serif text-2xl font-bold text-[#2d2d2d] tracking-tight">
-                Aspire Travels
-              </span>
+            <div className="mb-4">
+              <BrandLogo
+                markSize={36}
+                showText={true}
+                showSubtitle={true}
+                subtitleText="Visa Consultancy & Guidance"
+                onClick={() => onNavigate('hero')}
+              />
             </div>
             <p className="text-[#2d2d2d]/70 mb-6 leading-relaxed font-light text-xs sm:text-sm">
               Your trusted partner in navigating global immigration compliance with precision and elegance.

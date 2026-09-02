@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b192c" />
+      <stop offset="50%" stop-color="#0f2744" />
+      <stop offset="100%" stop-color="#06101e" />
+    </linearGradient>
+
+    <!-- Gold Metallic Gradients -->
+    <linearGradient id="goldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#996515" />
+      <stop offset="35%" stop-color="#d4af37" />
+      <stop offset="70%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#d4af37" />
+    </linearGradient>
+
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Blue Luminous Gradients -->
+    <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <!-- Outer Rim Glow -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0.6" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter for Depth -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+
+    <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base Container (Squircle / Rounded Box for Favicon & Icon excellence) -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="url(#rimGrad)" stroke-width="3" opacity="0.85" />
+
+  <!-- Background Subtle Latitude / Globe Grid -->
+  <g opacity="0.18" stroke="#38bdf8" stroke-width="2.5" fill="none">
+    <!-- Globe Circle -->
+    <circle cx="256" cy="260" r="150" />
+    <!-- Equator & Latitude Arcs -->
+    <ellipse cx="256" cy="260" rx="150" ry="52" />
+    <ellipse cx="256" cy="260" rx="150" ry="105" />
+    <!-- Meridian Arcs -->
+    <ellipse cx="256" cy="260" rx="55" ry="150" />
+    <ellipse cx="256" cy="260" rx="105" ry="150" />
+    <line x1="106" y1="260" x2="406" y2="260" />
+    <line x1="256" y1="110" x2="256" y2="410" />
+  </g>
+
+  <!-- Global Orbital Arc (Representing Visa Flight Paths & Global Connection) -->
+  <path
+    d="M 115 320 C 120 190, 240 120, 395 145"
+    fill="none"
+    stroke="url(#blueGlow)"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-dasharray="8 6"
+    opacity="0.7"
+  />
+
+  <!-- Main Brand Symbol: The Iconic "A" Delta Wing / Ascending Visa Flight Spire -->
+  <g filter="url(#shadow)">
+    <!-- Left Wing of "A" (Deep Trust Blue / Shaded) -->
+    <path
+      d="M 256 96 L 140 376 C 165 372, 195 365, 222 355 L 256 265 L 278 335 C 298 328, 318 322, 338 316 Z"
+      fill="url(#blueGlow)"
+      opacity="0.95"
+    />
+
+    <!-- Right Wing & Flight Trajectory of "A" (Luminous Gold Gradient) -->
+    <path
+      d="M 256 96 L 256 265 L 290 350 C 315 358, 345 368, 372 376 L 256 96 Z"
+      fill="url(#goldGrad)"
+    />
+
+    <!-- Central Soaring Jet / Trajectory Needle -->
+    <path
+      d="M 256 75 L 272 135 L 256 122 L 240 135 Z"
+      fill="url(#goldAccent)"
+    />
+
+    <!-- Aspiration Crossbar (The Golden Horizon / Visa Portal Arc) -->
+    <path
+      d="M 180 300 Q 256 250 332 300 Q 256 270 180 300 Z"
+      fill="url(#goldGrad)"
+    />
+
+    <!-- Dynamic Modern Compass / Guidance Star at the North-East Destination Apex -->
+    <g transform="translate(375, 130)" filter="url(#starGlow)">
+      <!-- Star Center Core -->
+      <circle cx="0" cy="0" r="7" fill="#ffffff" />
+      <path
+        d="M 0 -28 Q 2 -8 22 0 Q 2 8 0 28 Q -2 8 -22 0 Q -2 -8 0 -28 Z"
+        fill="url(#goldGrad)"
+      />
+      <path
+        d="M 0 -16 Q 1.5 -5 14 0 Q 1.5 5 0 16 Q -1.5 5 -14 0 Q -1.5 -5 0 -16 Z"
+        fill="#ffffff"
+      />
+    </g>
+
+    <!-- Forward Motion Flight Sparkle -->
+    <circle cx="256" cy="96" r="5" fill="#ffffff" filter="url(#starGlow)" />
+  </g>
+</svg>
