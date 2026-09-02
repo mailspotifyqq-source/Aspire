@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { DESTINATIONS } from '../data/visaData';
 import { Destination } from '../types';
-import { CheckCircle2, Clock, Globe2, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { LatestVisaUpdatesCard } from './LatestVisaUpdatesCard';
 
 interface EarthCanvasProps {
   selectedDestinationId?: string;
   onSelectDestination?: (id: string) => void;
   onOpenAssessment?: (destinationId?: string) => void;
   onOpenDetailsModal?: (destination: Destination) => void;
+  onOpenVisaUpdates?: () => void;
   className?: string;
 }
 
@@ -17,6 +18,7 @@ export function EarthCanvas({
   onSelectDestination,
   onOpenAssessment,
   onOpenDetailsModal,
+  onOpenVisaUpdates,
   className = ''
 }: EarthCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1107,77 +1109,15 @@ export function EarthCanvas({
         </div>
       </div>
 
-      {/* DOCKED LIVE VISA INSIGHTS CARD (FOCUSED ON SELECTED VISA DESTINATION LIKE USA) */}
-      <div className="absolute bottom-16 right-4 sm:right-8 z-30 max-w-[340px] w-full bg-[#fffdd0]/95 backdrop-blur-md border border-[#b8860b]/35 p-4 rounded-sm shadow-xl pointer-events-auto transition-all">
-        <div className="flex items-start justify-between gap-3 border-b border-[#2d2d2d]/10 pb-3 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">{activeDest.flag}</span>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <h3 className="font-serif font-bold text-base text-[#2d2d2d]">
-                  {activeDest.name} Visa Services
-                </h3>
-                <Sparkles className="w-3.5 h-3.5 text-[#b8860b]" />
-              </div>
-              <p className="text-[11px] text-[#b8860b] font-semibold uppercase tracking-wider">
-                {activeDest.category}
-              </p>
-            </div>
-          </div>
-          <div className="bg-[#b8860b]/10 border border-[#b8860b]/30 px-2 py-0.5 rounded-sm text-[10px] font-bold text-[#b8860b] shrink-0">
-            {activeDest.successRate} Success
-          </div>
-        </div>
-
-        {/* Popular Visa Paths */}
-        <div className="space-y-1.5 mb-3">
-          <p className="text-[10px] uppercase tracking-wider text-[#2d2d2d]/60 font-bold">
-            Popular Visa Categories:
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {activeDest.popularVisas.slice(0, 3).map((v, i) => (
-              <span
-                key={i}
-                className="bg-[#f5f5dc] border border-[#2d2d2d]/10 text-[11px] text-[#4a3c31] px-2 py-0.5 rounded-xs font-medium"
-              >
-                {v}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Key Metrics */}
-        <div className="grid grid-cols-2 gap-2 text-xs text-[#2d2d2d]/80 bg-[#f5f5dc]/70 p-2 rounded-xs border border-[#2d2d2d]/5 mb-3">
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-[#b8860b] shrink-0" />
-            <div className="overflow-hidden">
-              <span className="block text-[9px] uppercase tracking-wider text-[#2d2d2d]/60">Processing</span>
-              <span className="font-semibold text-[11px] truncate block">{activeDest.averageProcessingTime.split('(')[0]}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#b8860b] shrink-0" />
-            <div className="overflow-hidden">
-              <span className="block text-[9px] uppercase tracking-wider text-[#2d2d2d]/60">Support</span>
-              <span className="font-semibold text-[11px] truncate block">End-to-End USCIS / Embassy</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-2 pt-1">
-          {onOpenDetailsModal && (
-            <button
-              id={`globe-view-details-${activeDest.id}`}
-              onClick={() => onOpenDetailsModal(activeDest)}
-              className="flex-1 bg-[#b8860b] hover:bg-[#9a7009] text-white text-xs font-semibold py-2.5 px-3 rounded-none shadow-xs flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer transition-colors"
-              title="View Complete Country Dossier"
-            >
-              <span>Explore {activeDest.name} Visa Services</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
+      {/* LATEST VISA UPDATES CARD (BOTTOM-RIGHT) */}
+      <div className="absolute bottom-16 right-4 sm:right-8 z-30 pointer-events-auto">
+        <LatestVisaUpdatesCard
+          onOpenUpdates={() => {
+            if (onOpenVisaUpdates) {
+              onOpenVisaUpdates();
+            }
+          }}
+        />
       </div>
 
       {/* Orbit Motion Controls Bottom-Left */}

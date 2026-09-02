@@ -8,6 +8,7 @@ interface HeroSectionProps {
   onSelectDestination?: (id: string) => void;
   onOpenAssessment?: (destinationId?: string) => void;
   onOpenDetailsModal?: (destination: Destination) => void;
+  onOpenVisaUpdates?: () => void;
   selectedDestinationId?: string;
 }
 
@@ -17,6 +18,7 @@ export function HeroSection({
   onSelectDestination,
   onOpenAssessment,
   onOpenDetailsModal,
+  onOpenVisaUpdates,
   selectedDestinationId
 }: HeroSectionProps) {
   return (
@@ -35,6 +37,7 @@ export function HeroSection({
           onSelectDestination={onSelectDestination}
           onOpenAssessment={onOpenAssessment}
           onOpenDetailsModal={onOpenDetailsModal}
+          onOpenVisaUpdates={onOpenVisaUpdates}
         />
       </div>
 

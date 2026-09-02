@@ -23,6 +23,7 @@ import { VisaAssessmentModal } from './components/VisaAssessmentModal';
 import { ExpertConsultationModal } from './components/ExpertConsultationModal';
 import { ServiceDetailModal } from './components/ServiceDetailModal';
 import { DestinationDetailModal } from './components/DestinationDetailModal';
+import { VisaUpdatesModal } from './components/VisaUpdatesModal';
 import { VisaService, Destination } from './types';
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
 
   // Modals state
   const [destinationSelectorOpen, setDestinationSelectorOpen] = useState(false);
+  const [visaUpdatesModalOpen, setVisaUpdatesModalOpen] = useState(false);
   const [usaPortalOpen, setUsaPortalOpen] = useState(false);
   const [usaPortalInitialService, setUsaPortalInitialService] = useState<string | undefined>();
 
@@ -130,6 +132,7 @@ export default function App() {
           onTalkToExpert={() => setConsultationModalOpen(true)}
           onOpenAssessment={(destId) => handleStartAssessment(destId)}
           onOpenDetailsModal={(dest) => setSelectedDestinationForDetail(dest)}
+          onOpenVisaUpdates={() => setVisaUpdatesModalOpen(true)}
         />
 
         {/* Global Statistics Ribbon */}
@@ -244,6 +247,16 @@ export default function App() {
         onApply={(destId) => {
           setSelectedDestinationForDetail(null);
           handleStartAssessment(destId);
+        }}
+      />
+
+      {/* Latest Visa & Immigration Updates Modal */}
+      <VisaUpdatesModal
+        isOpen={visaUpdatesModalOpen}
+        onClose={() => setVisaUpdatesModalOpen(false)}
+        onOpenConsultation={() => {
+          setVisaUpdatesModalOpen(false);
+          setConsultationModalOpen(true);
         }}
       />
     </div>
