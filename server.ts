@@ -411,6 +411,202 @@ The personalized Canada visa summary PDF (${cleanFilename}) is attached to this 
   }
 }
 
+/**
+ * Common handler for sending Europe Schengen Visa Summary PDF via Resend
+ */
+async function handleSendSchengenVisaSummary(req: express.Request, res: express.Response) {
+  res.setHeader('Content-Type', 'application/json');
+
+  try {
+    const {
+      applicantName,
+      email,
+      phone,
+      city,
+      state: applicantState,
+      country,
+      applicantsCount,
+      intendedTravelPeriod,
+      visaCategory,
+      primaryDestination,
+      travelPurpose,
+      biometricsStatus,
+      travelHistory,
+      employmentStatus,
+      fundsAvailability,
+      filename,
+      pdfBase64,
+    } = req.body || {};
+
+    const cleanApplicantName = (applicantName || 'Applicant').trim();
+    console.log(`[Server] Received Europe Schengen Visa email request for applicant: "${cleanApplicantName}"`);
+
+    if (!pdfBase64) {
+      console.warn('[Server] Error: Missing Schengen PDF document content.');
+      return res.status(400).json({ success: false, error: 'Missing PDF document content' });
+    }
+
+    const cleanDestination = (primaryDestination || 'Europe Schengen Zone').trim();
+    const cleanVisaCategory = (visaCategory || 'Schengen Business & Tourist Visa').trim();
+    const cleanTravelPurpose = (travelPurpose || 'Tourism & Sightseeing').trim();
+    const cleanBiometrics = (biometricsStatus || 'Not specified').trim();
+    const cleanTravelHistory = (travelHistory || 'Standard').trim();
+    const cleanEmployment = (employmentStatus || 'Salaried Professional').trim();
+    const cleanFunds = (fundsAvailability || 'Standard Liquid Funds').trim();
+    const cleanEmail = (email || 'Not provided').trim();
+    const cleanPhone = (phone || 'Not provided').trim();
+    const cleanLocation = `${city || '—'}, ${applicantState || '—'}, ${country || 'India'}`;
+    const cleanApplicantsCount = `${applicantsCount || 1} Person(s)`;
+    const cleanTravelPeriod = (intendedTravelPeriod || 'Next 3 to 6 Months').trim();
+
+    const safeUserName = cleanApplicantName.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_') || 'Applicant';
+    const cleanFilename = filename || `Aspire_Travels_Schengen_Visa_Summary_${safeUserName}.pdf`;
+
+    const resend = getResendClient();
+    if (!resend) {
+      console.warn(
+        '[Server] RESEND_API_KEY environment variable is not configured on the server.'
+      );
+      return res.status(500).json({
+        success: false,
+        error: 'Email delivery service is not configured (RESEND_API_KEY is missing on server).',
+      });
+    }
+
+    const recipient = process.env.SUPPORT_EMAIL || 'support@aspiretravels.in';
+    const fromAddress = process.env.FROM_EMAIL || 'support@aspiretravels.in';
+
+    const subject = `New Schengen Visa Summary - ${cleanApplicantName} (${cleanDestination})`;
+    const textContent = `A new Schengen Visa Summary has been generated through the Aspire Travels website.
+
+Applicant Details:
+------------------
+• Applicant Name: ${cleanApplicantName}
+• Primary Destination: ${cleanDestination}
+• Visa Category: ${cleanVisaCategory}
+• Purpose of Visit: ${cleanTravelPurpose}
+• Biometrics (VIS): ${cleanBiometrics}
+• Travel History: ${cleanTravelHistory}
+• Employment: ${cleanEmployment}
+• Funds Availability: ${cleanFunds}
+• Email Address: ${cleanEmail}
+• Mobile / WhatsApp: ${cleanPhone}
+• Location: ${cleanLocation}
+• Total Applicants: ${cleanApplicantsCount}
+• Target Travel Period: ${cleanTravelPeriod}
+
+The personalized Schengen visa summary PDF (${cleanFilename}) is attached to this email.`;
+
+    const htmlContent = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 620px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+        <div style="background-color: #0f172a; padding: 24px; color: #ffffff; border-bottom: 3px solid #0284c7;">
+          <h1 style="margin: 0; font-size: 20px; color: #ffffff; letter-spacing: 1px;">ASPIRE TRAVELS</h1>
+          <p style="margin: 4px 0 0 0; font-size: 12px; color: #38bdf8; text-transform: uppercase;">Europe Schengen Consular Advisory Notification</p>
+        </div>
+        <div style="padding: 24px; background-color: #ffffff;">
+          <p style="margin-top: 0; font-size: 15px; color: #334155;">A new Europe Schengen Visa Summary has been generated through the Aspire Travels website.</p>
+          
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #f8fafc; border-radius: 6px; overflow: hidden; border: 1px solid #e2e8f0;">
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; width: 38%; color: #475569; font-size: 13px;">Applicant Name:</td>
+              <td style="padding: 10px 16px; font-weight: bold; color: #0f172a; font-size: 14px;">${cleanApplicantName}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Primary Country:</td>
+              <td style="padding: 10px 16px; font-weight: bold; color: #0284c7; font-size: 14px;">${cleanDestination}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Visa Category:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanVisaCategory}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Purpose of Visit:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanTravelPurpose}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Biometrics (VIS):</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanBiometrics}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Email Address:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanEmail}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Phone / WhatsApp:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanPhone}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Location:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 13px;">${cleanLocation}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 16px; font-weight: bold; color: #475569; font-size: 13px;">Total Applicants:</td>
+              <td style="padding: 10px 16px; color: #0f172a; font-size: 14px;">${cleanApplicantsCount}</td>
+            </tr>
+          </table>
+          
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 0;">
+            The personalized Schengen visa summary PDF (<strong>${cleanFilename}</strong>) is attached to this email.
+          </p>
+        </div>
+        <div style="background-color: #f1f5f9; padding: 14px 24px; font-size: 11px; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0;">
+          Aspire Travels &bull; ${recipient} &bull; +91 92893 37446
+        </div>
+      </div>
+    `;
+
+    const rawBase64 = pdfBase64.includes(',') ? pdfBase64.split(',')[1] : pdfBase64;
+    const pdfBuffer = Buffer.from(rawBase64, 'base64');
+
+    console.log(
+      `[Server] Dispatching Schengen Visa Summary email via Resend:
+  - Applicant: ${cleanApplicantName}
+  - Country: ${cleanDestination}
+  - Filename: ${cleanFilename} (${pdfBuffer.length} bytes)
+  - To: ${recipient}
+  - From: ${fromAddress}`
+    );
+
+    const sendResult = await resend.emails.send({
+      from: fromAddress,
+      to: recipient,
+      subject: subject,
+      text: textContent,
+      html: htmlContent,
+      attachments: [
+        {
+          filename: cleanFilename,
+          content: pdfBuffer,
+        },
+      ],
+    });
+
+    if (sendResult.error) {
+      console.error('[Server] Resend API error response:', JSON.stringify(sendResult.error, null, 2));
+      return res.status(500).json({
+        success: false,
+        error: sendResult.error.message || 'Resend service rejected the email dispatch.',
+      });
+    }
+
+    console.log(
+      `[Server] Schengen Visa Summary email successfully sent for "${cleanApplicantName}" to ${recipient} (Email ID: ${sendResult.data?.id})`
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Email sent successfully to Aspire Travels.',
+      messageId: sendResult.data?.id,
+    });
+  } catch (err: any) {
+    console.error('[Server] Exception occurred while sending Schengen email:', err?.message || err);
+    return res.status(500).json({
+      success: false,
+      error: err?.message || 'Internal server error while dispatching email notification.',
+    });
+  }
+}
+
 // Register endpoints and aliases
 app.post('/api/send-usa-visa-summary', handleSendUsaVisaSummary);
 app.post('/api/send-summary', handleSendUsaVisaSummary);
@@ -419,11 +615,14 @@ app.post('/api/send-email', handleSendUsaVisaSummary);
 app.post('/api/send-canada-visa-summary', handleSendCanadaVisaSummary);
 app.post('/api/send-canada-summary', handleSendCanadaVisaSummary);
 
+app.post('/api/send-schengen-visa-summary', handleSendSchengenVisaSummary);
+app.post('/api/send-schengen-summary', handleSendSchengenVisaSummary);
+
 const SITEMAP_XML_CONTENT = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aspiretravels.in/</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

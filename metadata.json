@@ -1,6 +1,6 @@
 {
   "name": "Aspire Travels",
-  "description": "Aspire Travels provides expert visa consultancy and consular filing guidance for worldwide destinations including USA, Canada, United Kingdom, Schengen Zone, Singapore, and Australia.",
+  "description": "Aspire Travels provides expert visa consultancy, document pre-screening, and consular filing guidance for worldwide destinations including USA, Canada, UK, Europe Schengen, and Australia.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
