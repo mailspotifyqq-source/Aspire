@@ -14,6 +14,17 @@ export interface VisaNewsItem {
     overview: string;
     keyPoints: string[];
     affectedApplicants: string[];
+    comparison?: {
+      affectedTitle: string;
+      affectedSubtitle: string;
+      affectedItems: string[];
+      affectedNote: string;
+      notAffectedTitle: string;
+      notAffectedSubtitle: string;
+      notAffectedItems: string[];
+      notAffectedNote: string;
+    };
+    recentUpdateContext?: string;
     recommendedAction: string;
   };
   officialSource: string;
@@ -22,6 +33,62 @@ export interface VisaNewsItem {
 }
 
 export const VISA_NEWS_DATA: VisaNewsItem[] = [
+  {
+    id: 'us-pauses-immigrant-visa-processing-worldwide',
+    title: 'BREAKING: U.S. Pauses Immigrant Visa Processing Worldwide Amid New Screening & Public-Charge Training',
+    date: 'Breaking Alert',
+    isoDate: '2026-08-25',
+    country: 'United States',
+    countryCode: 'usa',
+    flag: '🇺🇸',
+    category: 'Executive Policy',
+    badge: 'BREAKING PAUSE',
+    badgeType: 'urgent',
+    summary: 'Trump administration pauses immigrant visa (Green Card) appointments globally at U.S. embassies & consulates for public-charge officer training. Nonimmigrant visas (H-1B, F-1, B1/B2, L-1) are continuing as usual and NOT affected.',
+    fullContent: {
+      overview: 'The Trump administration has paused immigrant visa appointments and applications globally at U.S. embassies and consulates while the State Department conducts new "in-depth training" for consular officers. The training focuses in part on rigorously evaluating whether immigrant visa applicants could become dependent on U.S. public benefits under revised public-charge rules. Applicants with already-scheduled immigrant visa interviews have reportedly received notices that their appointments are being rescheduled, and no clear date has yet been announced for when normal immigrant visa processing will resume.',
+      keyPoints: [
+        'Worldwide pause on immigrant visa interviews across all U.S. embassies and consular posts.',
+        'State Department conducting comprehensive mandatory training for consular officers focused on public-charge dependency assessments.',
+        'Applicants with existing interview appointments are receiving official rescheduling notifications.',
+        'CRITICAL DISTINCTION: Nonimmigrant visas (B1/B2, F-1, H-1B, L-1, O-1, J-1, H-4) are NOT paused and are continuing as usual.',
+        'No fixed date has been officially released for when regular immigrant visa appointments will resume.'
+      ],
+      affectedApplicants: [
+        'Family-based immigrant visa applicants (IR-1, CR-1, F1, F2A, F2B, F3, F4)',
+        'Employment-based immigrant petitions (EB-1, EB-2, EB-3, EB-4, EB-5)',
+        'Diversity Visa (DV) lottery winners awaiting consular processing',
+        'Special Immigrant visa categories'
+      ],
+      comparison: {
+        affectedTitle: 'WHAT IS AFFECTED?',
+        affectedSubtitle: 'IMMIGRANT VISAS (Green Card Visas)',
+        affectedItems: [
+          'Family-based immigrant visas (IR-1, CR-1, F1, F2A, F2B, F3, F4)',
+          'Employment-based immigrant visas (EB-1, EB-2, EB-3, EB-4, EB-5)',
+          'Diversity Visa (DV) lottery consular interviews',
+          'Certain special immigrant visa categories'
+        ],
+        affectedNote: 'These are visas used to immigrate permanently to the U.S. Interviews are currently being rescheduled.',
+        notAffectedTitle: 'WHAT IS NOT AFFECTED?',
+        notAffectedSubtitle: 'NONIMMIGRANT VISAS (Temporary Visas)',
+        notAffectedItems: [
+          'H-1B Specialty Occupation & H-4 Dependents',
+          'F-1 & M-1 Student Visas',
+          'B1/B2 Tourist & Business Visitors',
+          'L-1 Intracompany Transferees',
+          'J-1 Exchange Visitors & O-1 Extraordinary Ability',
+          'All other temporary nonimmigrant categories'
+        ],
+        notAffectedNote: 'These visas are continuing as usual. This worldwide pause does NOT apply to them.'
+      },
+      recentUpdateContext: "Just days prior to this directive, a federal judge struck down the administration's earlier policy that had suspended immigrant visa processing for nationals of 75 countries, finding that policy exceeded the Secretary of State's authority.",
+      recommendedAction: 'Aspire Travels advises all immigrant visa candidates to prepare an ironclad Public Charge Financial Affidavit (Form I-864), audited tax returns, and comprehensive asset evaluations. If your interview was rescheduled, contact our consular team for case tracking.'
+    },
+    officialSource: 'U.S. Department of State, Reuters & Major U.S. News Outlets',
+    impactLevel: 'High',
+    isLiveHighlight: true
+  },
   {
     id: 'us-trump-policy-scrutiny-2026',
     title: 'US Consular Scrutiny & DS-160 Compliance Advisory Under Current Executive Directives',

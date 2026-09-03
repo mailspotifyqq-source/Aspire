@@ -12,7 +12,10 @@ import {
   Calendar,
   Filter,
   CheckCircle2,
-  FileText
+  FileText,
+  AlertTriangle,
+  Gavel,
+  Ban
 } from 'lucide-react';
 import { VISA_NEWS_DATA, VisaNewsItem } from '../data/visaNewsData';
 
@@ -244,22 +247,92 @@ export function VisaUpdatesModal({
                         </ul>
                       </div>
 
-                      {/* Who is Affected */}
-                      <div className="mb-4 bg-[#f5f5dc]/70 p-3 rounded-xs border border-[#2d2d2d]/10">
-                        <span className="text-[11px] uppercase tracking-wider font-bold text-[#2d2d2d] block mb-1">
-                          Affected Visa Categories:
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {item.fullContent.affectedApplicants.map((aff, i) => (
-                            <span
-                              key={i}
-                              className="bg-white border border-[#2d2d2d]/15 text-[11px] text-[#2d2d2d] px-2 py-0.5 rounded-xs"
-                            >
-                              {aff}
-                            </span>
-                          ))}
+                      {/* What is Affected vs Not Affected Comparison (when available) */}
+                      {item.fullContent.comparison ? (
+                        <div className="mb-4 space-y-3">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {/* What is Affected (Red / Warning) */}
+                            <div className="bg-red-50/80 border-2 border-red-200 rounded-sm p-3.5 flex flex-col justify-between">
+                              <div>
+                                <div className="flex items-center gap-1.5 mb-1 text-red-700 font-bold text-xs uppercase tracking-wider">
+                                  <Ban className="w-4 h-4 text-red-600 shrink-0" />
+                                  <span>{item.fullContent.comparison.affectedTitle}</span>
+                                </div>
+                                <h5 className="font-serif font-bold text-sm text-red-950 mb-2">
+                                  {item.fullContent.comparison.affectedSubtitle}
+                                </h5>
+                                <ul className="space-y-1.5 mb-3 text-xs text-red-900/90">
+                                  {item.fullContent.comparison.affectedItems.map((aff, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 mt-1.5" />
+                                      <span>{aff}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div className="bg-red-100/90 px-2.5 py-1.5 rounded-xs text-[11px] font-medium text-red-800 border border-red-200">
+                                {item.fullContent.comparison.affectedNote}
+                              </div>
+                            </div>
+
+                            {/* What is NOT Affected (Green / Continuing) */}
+                            <div className="bg-emerald-50/80 border-2 border-emerald-200 rounded-sm p-3.5 flex flex-col justify-between">
+                              <div>
+                                <div className="flex items-center gap-1.5 mb-1 text-emerald-700 font-bold text-xs uppercase tracking-wider">
+                                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                                  <span>{item.fullContent.comparison.notAffectedTitle}</span>
+                                </div>
+                                <h5 className="font-serif font-bold text-sm text-emerald-950 mb-2">
+                                  {item.fullContent.comparison.notAffectedSubtitle}
+                                </h5>
+                                <ul className="space-y-1.5 mb-3 text-xs text-emerald-900/90">
+                                  {item.fullContent.comparison.notAffectedItems.map((unaff, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0 mt-1.5" />
+                                      <span>{unaff}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div className="bg-emerald-100/90 px-2.5 py-1.5 rounded-xs text-[11px] font-medium text-emerald-800 border border-emerald-200">
+                                {item.fullContent.comparison.notAffectedNote}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Recent Legal Context note if present */}
+                          {item.fullContent.recentUpdateContext && (
+                            <div className="bg-[#0b192c]/5 border border-[#0b192c]/20 p-3 rounded-xs flex items-start gap-2.5 text-xs text-[#2d2d2d]/90">
+                              <Gavel className="w-4 h-4 text-[#b8860b] shrink-0 mt-0.5" />
+                              <div>
+                                <span className="font-bold text-[11px] uppercase tracking-wider text-[#0b192c] block mb-0.5">
+                                  Judicial Precedent &amp; Court Ruling Context:
+                                </span>
+                                <p className="text-xs text-[#2d2d2d]/80 leading-relaxed font-light">
+                                  {item.fullContent.recentUpdateContext}
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                      </div>
+                      ) : (
+                        /* Standard Affected Visa Categories Pill List */
+                        <div className="mb-4 bg-[#f5f5dc]/70 p-3 rounded-xs border border-[#2d2d2d]/10">
+                          <span className="text-[11px] uppercase tracking-wider font-bold text-[#2d2d2d] block mb-1">
+                            Affected Visa Categories:
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {item.fullContent.affectedApplicants.map((aff, i) => (
+                              <span
+                                key={i}
+                                className="bg-white border border-[#2d2d2d]/15 text-[11px] text-[#2d2d2d] px-2 py-0.5 rounded-xs"
+                              >
+                                {aff}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
                       {/* Aspire Travels Advisory & Action */}
                       <div className="bg-[#0b192c] text-[#fffdd0] p-3.5 rounded-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
