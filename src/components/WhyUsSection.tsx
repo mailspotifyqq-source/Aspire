@@ -20,17 +20,17 @@ export function WhyUsSection() {
   ];
 
   return (
-    <section id="why-us" className="py-20 md:py-28 px-6 md:px-12 bg-[#f5f5dc] border-t border-[#2d2d2d]/10">
+    <section id="why-us" className="py-20 md:py-28 px-6 md:px-12 bg-[#f5f5dc] dark:bg-[#070c14] border-t border-[#2d2d2d]/10 dark:border-white/10 transition-colors duration-200">
       <div className="max-w-[1440px] mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] font-semibold mb-2">
+          <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-semibold mb-2">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>The Aspire Standard</span>
           </div>
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#2d2d2d] mb-4 italic font-light">
+          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#2d2d2d] dark:text-white mb-4 italic font-light">
             Why Aspire Travels
           </h2>
-          <p className="font-sans text-base sm:text-lg text-[#4a3c31]/80 font-light max-w-2xl mx-auto">
+          <p className="font-sans text-base sm:text-lg text-[#4a3c31]/80 dark:text-slate-300 font-light max-w-2xl mx-auto">
             Where institutional precision meets personalized high-touch client advisory.
           </p>
         </div>
@@ -42,20 +42,20 @@ export function WhyUsSection() {
             return (
               <div
                 key={idx}
-                className="bg-[#fffdd0] border border-[#2d2d2d]/10 p-8 rounded-sm hover:border-[#b8860b]/50 hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-[#fffdd0] dark:bg-[#0b1320] border border-[#2d2d2d]/10 dark:border-white/10 p-8 rounded-sm hover:border-[#b8860b]/50 dark:hover:border-[#d4af37]/50 hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-full bg-[#b8860b]/10 text-[#b8860b] flex items-center justify-center mb-6">
+                  <div className="w-12 h-12 rounded-full bg-[#b8860b]/10 dark:bg-[#d4af37]/15 text-[#b8860b] dark:text-[#d4af37] flex items-center justify-center mb-6">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold text-[#2d2d2d] mb-3">
+                  <h3 className="font-serif text-xl font-bold text-[#2d2d2d] dark:text-white mb-3">
                     {p.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#4a3c31]/90 leading-relaxed font-light">
+                  <p className="text-xs sm:text-sm text-[#4a3c31]/90 dark:text-slate-300 leading-relaxed font-light">
                     {p.desc}
                   </p>
                 </div>
-                <div className="mt-6 pt-4 border-t border-[#2d2d2d]/10 flex items-center gap-1.5 text-[11px] text-[#b8860b] font-semibold uppercase tracking-wider">
+                <div className="mt-6 pt-4 border-t border-[#2d2d2d]/10 dark:border-white/10 flex items-center gap-1.5 text-[11px] text-[#b8860b] dark:text-[#d4af37] font-semibold uppercase tracking-wider">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Guaranteed Precision</span>
                 </div>
@@ -65,24 +65,24 @@ export function WhyUsSection() {
         </div>
 
         {/* Highlight Banner */}
-        <div className="bg-[#131b2e] text-[#f5f5dc] p-8 md:p-12 rounded-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div className="bg-[#131b2e] dark:bg-[#0f172a] border border-transparent dark:border-white/10 text-[#f5f5dc] p-8 md:p-12 rounded-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center shadow-md">
           <div className="md:col-span-8">
-            <span className="text-[#c2a05d] text-xs font-semibold uppercase tracking-widest block mb-2">
+            <span className="text-[#c2a05d] dark:text-[#fef08a] text-xs font-semibold uppercase tracking-widest block mb-2">
               Zero Tolerance For Discrepancies
             </span>
             <h3 className="font-serif text-2xl sm:text-3xl text-white font-bold mb-3">
               We Guarantee 100% Pre-Filing Compliance
             </h3>
-            <p className="text-xs sm:text-sm text-[#d4c4a8] leading-relaxed font-light max-w-2xl">
+            <p className="text-xs sm:text-sm text-[#d4c4a8] dark:text-slate-300 leading-relaxed font-light max-w-2xl">
               An incomplete itinerary or ambiguous employer certificate can lead to needless delays or formal refusals. Our compliance auditors scrutinize every line of your submission package to ensure airtight conformity with consular requirements.
             </p>
           </div>
           <div className="md:col-span-4 flex flex-col items-center md:items-end justify-center">
             <div className="text-center md:text-right">
-              <span className="text-4xl sm:text-5xl font-serif text-[#c2a05d] font-bold block">
+              <span className="text-4xl sm:text-5xl font-serif text-[#c2a05d] dark:text-[#d4af37] font-bold block">
                 98.8%
               </span>
-              <span className="text-xs uppercase tracking-widest text-[#d4c4a8] block mt-1">
+              <span className="text-xs uppercase tracking-widest text-[#d4c4a8] dark:text-slate-300 block mt-1">
                 Audited Approval Rate
               </span>
             </div>

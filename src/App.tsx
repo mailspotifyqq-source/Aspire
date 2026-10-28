@@ -113,7 +113,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fffdd0] text-[#2d2d2d] selection:bg-[#b8860b]/20 selection:text-[#2d2d2d] relative font-sans">
+    <div className="min-h-screen bg-[#fffdd0] dark:bg-[#070c14] text-[#2d2d2d] dark:text-[#f1f5f9] selection:bg-[#b8860b]/20 dark:selection:bg-[#d4af37]/30 selection:text-[#2d2d2d] dark:selection:text-white relative font-sans transition-colors duration-200">
       {/* Luxury Header Navigation */}
       <Header
         activeSection={activeSection}

@@ -24,14 +24,14 @@ export function WhatsAppWidget() {
           role="dialog"
           aria-modal="true"
           aria-label="Quick Connect Desk"
-          className="mb-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-lg border border-[#2d2d2d]/20 bg-[#fffdd0] shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-3 duration-200"
+          className="mb-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-lg border border-[#2d2d2d]/20 dark:border-white/15 bg-[#fffdd0] dark:bg-[#0b1320] shadow-2xl animate-in fade-in zoom-in-95 slide-in-from-bottom-3 duration-200"
         >
           {/* Header */}
-          <div className="bg-[#2d2d2d] px-4 py-3 text-[#fffdd0]">
+          <div className="bg-[#2d2d2d] dark:bg-[#070c14] px-4 py-3 text-[#fffdd0]">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#b8860b]/50 bg-[#fffdd0] text-[#2d2d2d]">
-                  <span className="font-serif text-xs font-bold text-[#b8860b]">AT</span>
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#b8860b]/50 bg-[#fffdd0] dark:bg-[#0b1320] text-[#2d2d2d] dark:text-white">
+                  <span className="font-serif text-xs font-bold text-[#b8860b] dark:text-[#d4af37]">AT</span>
                 </div>
                 <div>
                   <h4 className="font-serif text-sm font-semibold leading-tight text-[#fffdd0]">
@@ -44,7 +44,7 @@ export function WhatsAppWidget() {
                 type="button"
                 aria-label="Close contact window"
                 onClick={() => setIsOpen(false)}
-                className="rounded-full p-1.5 text-[#fffdd0]/70 transition-colors hover:bg-white/10 hover:text-[#fffdd0]"
+                className="rounded-full p-1.5 text-[#fffdd0]/70 transition-colors hover:bg-white/10 hover:text-[#fffdd0] cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -53,11 +53,11 @@ export function WhatsAppWidget() {
 
           {/* Quick contact actions */}
           <div className="space-y-2.5 p-4">
-            <div className="rounded border border-[#2d2d2d]/10 bg-[#f5f5dc] p-3 text-xs leading-relaxed text-[#2d2d2d]">
-              <p className="font-medium text-[#2d2d2d]">
+            <div className="rounded border border-[#2d2d2d]/10 dark:border-white/10 bg-[#f5f5dc] dark:bg-[#101b2d] p-3 text-xs leading-relaxed text-[#2d2d2d] dark:text-slate-200">
+              <p className="font-medium text-[#2d2d2d] dark:text-white">
                 Have visa questions or need application guidance?
               </p>
-              <p className="mt-1 text-[#2d2d2d]/75">
+              <p className="mt-1 text-[#2d2d2d]/75 dark:text-slate-300">
                 Reach out directly via WhatsApp or phone call for immediate assistance.
               </p>
             </div>
@@ -80,13 +80,13 @@ export function WhatsAppWidget() {
             <a
               id="call-popover-btn"
               href={CONTACT_PHONE_HREF}
-              className="flex w-full items-center justify-between rounded border border-[#2d2d2d]/20 bg-[#2d2d2d] px-4 py-3 text-sm font-semibold text-[#fffdd0] shadow-md transition-all hover:bg-[#1f1f1f] active:scale-[0.99]"
+              className="flex w-full items-center justify-between rounded border border-[#2d2d2d]/20 dark:border-white/15 bg-[#2d2d2d] dark:bg-[#131f33] px-4 py-3 text-sm font-semibold text-[#fffdd0] shadow-md transition-all hover:bg-[#1f1f1f] dark:hover:bg-[#1a2b47] active:scale-[0.99]"
             >
               <div className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-[#b8860b] shrink-0" />
+                <Phone className="h-4 w-4 text-[#b8860b] dark:text-[#d4af37] shrink-0" />
                 <span>Call Visa Expert</span>
               </div>
-              <span className="text-xs font-mono text-[#b8860b]">{CONTACT_PHONE_DISPLAY}</span>
+              <span className="text-xs font-mono text-[#b8860b] dark:text-[#d4af37]">{CONTACT_PHONE_DISPLAY}</span>
             </a>
           </div>
         </div>
@@ -100,12 +100,12 @@ export function WhatsAppWidget() {
           href={CONTACT_PHONE_HREF}
           aria-label={`Call Aspire Travels at ${CONTACT_PHONE_DISPLAY}`}
           title={`Call Us: ${CONTACT_PHONE_DISPLAY}`}
-          className="group relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-[#b8860b]/60 bg-[#2d2d2d] text-[#fffdd0] shadow-2xl transition-all duration-300 hover:scale-110 hover:bg-[#1f1f1f] hover:border-[#b8860b] active:scale-95 cursor-pointer"
+          className="group relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-[#b8860b]/60 dark:border-[#d4af37]/60 bg-[#2d2d2d] dark:bg-[#101b2d] text-[#fffdd0] shadow-2xl transition-all duration-300 hover:scale-110 hover:bg-[#1f1f1f] dark:hover:bg-[#16243b] hover:border-[#b8860b] dark:hover:border-[#d4af37] active:scale-95 cursor-pointer"
         >
-          <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-[#b8860b] transition-transform group-hover:scale-110" />
+          <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-[#b8860b] dark:text-[#d4af37] transition-transform group-hover:scale-110" />
           
           {/* Desktop Hover Tooltip */}
-          <span className="pointer-events-none absolute right-full mr-3 hidden rounded bg-[#2d2d2d] px-3 py-1.5 text-xs font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-xl transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
+          <span className="pointer-events-none absolute right-full mr-3 hidden rounded bg-[#2d2d2d] dark:bg-[#101b2d] px-3 py-1.5 text-xs font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-xl transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
             Call: {CONTACT_PHONE_DISPLAY}
           </span>
         </a>
@@ -117,12 +117,12 @@ export function WhatsAppWidget() {
           aria-label="Chat on WhatsApp"
           title="Open WhatsApp Chat"
           onClick={handleWhatsAppRedirect}
-          className="group relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/40 transition-all duration-300 hover:scale-110 hover:bg-[#1ebe5d] active:scale-95 cursor-pointer"
+          className="group relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border-2 border-white dark:border-[#d4af37]/40 bg-[#25D366] text-white shadow-2xl shadow-[#25D366]/40 transition-all duration-300 hover:scale-110 hover:bg-[#1ebe5d] active:scale-95 cursor-pointer"
         >
           <WhatsAppIcon className="h-6 w-6 sm:h-7 sm:w-7 transition-transform group-hover:scale-110" />
 
           {/* Desktop Hover Tooltip */}
-          <span className="pointer-events-none absolute right-full mr-3 hidden rounded bg-[#2d2d2d] px-3 py-1.5 text-xs font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-xl transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
+          <span className="pointer-events-none absolute right-full mr-3 hidden rounded bg-[#2d2d2d] dark:bg-[#101b2d] px-3 py-1.5 text-xs font-medium text-[#fffdd0] whitespace-nowrap opacity-0 shadow-xl transition-opacity group-hover:opacity-100 md:inline-block border border-white/10">
             Chat on WhatsApp
           </span>
         </button>
@@ -134,7 +134,7 @@ export function WhatsAppWidget() {
           aria-label={isOpen ? "Close contact options" : "More contact options"}
           aria-expanded={isOpen}
           onClick={() => setIsOpen((prev) => !prev)}
-          className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-[#2d2d2d]/20 bg-[#fffdd0] text-[#2d2d2d] shadow-md transition-all duration-200 hover:bg-[#f5f5dc] hover:scale-105 active:scale-95 cursor-pointer ${
+          className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-[#2d2d2d]/20 dark:border-white/20 bg-[#fffdd0] dark:bg-[#0b1320] text-[#2d2d2d] dark:text-white shadow-md transition-all duration-200 hover:bg-[#f5f5dc] dark:hover:bg-[#131f33] hover:scale-105 active:scale-95 cursor-pointer ${
             isOpen ? "rotate-45" : ""
           }`}
           title="Contact options menu"
@@ -142,7 +142,7 @@ export function WhatsAppWidget() {
           {isOpen ? (
             <X className="h-4 w-4" />
           ) : (
-            <MessageCircle className="h-4 w-4 text-[#b8860b]" />
+            <MessageCircle className="h-4 w-4 text-[#b8860b] dark:text-[#d4af37]" />
           )}
         </button>
       </div>

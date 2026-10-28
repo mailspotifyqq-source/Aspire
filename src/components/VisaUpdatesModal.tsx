@@ -59,11 +59,11 @@ export function VisaUpdatesModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-[#fffdd0] text-[#2d2d2d] rounded-sm border border-[#b8860b]/40 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-[#fffdd0] dark:bg-[#0b1320] text-[#2d2d2d] dark:text-[#f8fafc] rounded-sm border border-[#b8860b]/40 dark:border-[#d4af37]/40 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
         {/* Top Luxury Header */}
-        <div className="bg-[#0b192c] text-[#fffdd0] px-5 sm:px-8 py-5 border-b border-[#b8860b]/30 flex items-center justify-between shrink-0">
+        <div className="bg-[#0b192c] dark:bg-[#05080f] text-[#fffdd0] px-5 sm:px-8 py-5 border-b border-[#b8860b]/30 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#b8860b]/20 border border-[#b8860b]/50 flex items-center justify-center text-[#b8860b] shrink-0">
+            <div className="w-10 h-10 rounded-full bg-[#b8860b]/20 border border-[#b8860b]/50 flex items-center justify-center text-[#b8860b] dark:text-[#d4af37] shrink-0">
               <FileText className="w-5 h-5" />
             </div>
             <div>
@@ -98,7 +98,7 @@ export function VisaUpdatesModal({
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-[#f5f5dc] border-b border-[#2d2d2d]/10 px-5 sm:px-8 py-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+        <div className="bg-[#f5f5dc] dark:bg-[#070c14] border-b border-[#2d2d2d]/10 dark:border-white/10 px-5 sm:px-8 py-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
           {/* Country Tabs */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             {[
@@ -116,8 +116,8 @@ export function VisaUpdatesModal({
                   onClick={() => setSelectedCountry(tab.id)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                     active
-                      ? 'bg-[#0b192c] text-[#fffdd0] shadow-sm font-semibold'
-                      : 'bg-white/70 text-[#2d2d2d]/80 hover:bg-white hover:text-[#2d2d2d] border border-[#2d2d2d]/10'
+                      ? 'bg-[#0b192c] dark:bg-[#d4af37] text-[#fffdd0] dark:text-[#070c14] shadow-sm font-semibold'
+                      : 'bg-white/70 dark:bg-[#101b2d] text-[#2d2d2d]/80 dark:text-slate-300 hover:bg-white dark:hover:bg-[#17253d] hover:text-[#2d2d2d] dark:hover:text-white border border-[#2d2d2d]/10 dark:border-white/10'
                   }`}
                 >
                   <span>{tab.flag}</span>
@@ -129,13 +129,13 @@ export function VisaUpdatesModal({
 
           {/* Search Box */}
           <div className="relative min-w-[200px]">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#2d2d2d]/40" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#2d2d2d]/40 dark:text-slate-400" />
             <input
               type="text"
               placeholder="Search policies or rules..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 bg-white border border-[#2d2d2d]/20 rounded-full text-xs text-[#2d2d2d] focus:outline-none focus:border-[#b8860b] transition-colors"
+              className="w-full pl-9 pr-3 py-1.5 bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/20 dark:border-white/15 rounded-full text-xs text-[#2d2d2d] dark:text-white placeholder-[#2d2d2d]/40 dark:placeholder-slate-400 focus:outline-none focus:border-[#b8860b] dark:focus:border-[#d4af37] transition-colors"
             />
           </div>
         </div>
@@ -144,9 +144,9 @@ export function VisaUpdatesModal({
         <div className="flex-1 overflow-y-auto px-5 sm:px-8 py-6 space-y-4">
           {filteredNews.length === 0 ? (
             <div className="text-center py-12">
-              <AlertCircle className="w-10 h-10 text-[#b8860b] mx-auto mb-3 opacity-60" />
-              <p className="font-serif text-lg font-bold text-[#2d2d2d]">No Bulletins Found</p>
-              <p className="text-xs text-[#2d2d2d]/70 mt-1">
+              <AlertCircle className="w-10 h-10 text-[#b8860b] dark:text-[#d4af37] mx-auto mb-3 opacity-60" />
+              <p className="font-serif text-lg font-bold text-[#2d2d2d] dark:text-white">No Bulletins Found</p>
+              <p className="text-xs text-[#2d2d2d]/70 dark:text-slate-400 mt-1">
                 Try adjusting your search criteria or select another destination filter.
               </p>
             </div>
@@ -158,8 +158,8 @@ export function VisaUpdatesModal({
                   key={item.id}
                   className={`border rounded-sm transition-all duration-200 ${
                     isExpanded
-                      ? 'bg-white border-[#b8860b] shadow-md'
-                      : 'bg-[#f5f5dc]/70 border-[#2d2d2d]/15 hover:border-[#b8860b]/60 hover:bg-white'
+                      ? 'bg-white dark:bg-[#132036] border-[#b8860b] dark:border-[#d4af37] shadow-md'
+                      : 'bg-[#f5f5dc]/70 dark:bg-[#0f192b] border-[#2d2d2d]/15 dark:border-white/10 hover:border-[#b8860b]/60 dark:hover:border-[#d4af37]/60 hover:bg-white dark:hover:bg-[#132036]'
                   }`}
                 >
                   {/* Card Header & Summary Trigger */}
@@ -170,27 +170,27 @@ export function VisaUpdatesModal({
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                       <div className="flex items-center gap-2">
                         <span className="text-xl">{item.flag}</span>
-                        <span className="text-xs font-bold text-[#0b192c] uppercase tracking-wider font-sans">
+                        <span className="text-xs font-bold text-[#0b192c] dark:text-white uppercase tracking-wider font-sans">
                           {item.country}
                         </span>
-                        <span className="text-[#2d2d2d]/30">•</span>
-                        <span className="text-[11px] font-semibold text-[#b8860b] bg-[#b8860b]/10 px-2 py-0.5 rounded-xs">
+                        <span className="text-[#2d2d2d]/30 dark:text-white/30">•</span>
+                        <span className="text-[11px] font-semibold text-[#b8860b] dark:text-[#d4af37] bg-[#b8860b]/10 dark:bg-[#d4af37]/15 px-2 py-0.5 rounded-xs">
                           {item.category}
                         </span>
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-[#2d2d2d]/60 font-mono flex items-center gap-1">
-                          <Calendar className="w-3 h-3 text-[#b8860b]" />
+                        <span className="text-[11px] text-[#2d2d2d]/60 dark:text-slate-400 font-mono flex items-center gap-1">
+                          <Calendar className="w-3 h-3 text-[#b8860b] dark:text-[#d4af37]" />
                           {item.date}
                         </span>
                         <span
                           className={`text-[10px] font-bold px-2 py-0.5 rounded-xs tracking-wider uppercase ${
                             item.badgeType === 'urgent'
-                              ? 'bg-red-50 text-red-700 border border-red-200'
+                              ? 'bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
                               : item.badgeType === 'live'
-                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                              : 'bg-amber-50 text-amber-800 border border-amber-200'
+                              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                              : 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
                           }`}
                         >
                           {item.badge}
@@ -198,15 +198,15 @@ export function VisaUpdatesModal({
                       </div>
                     </div>
 
-                    <h3 className="font-serif text-base sm:text-lg font-bold text-[#2d2d2d] leading-snug hover:text-[#b8860b] transition-colors">
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-[#2d2d2d] dark:text-white leading-snug hover:text-[#b8860b] dark:hover:text-[#d4af37] transition-colors">
                       {item.title}
                     </h3>
 
-                    <p className="text-xs sm:text-sm text-[#2d2d2d]/80 mt-2 font-light leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#2d2d2d]/80 dark:text-slate-300 mt-2 font-light leading-relaxed">
                       {item.summary}
                     </p>
 
-                    <div className="mt-3 flex items-center justify-between text-xs font-semibold text-[#b8860b]">
+                    <div className="mt-3 flex items-center justify-between text-xs font-semibold text-[#b8860b] dark:text-[#d4af37]">
                       <span className="flex items-center gap-1">
                         {isExpanded ? 'Collapse Full Advisory' : 'Read Full Advisory & Key Requirements'}
                       </span>
@@ -220,27 +220,27 @@ export function VisaUpdatesModal({
 
                   {/* Expanded Full Content Details */}
                   {isExpanded && (
-                    <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-[#2d2d2d]/10 bg-white/90 animate-in fade-in duration-200">
+                    <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-[#2d2d2d]/10 dark:border-white/10 bg-white/90 dark:bg-[#0e1726] animate-in fade-in duration-200">
                       {/* Overview */}
                       <div className="mb-4">
-                        <h4 className="text-xs uppercase tracking-wider font-bold text-[#0b192c] mb-1.5 flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-[#b8860b]" />
+                        <h4 className="text-xs uppercase tracking-wider font-bold text-[#0b192c] dark:text-white mb-1.5 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-[#b8860b] dark:text-[#d4af37]" />
                           Official Policy Context &amp; Background
                         </h4>
-                        <p className="text-xs sm:text-sm text-[#2d2d2d]/85 leading-relaxed font-light">
+                        <p className="text-xs sm:text-sm text-[#2d2d2d]/85 dark:text-slate-300 leading-relaxed font-light">
                           {item.fullContent.overview}
                         </p>
                       </div>
 
                       {/* Key Points */}
                       <div className="mb-4">
-                        <h4 className="text-xs uppercase tracking-wider font-bold text-[#0b192c] mb-2">
+                        <h4 className="text-xs uppercase tracking-wider font-bold text-[#0b192c] dark:text-white mb-2">
                           Key Operational Takeaways:
                         </h4>
-                        <ul className="space-y-1.5 text-xs text-[#2d2d2d]/85">
+                        <ul className="space-y-1.5 text-xs text-[#2d2d2d]/85 dark:text-slate-300">
                           {item.fullContent.keyPoints.map((pt, idx) => (
                             <li key={idx} className="flex items-start gap-2">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#b8860b] shrink-0 mt-0.5" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-[#b8860b] dark:text-[#d4af37] shrink-0 mt-0.5" />
                               <span>{pt}</span>
                             </li>
                           ))}
@@ -252,49 +252,49 @@ export function VisaUpdatesModal({
                         <div className="mb-4 space-y-3">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {/* What is Affected (Red / Warning) */}
-                            <div className="bg-red-50/80 border-2 border-red-200 rounded-sm p-3.5 flex flex-col justify-between">
+                            <div className="bg-red-50/80 dark:bg-red-950/20 border-2 border-red-200 dark:border-red-900/60 rounded-sm p-3.5 flex flex-col justify-between">
                               <div>
-                                <div className="flex items-center gap-1.5 mb-1 text-red-700 font-bold text-xs uppercase tracking-wider">
-                                  <Ban className="w-4 h-4 text-red-600 shrink-0" />
+                                <div className="flex items-center gap-1.5 mb-1 text-red-700 dark:text-red-400 font-bold text-xs uppercase tracking-wider">
+                                  <Ban className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
                                   <span>{item.fullContent.comparison.affectedTitle}</span>
                                 </div>
-                                <h5 className="font-serif font-bold text-sm text-red-950 mb-2">
+                                <h5 className="font-serif font-bold text-sm text-red-950 dark:text-red-200 mb-2">
                                   {item.fullContent.comparison.affectedSubtitle}
                                 </h5>
-                                <ul className="space-y-1.5 mb-3 text-xs text-red-900/90">
+                                <ul className="space-y-1.5 mb-3 text-xs text-red-900/90 dark:text-red-300">
                                   {item.fullContent.comparison.affectedItems.map((aff, i) => (
                                     <li key={i} className="flex items-start gap-1.5">
-                                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 mt-1.5" />
+                                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 dark:bg-red-400 shrink-0 mt-1.5" />
                                       <span>{aff}</span>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
-                              <div className="bg-red-100/90 px-2.5 py-1.5 rounded-xs text-[11px] font-medium text-red-800 border border-red-200">
+                              <div className="bg-red-100/90 dark:bg-red-950/40 px-2.5 py-1.5 rounded-xs text-[11px] font-medium text-red-800 dark:text-red-300 border border-red-200 dark:border-red-900/60">
                                 {item.fullContent.comparison.affectedNote}
                               </div>
                             </div>
 
                             {/* What is NOT Affected (Green / Continuing) */}
-                            <div className="bg-emerald-50/80 border-2 border-emerald-200 rounded-sm p-3.5 flex flex-col justify-between">
+                            <div className="bg-emerald-50/80 dark:bg-emerald-950/20 border-2 border-emerald-200 dark:border-emerald-900/60 rounded-sm p-3.5 flex flex-col justify-between">
                               <div>
-                                <div className="flex items-center gap-1.5 mb-1 text-emerald-700 font-bold text-xs uppercase tracking-wider">
-                                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                                <div className="flex items-center gap-1.5 mb-1 text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">
+                                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                                   <span>{item.fullContent.comparison.notAffectedTitle}</span>
                                 </div>
-                                <h5 className="font-serif font-bold text-sm text-emerald-950 mb-2">
+                                <h5 className="font-serif font-bold text-sm text-emerald-950 dark:text-emerald-200 mb-2">
                                   {item.fullContent.comparison.notAffectedSubtitle}
                                 </h5>
-                                <ul className="space-y-1.5 mb-3 text-xs text-emerald-900/90">
+                                <ul className="space-y-1.5 mb-3 text-xs text-emerald-900/90 dark:text-emerald-300">
                                   {item.fullContent.comparison.notAffectedItems.map((unaff, i) => (
                                     <li key={i} className="flex items-start gap-1.5">
-                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 shrink-0 mt-1.5" />
+                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 shrink-0 mt-1.5" />
                                       <span>{unaff}</span>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
-                              <div className="bg-emerald-100/90 px-2.5 py-1.5 rounded-xs text-[11px] font-medium text-emerald-800 border border-emerald-200">
+                              <div className="bg-emerald-100/90 dark:bg-emerald-950/40 px-2.5 py-1.5 rounded-xs text-[11px] font-medium text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/60">
                                 {item.fullContent.comparison.notAffectedNote}
                               </div>
                             </div>
@@ -302,13 +302,13 @@ export function VisaUpdatesModal({
 
                           {/* Recent Legal Context note if present */}
                           {item.fullContent.recentUpdateContext && (
-                            <div className="bg-[#0b192c]/5 border border-[#0b192c]/20 p-3 rounded-xs flex items-start gap-2.5 text-xs text-[#2d2d2d]/90">
-                              <Gavel className="w-4 h-4 text-[#b8860b] shrink-0 mt-0.5" />
+                            <div className="bg-[#0b192c]/5 dark:bg-[#101b2d] border border-[#0b192c]/20 dark:border-white/10 p-3 rounded-xs flex items-start gap-2.5 text-xs text-[#2d2d2d]/90 dark:text-slate-300">
+                              <Gavel className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37] shrink-0 mt-0.5" />
                               <div>
-                                <span className="font-bold text-[11px] uppercase tracking-wider text-[#0b192c] block mb-0.5">
+                                <span className="font-bold text-[11px] uppercase tracking-wider text-[#0b192c] dark:text-[#d4af37] block mb-0.5">
                                   Judicial Precedent &amp; Court Ruling Context:
                                 </span>
-                                <p className="text-xs text-[#2d2d2d]/80 leading-relaxed font-light">
+                                <p className="text-xs text-[#2d2d2d]/80 dark:text-slate-300 leading-relaxed font-light">
                                   {item.fullContent.recentUpdateContext}
                                 </p>
                               </div>
@@ -317,15 +317,15 @@ export function VisaUpdatesModal({
                         </div>
                       ) : (
                         /* Standard Affected Visa Categories Pill List */
-                        <div className="mb-4 bg-[#f5f5dc]/70 p-3 rounded-xs border border-[#2d2d2d]/10">
-                          <span className="text-[11px] uppercase tracking-wider font-bold text-[#2d2d2d] block mb-1">
+                        <div className="mb-4 bg-[#f5f5dc]/70 dark:bg-[#101b2d] p-3 rounded-xs border border-[#2d2d2d]/10 dark:border-white/10">
+                          <span className="text-[11px] uppercase tracking-wider font-bold text-[#2d2d2d] dark:text-white block mb-1">
                             Affected Visa Categories:
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {item.fullContent.affectedApplicants.map((aff, i) => (
                               <span
                                 key={i}
-                                className="bg-white border border-[#2d2d2d]/15 text-[11px] text-[#2d2d2d] px-2 py-0.5 rounded-xs"
+                                className="bg-white dark:bg-[#0b1320] border border-[#2d2d2d]/15 dark:border-white/15 text-[11px] text-[#2d2d2d] dark:text-slate-200 px-2 py-0.5 rounded-xs"
                               >
                                 {aff}
                               </span>
@@ -335,12 +335,12 @@ export function VisaUpdatesModal({
                       )}
 
                       {/* Aspire Travels Advisory & Action */}
-                      <div className="bg-[#0b192c] text-[#fffdd0] p-3.5 rounded-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="bg-[#0b192c] dark:bg-[#080e18] text-[#fffdd0] p-3.5 rounded-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-[#b8860b]/20">
                         <div>
                           <span className="text-[10px] uppercase font-bold text-[#d4af37] tracking-wider block">
                             Aspire Travels Filing Advisory:
                           </span>
-                          <p className="text-xs text-[#fffdd0]/90 mt-0.5 leading-relaxed">
+                          <p className="text-xs text-[#fffdd0]/90 mt-0.5 leading-relaxed font-light">
                             {item.fullContent.recommendedAction}
                           </p>
                           <span className="text-[10px] text-white/50 block mt-1 font-mono">
@@ -354,7 +354,7 @@ export function VisaUpdatesModal({
                             onClose();
                             onOpenConsultation();
                           }}
-                          className="bg-[#b8860b] hover:bg-[#9a7009] text-white text-xs font-semibold px-4 py-2 rounded-none whitespace-nowrap shadow-md flex items-center gap-1.5 uppercase tracking-wider cursor-pointer shrink-0 transition-colors"
+                          className="bg-[#b8860b] dark:bg-[#d4af37] hover:bg-[#9a7009] dark:hover:bg-[#c39b2e] text-white dark:text-[#070c14] text-xs font-bold px-4 py-2 rounded-none whitespace-nowrap shadow-md flex items-center gap-1.5 uppercase tracking-wider cursor-pointer shrink-0 transition-colors"
                         >
                           <PhoneCall className="w-3.5 h-3.5" />
                           <span>Get Expert Advice</span>
@@ -369,15 +369,15 @@ export function VisaUpdatesModal({
         </div>
 
         {/* Footer info bar */}
-        <div className="bg-[#f5f5dc] border-t border-[#2d2d2d]/10 px-5 sm:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#2d2d2d]/70 shrink-0">
+        <div className="bg-[#f5f5dc] dark:bg-[#070c14] border-t border-[#2d2d2d]/10 dark:border-white/10 px-5 sm:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#2d2d2d]/70 dark:text-slate-400 shrink-0">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#b8860b]" />
+            <ShieldCheck className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37]" />
             <span>Verified against US Department of State, USCIS, IRCC, UKVI &amp; EU Official Portals</span>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-xs font-semibold text-[#2d2d2d] hover:text-[#b8860b] transition-colors"
+            className="text-xs font-semibold text-[#2d2d2d] dark:text-slate-200 hover:text-[#b8860b] dark:hover:text-[#d4af37] transition-colors cursor-pointer"
           >
             Close Feed
           </button>

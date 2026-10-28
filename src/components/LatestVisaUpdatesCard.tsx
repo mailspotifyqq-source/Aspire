@@ -41,33 +41,33 @@ export function LatestVisaUpdatesCard({
       aria-label="Latest Visa & Immigration Updates"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`max-w-[315px] sm:max-w-[330px] w-full bg-[#fffdd0]/95 backdrop-blur-md border border-[#b8860b]/35 p-3.5 sm:p-4 rounded-sm shadow-xl transition-all duration-300 pointer-events-auto hover:border-[#b8860b] hover:shadow-2xl ${className}`}
+      className={`max-w-[315px] sm:max-w-[330px] w-full bg-[#fffdd0]/95 dark:bg-[#0b1320]/95 backdrop-blur-md border border-[#b8860b]/35 dark:border-[#d4af37]/40 p-3.5 sm:p-4 rounded-sm shadow-xl dark:shadow-2xl transition-all duration-300 pointer-events-auto hover:border-[#b8860b] dark:hover:border-[#d4af37] ${className}`}
     >
       {/* Top Header with Live Indicator */}
-      <div className="flex items-center justify-between gap-2 border-b border-[#2d2d2d]/10 pb-2.5 mb-2.5">
+      <div className="flex items-center justify-between gap-2 border-b border-[#2d2d2d]/10 dark:border-white/10 pb-2.5 mb-2.5">
         <div className="flex items-center gap-1.5">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
           </span>
-          <h3 className="font-serif font-bold text-xs uppercase tracking-wider text-[#2d2d2d] flex items-center gap-1">
+          <h3 className="font-serif font-bold text-xs uppercase tracking-wider text-[#2d2d2d] dark:text-[#f8fafc] flex items-center gap-1">
             <span>Latest Visa Updates</span>
           </h3>
-          <span className="px-1.5 py-0.2 rounded-xs bg-[#22c55e]/15 text-[#15803d] text-[9px] font-bold uppercase tracking-widest border border-[#22c55e]/30">
+          <span className="px-1.5 py-0.2 rounded-xs bg-[#22c55e]/15 text-[#15803d] dark:text-[#4ade80] text-[9px] font-bold uppercase tracking-widest border border-[#22c55e]/30">
             Live
           </span>
         </div>
 
         {/* Carousel indicator & micro buttons */}
         <div className="flex items-center gap-1">
-          <span className="text-[10px] text-[#2d2d2d]/50 font-mono">
+          <span className="text-[10px] text-[#2d2d2d]/50 dark:text-slate-400 font-mono">
             {currentIndex + 1}/{topNews.length}
           </span>
           <button
             type="button"
             onClick={handlePrev}
             aria-label="Previous update"
-            className="p-0.5 text-[#2d2d2d]/50 hover:text-[#b8860b] transition-colors cursor-pointer"
+            className="p-0.5 text-[#2d2d2d]/50 dark:text-slate-400 hover:text-[#b8860b] dark:hover:text-[#d4af37] transition-colors cursor-pointer"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
@@ -75,7 +75,7 @@ export function LatestVisaUpdatesCard({
             type="button"
             onClick={handleNext}
             aria-label="Next update"
-            className="p-0.5 text-[#2d2d2d]/50 hover:text-[#b8860b] transition-colors cursor-pointer"
+            className="p-0.5 text-[#2d2d2d]/50 dark:text-slate-400 hover:text-[#b8860b] dark:hover:text-[#d4af37] transition-colors cursor-pointer"
           >
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
@@ -90,20 +90,20 @@ export function LatestVisaUpdatesCard({
         <div className="flex items-center justify-between gap-2 mb-1.5">
           <div className="flex items-center gap-1.5">
             <span className="text-base">{currentItem.flag}</span>
-            <span className="text-[10px] font-bold text-[#b8860b] uppercase tracking-wider">
+            <span className="text-[10px] font-bold text-[#b8860b] dark:text-[#d4af37] uppercase tracking-wider">
               {currentItem.country} • {currentItem.category}
             </span>
           </div>
-          <span className="text-[9px] text-[#2d2d2d]/50 font-mono">
+          <span className="text-[9px] text-[#2d2d2d]/50 dark:text-slate-400 font-mono">
             {currentItem.date}
           </span>
         </div>
 
-        <h4 className="font-serif font-bold text-xs sm:text-[13px] text-[#2d2d2d] leading-snug group-hover:text-[#b8860b] transition-colors line-clamp-2 mb-1.5">
+        <h4 className="font-serif font-bold text-xs sm:text-[13px] text-[#2d2d2d] dark:text-white leading-snug group-hover:text-[#b8860b] dark:group-hover:text-[#d4af37] transition-colors line-clamp-2 mb-1.5">
           {currentItem.title}
         </h4>
 
-        <p className="text-[11px] text-[#4a3c31]/80 leading-relaxed line-clamp-2 mb-3 font-light">
+        <p className="text-[11px] text-[#4a3c31]/80 dark:text-slate-300 leading-relaxed line-clamp-2 mb-3 font-light">
           {currentItem.summary}
         </p>
       </div>
@@ -113,7 +113,7 @@ export function LatestVisaUpdatesCard({
         id="explore-latest-visa-updates-btn"
         type="button"
         onClick={onOpenUpdates}
-        className="w-full bg-[#b8860b] hover:bg-[#9a7009] active:scale-[0.99] text-white text-[11px] font-semibold py-2 px-3 rounded-none shadow-xs flex items-center justify-center gap-2 uppercase tracking-widest cursor-pointer transition-all duration-200 group"
+        className="w-full bg-[#b8860b] dark:bg-[#d4af37] hover:bg-[#9a7009] dark:hover:bg-[#c39b2e] active:scale-[0.99] text-white dark:text-[#070c14] text-[11px] font-bold py-2 px-3 rounded-none shadow-xs flex items-center justify-center gap-2 uppercase tracking-widest cursor-pointer transition-all duration-200 group"
       >
         <span>Explore Latest Updates</span>
         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />

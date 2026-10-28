@@ -266,40 +266,40 @@ Contact Aspire Travels: +91 92893 37446
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-[#fffdd0] border border-[#2d2d2d]/15 shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-sm flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-[#fffdd0] dark:bg-[#0b1320] border border-[#2d2d2d]/15 dark:border-white/15 shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-sm flex flex-col text-[#2d2d2d] dark:text-[#f8fafc] transition-colors">
         {/* Modal Header */}
-        <div className="p-6 md:p-8 bg-[#f5f5dc] border-b border-[#2d2d2d]/10 flex items-center justify-between sticky top-0 z-10">
+        <div className="p-6 md:p-8 bg-[#f5f5dc] dark:bg-[#070c14] border-b border-[#2d2d2d]/10 dark:border-white/10 flex items-center justify-between sticky top-0 z-10">
           <div>
-            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#b8860b] font-semibold">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Step {step} of 4 &bull; Visa Journey Assessment</span>
             </div>
-            <h3 className="font-serif text-2xl sm:text-3xl text-[#2d2d2d] font-bold mt-1">
+            <h3 className="font-serif text-2xl sm:text-3xl text-[#2d2d2d] dark:text-white font-bold mt-1">
               Start Your Visa Journey
             </h3>
           </div>
           <button
             id="close-visa-assessment-btn"
             onClick={onClose}
-            className="p-2 text-[#2d2d2d]/60 hover:text-[#2d2d2d] rounded-full hover:bg-[#2d2d2d]/5 transition-colors cursor-pointer"
+            className="p-2 text-[#2d2d2d]/60 dark:text-slate-400 hover:text-[#2d2d2d] dark:hover:text-white rounded-full hover:bg-[#2d2d2d]/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Stepper Indicator */}
-        <div className="grid grid-cols-4 border-b border-[#2d2d2d]/10 text-center text-xs font-semibold uppercase tracking-wider">
-          <div className={`py-2.5 ${step >= 1 ? 'bg-[#b8860b]/15 text-[#b8860b] border-b-2 border-[#b8860b]' : 'text-[#2d2d2d]/40'}`}>
+        <div className="grid grid-cols-4 border-b border-[#2d2d2d]/10 dark:border-white/10 text-center text-xs font-semibold uppercase tracking-wider">
+          <div className={`py-2.5 ${step >= 1 ? 'bg-[#b8860b]/15 dark:bg-[#d4af37]/20 text-[#b8860b] dark:text-[#d4af37] border-b-2 border-[#b8860b] dark:border-[#d4af37]' : 'text-[#2d2d2d]/40 dark:text-slate-400'}`}>
             1. Destination
           </div>
-          <div className={`py-2.5 ${step >= 2 ? 'bg-[#b8860b]/15 text-[#b8860b] border-b-2 border-[#b8860b]' : 'text-[#2d2d2d]/40'}`}>
+          <div className={`py-2.5 ${step >= 2 ? 'bg-[#b8860b]/15 dark:bg-[#d4af37]/20 text-[#b8860b] dark:text-[#d4af37] border-b-2 border-[#b8860b] dark:border-[#d4af37]' : 'text-[#2d2d2d]/40 dark:text-slate-400'}`}>
             2. Category
           </div>
-          <div className={`py-2.5 ${step >= 3 ? 'bg-[#b8860b]/15 text-[#b8860b] border-b-2 border-[#b8860b]' : 'text-[#2d2d2d]/40'}`}>
+          <div className={`py-2.5 ${step >= 3 ? 'bg-[#b8860b]/15 dark:bg-[#d4af37]/20 text-[#b8860b] dark:text-[#d4af37] border-b-2 border-[#b8860b] dark:border-[#d4af37]' : 'text-[#2d2d2d]/40 dark:text-slate-400'}`}>
             3. Profile & Contact
           </div>
-          <div className={`py-2.5 ${step >= 4 ? 'bg-[#b8860b]/15 text-[#b8860b] border-b-2 border-[#b8860b]' : 'text-[#2d2d2d]/40'}`}>
+          <div className={`py-2.5 ${step >= 4 ? 'bg-[#b8860b]/15 dark:bg-[#d4af37]/20 text-[#b8860b] dark:text-[#d4af37] border-b-2 border-[#b8860b] dark:border-[#d4af37]' : 'text-[#2d2d2d]/40 dark:text-slate-400'}`}>
             4. Outcome & Dossier
           </div>
         </div>
@@ -310,7 +310,7 @@ Contact Aspire Travels: +91 92893 37446
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-3">
+                <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-3">
                   Step 1 &mdash; Select Your Target Destination:
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -322,15 +322,15 @@ Contact Aspire Travels: +91 92893 37446
                       onClick={() => handleSelectDestination(dest.id)}
                       className={`p-3.5 text-left border rounded-sm transition-all text-xs flex flex-col justify-between cursor-pointer ${
                         form.destinationId === dest.id
-                          ? 'border-[#b8860b] bg-[#f5f5dc] text-[#b8860b] font-bold shadow-xs scale-[1.02]'
-                          : 'border-[#2d2d2d]/15 bg-white/70 text-[#2d2d2d] hover:border-[#b8860b]/40 hover:bg-white'
+                          ? 'border-[#b8860b] dark:border-[#d4af37] bg-[#f5f5dc] dark:bg-[#16253c] text-[#b8860b] dark:text-[#d4af37] font-bold shadow-xs scale-[1.02]'
+                          : 'border-[#2d2d2d]/15 dark:border-white/10 bg-white/70 dark:bg-[#101b2d] text-[#2d2d2d] dark:text-slate-200 hover:border-[#b8860b]/40 dark:hover:border-[#d4af37]/60 hover:bg-white dark:hover:bg-[#132138]'
                       }`}
                     >
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl">{dest.flag}</span>
-                        <span className="font-serif text-base text-[#2d2d2d] font-semibold">{dest.name}</span>
+                        <span className="font-serif text-base text-[#2d2d2d] dark:text-white font-semibold">{dest.name}</span>
                       </div>
-                      <span className="text-[10px] text-[#2d2d2d]/60 font-sans uppercase tracking-wider block">
+                      <span className="text-[10px] text-[#2d2d2d]/60 dark:text-slate-400 font-sans uppercase tracking-wider block">
                         {dest.category}
                       </span>
                     </button>
@@ -338,14 +338,14 @@ Contact Aspire Travels: +91 92893 37446
                 </div>
               </div>
 
-              <div className="bg-[#f5f5dc] border border-[#2d2d2d]/10 p-4 rounded-sm">
+              <div className="bg-[#f5f5dc] dark:bg-[#101b2d] border border-[#2d2d2d]/10 dark:border-white/10 p-4 rounded-sm">
                 <div className="flex items-start gap-3">
                   <span className="text-2xl">{currentDestination.flag}</span>
                   <div>
-                    <h4 className="font-serif text-base font-bold text-[#2d2d2d]">
+                    <h4 className="font-serif text-base font-bold text-[#2d2d2d] dark:text-white">
                       {currentDestination.name} Immigrations Hub
                     </h4>
-                    <p className="text-xs text-[#4a3c31] font-light mt-0.5 leading-relaxed">
+                    <p className="text-xs text-[#4a3c31] dark:text-slate-300 font-light mt-0.5 leading-relaxed">
                       {currentDestination.description}
                     </p>
                   </div>
@@ -353,13 +353,13 @@ Contact Aspire Travels: +91 92893 37446
               </div>
 
               <div>
-                <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-2">
+                <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-2">
                   Anticipated Travel Departure Date:
                 </label>
                 <select
                   value={form.travelDate}
                   onChange={(e) => setForm({ ...form, travelDate: e.target.value })}
-                  className="w-full bg-white border border-[#2d2d2d]/15 p-3 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                  className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-3 text-xs text-[#2d2d2d] dark:text-white rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                 >
                   <option value="Urgent (Within 30 Days)">Urgent (Within 30 Days)</option>
                   <option value="Within next 3 months">Within next 3 months</option>
@@ -375,10 +375,10 @@ Contact Aspire Travels: +91 92893 37446
             <div className="space-y-6">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d]">
+                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white">
                     Step 2 &mdash; Select Visa Category for {currentDestination.name}:
                   </label>
-                  <span className="text-[11px] text-[#b8860b] font-semibold uppercase">
+                  <span className="text-[11px] text-[#b8860b] dark:text-[#d4af37] font-semibold uppercase">
                     {isUSA ? '3 Available Categories' : 'Standard Visitor Category'}
                   </span>
                 </div>
@@ -394,24 +394,24 @@ Contact Aspire Travels: +91 92893 37446
                         onClick={() => setForm({ ...form, visaCategory: srv.title })}
                         className={`p-4 text-left border rounded-sm transition-all cursor-pointer ${
                           isSelected
-                            ? 'border-[#b8860b] bg-[#f5f5dc] shadow-sm'
-                            : 'border-[#2d2d2d]/15 bg-white/70 text-[#2d2d2d] hover:border-[#b8860b]/40 hover:bg-white'
+                            ? 'border-[#b8860b] dark:border-[#d4af37] bg-[#f5f5dc] dark:bg-[#16253c] shadow-sm'
+                            : 'border-[#2d2d2d]/15 dark:border-white/10 bg-white/70 dark:bg-[#101b2d] text-[#2d2d2d] dark:text-slate-200 hover:border-[#b8860b]/40 dark:hover:border-[#d4af37]/60 hover:bg-white dark:hover:bg-[#132138]'
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div>
-                            <span className="text-[10px] uppercase font-bold text-[#b8860b] tracking-wider block mb-1">
+                            <span className="text-[10px] uppercase font-bold text-[#b8860b] dark:text-[#d4af37] tracking-wider block mb-1">
                               {srv.category}
                             </span>
-                            <span className="font-serif text-lg text-[#2d2d2d] font-bold block">
+                            <span className="font-serif text-lg text-[#2d2d2d] dark:text-white font-bold block">
                               {srv.title}
                             </span>
-                            <span className="text-xs text-[#4a3c31]/80 font-light mt-1 block">
+                            <span className="text-xs text-[#4a3c31]/80 dark:text-slate-300 font-light mt-1 block">
                               {srv.desc}
                             </span>
                           </div>
                           <div className={`w-5 h-5 rounded-full border flex items-center justify-center mt-1 shrink-0 ${
-                            isSelected ? 'border-[#b8860b] bg-[#b8860b] text-white' : 'border-[#2d2d2d]/20'
+                            isSelected ? 'border-[#b8860b] dark:border-[#d4af37] bg-[#b8860b] dark:bg-[#d4af37] text-white dark:text-[#070c14]' : 'border-[#2d2d2d]/20 dark:border-white/20'
                           }`}>
                             {isSelected && <CheckCircle2 className="w-4 h-4" />}
                           </div>
@@ -424,13 +424,13 @@ Contact Aspire Travels: +91 92893 37446
 
               {/* DS-160 Flow for USA Tourist & Business Visa */}
               {isUSATourist && (
-                <div className="bg-[#fffdd0] border-2 border-[#b8860b]/30 p-5 rounded-sm space-y-3 animate-in fade-in duration-200">
-                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#b8860b] font-bold">
+                <div className="bg-[#fffdd0] dark:bg-[#0e1726] border-2 border-[#b8860b]/30 dark:border-[#d4af37]/40 p-5 rounded-sm space-y-3 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-bold">
                     <HelpCircle className="w-4 h-4" />
                     <span>U.S. Consular Form DS-160 Status</span>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[#2d2d2d] font-medium">
+                  <p className="text-xs sm:text-sm text-[#2d2d2d] dark:text-white font-medium">
                     Do you already have your DS-160 confirmation?
                   </p>
 
@@ -439,8 +439,8 @@ Contact Aspire Travels: +91 92893 37446
                       id="ds160-yes-option"
                       className={`p-3 border rounded-sm flex items-start gap-2.5 text-xs cursor-pointer transition-all ${
                         form.hasDs160Confirmation === 'yes'
-                          ? 'border-[#b8860b] bg-[#f5f5dc] font-semibold text-[#2d2d2d]'
-                          : 'border-[#2d2d2d]/15 bg-white/70 text-[#2d2d2d]/80 hover:bg-white'
+                          ? 'border-[#b8860b] dark:border-[#d4af37] bg-[#f5f5dc] dark:bg-[#16253c] font-semibold text-[#2d2d2d] dark:text-white'
+                          : 'border-[#2d2d2d]/15 dark:border-white/10 bg-white/70 dark:bg-[#101b2d] text-[#2d2d2d]/80 dark:text-slate-300 hover:bg-white dark:hover:bg-[#132138]'
                       }`}
                     >
                       <input
@@ -448,11 +448,11 @@ Contact Aspire Travels: +91 92893 37446
                         name="ds160-status"
                         checked={form.hasDs160Confirmation === 'yes'}
                         onChange={() => setForm({ ...form, hasDs160Confirmation: 'yes' })}
-                        className="text-[#b8860b] focus:ring-[#b8860b] mt-0.5"
+                        className="text-[#b8860b] dark:text-[#d4af37] focus:ring-[#b8860b] dark:focus:ring-[#d4af37] mt-0.5"
                       />
                       <div>
-                        <span className="block font-serif text-sm font-bold text-[#2d2d2d]">Yes, I have it</span>
-                        <span className="text-[11px] text-[#4a3c31]/80 block font-light mt-0.5">
+                        <span className="block font-serif text-sm font-bold text-[#2d2d2d] dark:text-white">Yes, I have it</span>
+                        <span className="text-[11px] text-[#4a3c31]/80 dark:text-slate-300 block font-light mt-0.5">
                           I already submitted my DS-160 and have my CEAC confirmation barcode.
                         </span>
                       </div>
@@ -462,8 +462,8 @@ Contact Aspire Travels: +91 92893 37446
                       id="ds160-no-option"
                       className={`p-3 border rounded-sm flex items-start gap-2.5 text-xs cursor-pointer transition-all ${
                         form.hasDs160Confirmation === 'no'
-                          ? 'border-[#b8860b] bg-[#f5f5dc] font-semibold text-[#2d2d2d]'
-                          : 'border-[#2d2d2d]/15 bg-white/70 text-[#2d2d2d]/80 hover:bg-white'
+                          ? 'border-[#b8860b] dark:border-[#d4af37] bg-[#f5f5dc] dark:bg-[#16253c] font-semibold text-[#2d2d2d] dark:text-white'
+                          : 'border-[#2d2d2d]/15 dark:border-white/10 bg-white/70 dark:bg-[#101b2d] text-[#2d2d2d]/80 dark:text-slate-300 hover:bg-white dark:hover:bg-[#132138]'
                       }`}
                     >
                       <input
@@ -471,11 +471,11 @@ Contact Aspire Travels: +91 92893 37446
                         name="ds160-status"
                         checked={form.hasDs160Confirmation === 'no'}
                         onChange={() => setForm({ ...form, hasDs160Confirmation: 'no' })}
-                        className="text-[#b8860b] focus:ring-[#b8860b] mt-0.5"
+                        className="text-[#b8860b] dark:text-[#d4af37] focus:ring-[#b8860b] dark:focus:ring-[#d4af37] mt-0.5"
                       />
                       <div>
-                        <span className="block font-serif text-sm font-bold text-[#2d2d2d]">No, not yet</span>
-                        <span className="text-[11px] text-[#4a3c31]/80 block font-light mt-0.5">
+                        <span className="block font-serif text-sm font-bold text-[#2d2d2d] dark:text-white">No, not yet</span>
+                        <span className="text-[11px] text-[#4a3c31]/80 dark:text-slate-300 block font-light mt-0.5">
                           I have not completed or submitted my DS-160 application yet.
                         </span>
                       </div>
@@ -483,10 +483,10 @@ Contact Aspire Travels: +91 92893 37446
                   </div>
 
                   {form.hasDs160Confirmation === 'no' && (
-                    <div className="bg-[#f5f5dc] border border-[#2d2d2d]/10 p-3 rounded-xs flex items-start gap-2.5 text-xs text-[#4a3c31]">
-                      <FileSpreadsheet className="w-4 h-4 text-[#b8860b] shrink-0 mt-0.5" />
+                    <div className="bg-[#f5f5dc] dark:bg-[#101b2d] border border-[#2d2d2d]/10 dark:border-white/10 p-3 rounded-xs flex items-start gap-2.5 text-xs text-[#4a3c31] dark:text-slate-300">
+                      <FileSpreadsheet className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37] shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-semibold text-[#2d2d2d] block">Downloadable Offline Preparation Template Available</span>
+                        <span className="font-semibold text-[#2d2d2d] dark:text-white block">Downloadable Offline Preparation Template Available</span>
                         <span className="text-[11px] font-light leading-relaxed">
                           You do not need to pause your assessment. Upon completing this flow, you will be able to download our offline DS-160 preparation template to organize all your details beforehand.
                         </span>
@@ -503,7 +503,7 @@ Contact Aspire Travels: +91 92893 37446
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-2">
+                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-2">
                     Current Nationality / Passport:
                   </label>
                   <input
@@ -511,18 +511,18 @@ Contact Aspire Travels: +91 92893 37446
                     value={form.nationality}
                     onChange={(e) => setForm({ ...form, nationality: e.target.value })}
                     placeholder="e.g. India, United States, Canada"
-                    className="w-full bg-white border border-[#2d2d2d]/15 p-3 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                    className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-3 text-xs text-[#2d2d2d] dark:text-white placeholder-[#2d2d2d]/40 dark:placeholder-slate-400 rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-2">
+                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-2">
                     Employment / Professional Status:
                   </label>
                   <select
                     value={form.employmentStatus}
                     onChange={(e) => setForm({ ...form, employmentStatus: e.target.value })}
-                    className="w-full bg-white border border-[#2d2d2d]/15 p-3 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                    className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-3 text-xs text-[#2d2d2d] dark:text-white rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                   >
                     <option value="Full-time Employed">Full-time Employed (Corporate / Govt)</option>
                     <option value="Business Owner / Founder">Business Owner / Company Director</option>
@@ -535,13 +535,13 @@ Contact Aspire Travels: +91 92893 37446
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-2">
+                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-2">
                     Estimated Available Funds (Liquid Balance):
                   </label>
                   <select
                     value={form.fundsAvailability}
                     onChange={(e) => setForm({ ...form, fundsAvailability: e.target.value })}
-                    className="w-full bg-white border border-[#2d2d2d]/15 p-3 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                    className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-3 text-xs text-[#2d2d2d] dark:text-white rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                   >
                     <option value="₹10,00,000 – ₹25,00,000">₹10,00,000 – ₹25,00,000 (Recommended Standard)</option>
                     <option value="₹25,00,000 – ₹50,00,000">₹25,00,000 – ₹50,00,000 (High Solvency)</option>
@@ -552,13 +552,13 @@ Contact Aspire Travels: +91 92893 37446
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-2">
+                  <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-2">
                     Passport Validity Remaining:
                   </label>
                   <select
                     value={form.passportValidityMonths}
                     onChange={(e) => setForm({ ...form, passportValidityMonths: Number(e.target.value) })}
-                    className="w-full bg-white border border-[#2d2d2d]/15 p-3 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                    className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-3 text-xs text-[#2d2d2d] dark:text-white rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                   >
                     <option value={24}>2+ Years remaining (Optimal)</option>
                     <option value={12}>1 Year remaining</option>
@@ -569,27 +569,27 @@ Contact Aspire Travels: +91 92893 37446
               </div>
 
               <div>
-                <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] mb-2">
+                <label className="block text-xs uppercase tracking-widest font-semibold text-[#2d2d2d] dark:text-white mb-2">
                   Have you had any previous visa refusals for any country?
                 </label>
                 <div className="flex gap-6">
-                  <label className="flex items-center gap-2 text-xs text-[#2d2d2d] cursor-pointer">
+                  <label className="flex items-center gap-2 text-xs text-[#2d2d2d] dark:text-slate-200 cursor-pointer">
                     <input
                       type="radio"
                       name="refusal"
                       checked={!form.hasPreviousRefusal}
                       onChange={() => setForm({ ...form, hasPreviousRefusal: false })}
-                      className="text-[#b8860b] focus:ring-[#b8860b]"
+                      className="text-[#b8860b] dark:text-[#d4af37] focus:ring-[#b8860b]"
                     />
                     <span>No prior refusals (Clean record)</span>
                   </label>
-                  <label className="flex items-center gap-2 text-xs text-[#2d2d2d] cursor-pointer">
+                  <label className="flex items-center gap-2 text-xs text-[#2d2d2d] dark:text-slate-200 cursor-pointer">
                     <input
                       type="radio"
                       name="refusal"
                       checked={form.hasPreviousRefusal}
                       onChange={() => setForm({ ...form, hasPreviousRefusal: true })}
-                      className="text-[#b8860b] focus:ring-[#b8860b]"
+                      className="text-[#b8860b] dark:text-[#d4af37] focus:ring-[#b8860b]"
                     />
                     <span>Yes, I have had a previous refusal</span>
                   </label>
@@ -597,19 +597,19 @@ Contact Aspire Travels: +91 92893 37446
               </div>
 
               {/* Contact Info to Receive Case File */}
-              <div className="pt-4 border-t border-[#2d2d2d]/10 space-y-4">
+              <div className="pt-4 border-t border-[#2d2d2d]/10 dark:border-white/10 space-y-4">
                 <div>
-                  <h4 className="font-serif text-lg font-bold text-[#2d2d2d]">
+                  <h4 className="font-serif text-lg font-bold text-[#2d2d2d] dark:text-white">
                     Applicant Contact Details
                   </h4>
-                  <p className="text-xs text-[#4a3c31]/80 font-light">
+                  <p className="text-xs text-[#4a3c31]/80 dark:text-slate-300 font-light">
                     Provide your contact details so our case team can register your file and dispatch your dossier.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#2d2d2d] mb-1">
+                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#2d2d2d] dark:text-white mb-1">
                       Full Legal Name *
                     </label>
                     <input
@@ -618,11 +618,11 @@ Contact Aspire Travels: +91 92893 37446
                       value={form.fullName}
                       onChange={(e) => setForm({ ...form, fullName: e.target.value })}
                       placeholder="e.g. Johnathan Doe"
-                      className="w-full bg-white border border-[#2d2d2d]/15 p-2.5 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                      className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-2.5 text-xs text-[#2d2d2d] dark:text-white placeholder-[#2d2d2d]/40 dark:placeholder-slate-400 rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#2d2d2d] mb-1">
+                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#2d2d2d] dark:text-white mb-1">
                       Email Address *
                     </label>
                     <input
@@ -631,11 +631,11 @@ Contact Aspire Travels: +91 92893 37446
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="john@example.com"
-                      className="w-full bg-white border border-[#2d2d2d]/15 p-2.5 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                      className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-2.5 text-xs text-[#2d2d2d] dark:text-white placeholder-[#2d2d2d]/40 dark:placeholder-slate-400 rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#2d2d2d] mb-1">
+                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-[#2d2d2d] dark:text-white mb-1">
                       Phone / WhatsApp *
                     </label>
                     <input
@@ -644,7 +644,7 @@ Contact Aspire Travels: +91 92893 37446
                       value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder="+91 98765 43210"
-                      className="w-full bg-white border border-[#2d2d2d]/15 p-2.5 text-xs text-[#2d2d2d] rounded-sm focus:border-[#b8860b] focus:outline-none"
+                      className="w-full bg-white dark:bg-[#101b2d] border border-[#2d2d2d]/15 dark:border-white/15 p-2.5 text-xs text-[#2d2d2d] dark:text-white placeholder-[#2d2d2d]/40 dark:placeholder-slate-400 rounded-sm focus:border-[#b8860b] dark:focus:border-[#d4af37] focus:outline-none"
                     />
                   </div>
                 </div>
@@ -657,43 +657,43 @@ Contact Aspire Travels: +91 92893 37446
             <div className="py-2 space-y-6">
               {/* Header Box */}
               <div className="text-center space-y-2">
-                <div className="w-14 h-14 rounded-full bg-[#b8860b]/15 text-[#b8860b] flex items-center justify-center mx-auto mb-2">
+                <div className="w-14 h-14 rounded-full bg-[#b8860b]/15 dark:bg-[#d4af37]/20 text-[#b8860b] dark:text-[#d4af37] flex items-center justify-center mx-auto mb-2">
                   <FileCheck2 className="w-7 h-7" />
                 </div>
-                <span className="text-xs uppercase tracking-widest text-[#b8860b] font-bold block">
+                <span className="text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-bold block">
                   File Registered &bull; {caseReference}
                 </span>
-                <h3 className="font-serif text-2xl sm:text-3xl text-[#2d2d2d] font-bold">
+                <h3 className="font-serif text-2xl sm:text-3xl text-[#2d2d2d] dark:text-white font-bold">
                   Your Visa Assessment is Complete!
                 </h3>
-                <p className="text-xs sm:text-sm text-[#4a3c31] max-w-xl mx-auto font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#4a3c31] dark:text-slate-300 max-w-xl mx-auto font-light leading-relaxed">
                   We have mapped your profile against current consular benchmarks for{' '}
-                  <span className="font-semibold text-[#2d2d2d]">{currentDestination.name}</span> ({form.visaCategory}).
+                  <span className="font-semibold text-[#2d2d2d] dark:text-white">{currentDestination.name}</span> ({form.visaCategory}).
                 </p>
               </div>
 
               {/* Assessment Score Card */}
-              <div className="bg-[#f5f5dc] border border-[#2d2d2d]/10 p-5 rounded-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="bg-[#f5f5dc] dark:bg-[#101b2d] border border-[#2d2d2d]/10 dark:border-white/10 p-5 rounded-sm flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3.5">
                   <span className="text-3xl">{currentDestination.flag}</span>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-[#b8860b] tracking-wider block">
+                    <span className="text-[10px] uppercase font-bold text-[#b8860b] dark:text-[#d4af37] tracking-wider block">
                       Audited Pre-Filing Match
                     </span>
-                    <h4 className="font-serif text-lg font-bold text-[#2d2d2d]">
+                    <h4 className="font-serif text-lg font-bold text-[#2d2d2d] dark:text-white">
                       {currentDestination.name} &bull; {form.visaCategory}
                     </h4>
-                    <span className="text-xs text-[#4a3c31]/80 block font-light">
+                    <span className="text-xs text-[#4a3c31]/80 dark:text-slate-300 block font-light">
                       Estimated Consular Turnaround: {currentDestination.averageProcessingTime}
                     </span>
                   </div>
                 </div>
 
-                <div className="text-center sm:text-right bg-white/70 px-4 py-2 rounded-sm border border-[#2d2d2d]/10 shrink-0">
-                  <span className="text-3xl font-serif font-bold text-[#b8860b] block leading-none">
+                <div className="text-center sm:text-right bg-white/70 dark:bg-[#0b1320] px-4 py-2 rounded-sm border border-[#2d2d2d]/10 dark:border-white/10 shrink-0">
+                  <span className="text-3xl font-serif font-bold text-[#b8860b] dark:text-[#d4af37] block leading-none">
                     {eligibilityScore}%
                   </span>
-                  <span className="text-[10px] uppercase font-semibold text-[#2d2d2d]/60 block mt-0.5">
+                  <span className="text-[10px] uppercase font-semibold text-[#2d2d2d]/60 dark:text-slate-400 block mt-0.5">
                     Eligibility Rating
                   </span>
                 </div>
@@ -705,18 +705,18 @@ Contact Aspire Travels: +91 92893 37446
                 {isUSATourist && (
                   <div className={`p-5 rounded-sm border transition-all flex flex-col justify-between ${
                     form.hasDs160Confirmation === 'no'
-                      ? 'bg-amber-50/70 border-amber-300 shadow-xs'
-                      : 'bg-[#f5f5dc] border-[#2d2d2d]/10'
+                      ? 'bg-amber-50/70 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800 shadow-xs'
+                      : 'bg-[#f5f5dc] dark:bg-[#101b2d] border-[#2d2d2d]/10 dark:border-white/10'
                   }`}>
                     <div>
-                      <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] font-bold mb-1.5">
+                      <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-bold mb-1.5">
                         <FileSpreadsheet className="w-4 h-4" />
                         <span>DS-160 Offline Template</span>
                       </div>
-                      <h4 className="font-serif text-base font-bold text-[#2d2d2d] mb-1">
+                      <h4 className="font-serif text-base font-bold text-[#2d2d2d] dark:text-white mb-1">
                         Download DS-160 Form / Excel Template
                       </h4>
-                      <p className="text-xs text-[#4a3c31] font-light leading-relaxed mb-3">
+                      <p className="text-xs text-[#4a3c31] dark:text-slate-300 font-light leading-relaxed mb-3">
                         Use this offline template to compile and review your personal, travel, family, and employment details before filing online.
                       </p>
                     </div>
@@ -728,15 +728,15 @@ Contact Aspire Travels: +91 92893 37446
                         className={`w-full py-2.5 px-4 text-xs uppercase tracking-widest font-semibold rounded-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs ${
                           downloadedDs160
                             ? 'bg-green-700 text-white'
-                            : 'bg-[#b8860b] hover:bg-[#9a7009] text-white'
+                            : 'bg-[#b8860b] dark:bg-[#d4af37] hover:bg-[#9a7009] dark:hover:bg-[#c39b2e] text-white dark:text-[#070c14] font-bold'
                         }`}
                       >
                         <Download className="w-3.5 h-3.5" />
                         <span>{downloadedDs160 ? 'Template Downloaded ✓' : 'Download DS-160 Form / Excel Template'}</span>
                       </button>
 
-                      <div className="flex items-center gap-1 text-[10px] text-[#2d2d2d]/60 mt-2">
-                        <ShieldAlert className="w-3 h-3 text-[#b8860b] shrink-0" />
+                      <div className="flex items-center gap-1 text-[10px] text-[#2d2d2d]/60 dark:text-slate-400 mt-2">
+                        <ShieldAlert className="w-3 h-3 text-[#b8860b] dark:text-[#d4af37] shrink-0" />
                         <span>Offline preparation worksheet &bull; Not an official government submission form.</span>
                       </div>
                     </div>
@@ -744,16 +744,16 @@ Contact Aspire Travels: +91 92893 37446
                 )}
 
                 {/* Verified Embassy Checklist Card */}
-                <div className="bg-[#f5f5dc] border border-[#2d2d2d]/10 p-5 rounded-sm flex flex-col justify-between">
+                <div className="bg-[#f5f5dc] dark:bg-[#101b2d] border border-[#2d2d2d]/10 dark:border-white/10 p-5 rounded-sm flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] font-bold mb-1.5">
+                    <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-bold mb-1.5">
                       <Download className="w-4 h-4" />
                       <span>Embassy Checklist</span>
                     </div>
-                    <h4 className="font-serif text-base font-bold text-[#2d2d2d] mb-1">
+                    <h4 className="font-serif text-base font-bold text-[#2d2d2d] dark:text-white mb-1">
                       {currentDestination.name} Document Checklist
                     </h4>
-                    <p className="text-xs text-[#4a3c31] font-light leading-relaxed mb-3">
+                    <p className="text-xs text-[#4a3c31] dark:text-slate-300 font-light leading-relaxed mb-3">
                       Complete list of mandatory bank proof, employment NOC, travel insurance, and consular requirements for your trip.
                     </p>
                   </div>
@@ -764,7 +764,7 @@ Contact Aspire Travels: +91 92893 37446
                     className={`w-full py-2.5 px-4 text-xs uppercase tracking-widest font-semibold rounded-xs flex items-center justify-center gap-2 transition-colors cursor-pointer border ${
                       downloadedChecklist
                         ? 'bg-green-700 text-white border-green-700'
-                        : 'border-[#2d2d2d]/30 hover:bg-[#2d2d2d]/5 text-[#2d2d2d]'
+                        : 'border-[#2d2d2d]/30 dark:border-white/20 hover:bg-[#2d2d2d]/5 dark:hover:bg-white/10 text-[#2d2d2d] dark:text-slate-200'
                     }`}
                   >
                     <Download className="w-3.5 h-3.5" />
@@ -773,16 +773,16 @@ Contact Aspire Travels: +91 92893 37446
                 </div>
 
                 {/* Talk to an Expert / Consultation Card */}
-                <div className={`p-5 rounded-sm border border-[#2d2d2d]/10 bg-[#f5f5dc] flex flex-col justify-between ${!isUSATourist ? 'sm:col-span-1' : 'sm:col-span-2'}`}>
+                <div className={`p-5 rounded-sm border border-[#2d2d2d]/10 dark:border-white/10 bg-[#f5f5dc] dark:bg-[#101b2d] flex flex-col justify-between ${!isUSATourist ? 'sm:col-span-1' : 'sm:col-span-2'}`}>
                   <div>
-                    <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] font-bold mb-1.5">
+                    <div className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-[#b8860b] dark:text-[#d4af37] font-bold mb-1.5">
                       <PhoneCall className="w-4 h-4" />
                       <span>Direct Advisory</span>
                     </div>
-                    <h4 className="font-serif text-base font-bold text-[#2d2d2d] mb-1">
+                    <h4 className="font-serif text-base font-bold text-[#2d2d2d] dark:text-white mb-1">
                       1-on-1 Visa Consultation & Appointment Booking
                     </h4>
-                    <p className="text-xs text-[#4a3c31] font-light leading-relaxed mb-3">
+                    <p className="text-xs text-[#4a3c31] dark:text-slate-300 font-light leading-relaxed mb-3">
                       Speak directly with our team for priority interview booking, document audit, and mock interview coaching.
                     </p>
                   </div>
@@ -793,7 +793,7 @@ Contact Aspire Travels: +91 92893 37446
                       onClose();
                       onBookExpert();
                     }}
-                    className="w-full bg-[#131b2e] hover:bg-black text-white py-2.5 px-4 text-xs uppercase tracking-widest font-semibold rounded-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
+                    className="w-full bg-[#131b2e] dark:bg-[#d4af37] hover:bg-black dark:hover:bg-[#c39b2e] text-white dark:text-[#070c14] py-2.5 px-4 text-xs uppercase tracking-widest font-bold rounded-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
                   >
                     <PhoneCall className="w-3.5 h-3.5" />
                     <span>Talk to an Expert Now</span>
@@ -805,12 +805,12 @@ Contact Aspire Travels: +91 92893 37446
         </div>
 
         {/* Modal Footer Controls */}
-        <div className="p-6 bg-[#f5f5dc] border-t border-[#2d2d2d]/10 flex items-center justify-between">
+        <div className="p-6 bg-[#f5f5dc] dark:bg-[#070c14] border-t border-[#2d2d2d]/10 dark:border-white/10 flex items-center justify-between">
           {step > 1 && step < 4 ? (
             <button
               id="journey-modal-back-btn"
               onClick={handlePrev}
-              className="flex items-center gap-1.5 text-xs uppercase tracking-widest font-semibold text-[#2d2d2d]/70 hover:text-[#2d2d2d] cursor-pointer"
+              className="flex items-center gap-1.5 text-xs uppercase tracking-widest font-semibold text-[#2d2d2d]/70 dark:text-slate-300 hover:text-[#2d2d2d] dark:hover:text-white cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
@@ -823,7 +823,7 @@ Contact Aspire Travels: +91 92893 37446
               id="journey-modal-next-btn"
               onClick={handleNext}
               disabled={isSubmitting || (step === 3 && (!form.fullName.trim() || !form.email.trim() || !form.phone.trim()))}
-              className="bg-[#b8860b] text-white px-8 py-3 text-xs uppercase tracking-widest font-semibold hover:bg-[#9a7009] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
+              className="bg-[#b8860b] dark:bg-[#d4af37] text-white dark:text-[#070c14] px-8 py-3 text-xs uppercase tracking-widest font-bold hover:bg-[#9a7009] dark:hover:bg-[#c39b2e] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
             >
               <span>{step === 3 ? (isSubmitting ? 'Generating File...' : 'Generate Case Dossier') : 'Continue'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -832,7 +832,7 @@ Contact Aspire Travels: +91 92893 37446
             <button
               id="journey-modal-close-btn"
               onClick={onClose}
-              className="bg-[#2d2d2d] text-white px-8 py-3 text-xs uppercase tracking-widest font-semibold hover:bg-black transition-colors cursor-pointer"
+              className="bg-[#2d2d2d] dark:bg-white/10 text-white hover:bg-black dark:hover:bg-white/20 px-8 py-3 text-xs uppercase tracking-widest font-semibold transition-colors cursor-pointer"
             >
               Close Assessment
             </button>

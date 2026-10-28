@@ -24,13 +24,13 @@ export function HeroSection({
   return (
     <section
       id="hero"
-      className="relative w-full min-h-[92vh] flex items-center px-6 md:px-12 pt-28 pb-16 bg-[#fffdd0] overflow-hidden"
+      className="relative w-full min-h-[92vh] flex items-center px-6 md:px-12 pt-28 pb-16 bg-[#fffdd0] dark:bg-[#070c14] overflow-hidden transition-colors duration-200"
     >
       {/* 3D Earth Globe Canvas Background & Right Visual */}
       <div className="absolute inset-0 z-0 md:left-1/3 md:inset-y-0 opacity-95 pointer-events-auto">
         {/* Soft edge gradient fades */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#fffdd0] via-[#fffdd0]/70 to-transparent z-10 pointer-events-none hidden md:block" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#fffdd0] via-transparent to-[#fffdd0] z-10 pointer-events-none md:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#fffdd0] via-[#fffdd0]/70 to-transparent dark:from-[#070c14] dark:via-[#070c14]/80 z-10 pointer-events-none hidden md:block" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fffdd0] via-transparent to-[#fffdd0] dark:from-[#070c14] dark:via-transparent dark:to-[#070c14] z-10 pointer-events-none md:hidden" />
         
         <EarthCanvas
           selectedDestinationId={selectedDestinationId}
@@ -46,19 +46,19 @@ export function HeroSection({
         {/* Left Column: Typography and Call to Actions */}
         <div className="md:col-span-7 text-center md:text-left pt-6 md:pt-0 pointer-events-auto">
           {/* Subtle Trust Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#f5f5dc] border border-[#b8860b]/30 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#b8860b] uppercase tracking-widest mb-6 shadow-xs">
+          <div className="inline-flex items-center gap-2 bg-[#f5f5dc] dark:bg-[#0f1b2d] border border-[#b8860b]/30 dark:border-[#d4af37]/40 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#b8860b] dark:text-[#d4af37] uppercase tracking-widest mb-6 shadow-xs">
             <Award className="w-3.5 h-3.5" />
             <span>Top Rated Global Visa & Immigration Partner</span>
           </div>
 
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-[#2d2d2d] mb-6 leading-[1.12] italic font-light">
+          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-[#2d2d2d] dark:text-white mb-6 leading-[1.12] italic font-light">
             Your Visa Journey, <br />
-            <span className="text-[#b8860b] not-italic font-semibold drop-shadow-xs">
+            <span className="text-[#b8860b] dark:text-[#d4af37] not-italic font-semibold drop-shadow-xs">
               Simplified.
             </span>
           </h1>
 
-          <p className="font-sans text-base sm:text-lg text-[#4a3c31]/90 mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed font-light">
+          <p className="font-sans text-base sm:text-lg text-[#4a3c31]/90 dark:text-slate-300 mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed font-light">
             Expert visa guidance for your journey abroad. From choosing the right visa to preparing
             your application, Aspire Travels helps make the process clear, compliant, and stress-free.
           </p>
@@ -68,7 +68,7 @@ export function HeroSection({
             <button
               id="hero-start-journey-btn"
               onClick={onStartJourney}
-              className="bg-[#b8860b] text-white font-sans px-8 py-4 shadow-lg hover:bg-[#9a7009] active:scale-98 transition-all flex items-center justify-center gap-3 uppercase tracking-widest font-semibold text-xs rounded-none cursor-pointer group"
+              className="bg-[#b8860b] dark:bg-[#d4af37] text-white dark:text-[#0b1320] font-sans px-8 py-4 shadow-lg hover:bg-[#9a7009] dark:hover:bg-[#f59e0b] active:scale-98 transition-all flex items-center justify-center gap-3 uppercase tracking-widest font-semibold text-xs rounded-none cursor-pointer group"
             >
               <span>Start Your Visa Journey</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -77,30 +77,30 @@ export function HeroSection({
             <button
               id="hero-talk-expert-btn"
               onClick={onTalkToExpert}
-              className="border border-[#2d2d2d]/30 text-[#2d2d2d] bg-transparent backdrop-blur-xs font-sans px-8 py-4 hover:bg-[#2d2d2d]/5 active:scale-98 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs font-semibold rounded-none cursor-pointer"
+              className="border border-[#2d2d2d]/30 dark:border-white/20 text-[#2d2d2d] dark:text-white bg-transparent backdrop-blur-xs font-sans px-8 py-4 hover:bg-[#2d2d2d]/5 dark:hover:bg-white/10 active:scale-98 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs font-semibold rounded-none cursor-pointer"
             >
-              <PhoneCall className="w-4 h-4 text-[#b8860b]" />
+              <PhoneCall className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37]" />
               <span>Talk to an Expert</span>
             </button>
           </div>
 
           {/* Value Micro-Pillars */}
-          <div className="grid grid-cols-3 gap-4 pt-10 mt-10 border-t border-[#2d2d2d]/10 max-w-lg mx-auto md:mx-0">
+          <div className="grid grid-cols-3 gap-4 pt-10 mt-10 border-t border-[#2d2d2d]/10 dark:border-white/10 max-w-lg mx-auto md:mx-0">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#b8860b] shrink-0" />
-              <span className="text-[11px] uppercase tracking-wider text-[#2d2d2d]/70 font-medium">
+              <ShieldCheck className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37] shrink-0" />
+              <span className="text-[11px] uppercase tracking-wider text-[#2d2d2d]/70 dark:text-slate-300 font-medium">
                 100% Pre-Screened
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#b8860b] shrink-0" />
-              <span className="text-[11px] uppercase tracking-wider text-[#2d2d2d]/70 font-medium">
+              <Clock className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37] shrink-0" />
+              <span className="text-[11px] uppercase tracking-wider text-[#2d2d2d]/70 dark:text-slate-300 font-medium">
                 Fast Turnaround
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-[#b8860b] shrink-0" />
-              <span className="text-[11px] uppercase tracking-wider text-[#2d2d2d]/70 font-medium">
+              <Award className="w-4 h-4 text-[#b8860b] dark:text-[#d4af37] shrink-0" />
+              <span className="text-[11px] uppercase tracking-wider text-[#2d2d2d]/70 dark:text-slate-300 font-medium">
                 98.8% Approval
               </span>
             </div>

@@ -41,7 +41,7 @@ export function StatsStrip() {
   return (
     <section
       id="stats-strip"
-      className="bg-[#fffdd0] border-t border-b border-[#2d2d2d]/10 relative z-30 overflow-hidden py-5 md:py-7 select-none"
+      className="bg-[#fffdd0] dark:bg-[#0b1320] border-t border-b border-[#2d2d2d]/10 dark:border-white/10 relative z-30 overflow-hidden py-5 md:py-7 select-none transition-colors duration-200"
       aria-label="Key Performance Statistics"
     >
       {/* Inline Keyframes & Styles to ensure it works anywhere without CSS purge */}
@@ -66,8 +66,8 @@ export function StatsStrip() {
       `}</style>
 
       {/* Edge gradient masks for smooth seamless fade */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-[#fffdd0] via-[#fffdd0]/90 to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-[#fffdd0] via-[#fffdd0]/90 to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-[#fffdd0] via-[#fffdd0]/90 to-transparent dark:from-[#0b1320] dark:via-[#0b1320]/90 z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-[#fffdd0] via-[#fffdd0]/90 to-transparent dark:from-[#0b1320] dark:via-[#0b1320]/90 z-10" />
 
       {/* Continuously moving marquee container (moving left to right) */}
       <div className="animate-stats-ticker flex items-center">
@@ -77,14 +77,14 @@ export function StatsStrip() {
             {STATS_DATA.map((stat, idx) => (
               <div key={`stat-${setIndex}-${idx}`} className="flex items-center">
                 <div className="flex items-center gap-3.5 px-6 sm:px-8 md:px-12 py-1.5">
-                  <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#b8860b] font-medium tracking-tight whitespace-nowrap">
+                  <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#b8860b] dark:text-[#d4af37] font-medium tracking-tight whitespace-nowrap">
                     {stat.value}
                   </span>
-                  <span className="font-sans text-[#2d2d2d]/80 uppercase tracking-[0.18em] text-[10px] sm:text-xs font-semibold whitespace-nowrap text-left leading-tight">
+                  <span className="font-sans text-[#2d2d2d]/80 dark:text-slate-200 uppercase tracking-[0.18em] text-[10px] sm:text-xs font-semibold whitespace-nowrap text-left leading-tight">
                     {stat.labelTop} <br /> {stat.labelBottom}
                   </span>
                 </div>
-                <div className="w-px h-8 sm:h-10 bg-[#2d2d2d]/15 shrink-0" />
+                <div className="w-px h-8 sm:h-10 bg-[#2d2d2d]/15 dark:bg-white/15 shrink-0" />
               </div>
             ))}
           </div>

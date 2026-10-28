@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --font-serif: "Playfair Display", Georgia, serif;
@@ -7,11 +9,21 @@
     --font-display: "Hanken Grotesk", "Inter", sans-serif;
   }
 
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
     font-family: var(--font-sans);
     background-color: #f5f5dc;
     color: #2d2d2d;
     overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  html.dark body {
+    background-color: #070c14;
+    color: #f1f5f9;
   }
 
   h1, h2, h3, .font-serif-luxury {
@@ -26,12 +38,21 @@
 ::-webkit-scrollbar-track {
   background: #f5f5dc;
 }
+html.dark ::-webkit-scrollbar-track {
+  background: #070c14;
+}
 ::-webkit-scrollbar-thumb {
   background: #d2b48c;
   border-radius: 4px;
 }
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
 ::-webkit-scrollbar-thumb:hover {
   background: #b8860b;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
 }
 
 /* Subtle Banner/Flag Wave Keyframes */
